@@ -1950,6 +1950,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   #fullListDrawer .drawer-left { order: 2; }
   #fullListDrawer .drawer-right { order: 1; }
 }
+/* fallback: hide bar-rows if the parent wine group has .collapsed */
+.wine-full__group .bar-list.collapsed .bar-row { display: none; }
+.wine-full__group .bar-list.collapsed .bar-row._visible { display: flex; }
 
 </style>
 </head>
@@ -4254,50 +4257,63 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
     document.body.classList.toggle('no-scroll', !!lock);
   }
 
-  /* ===== Main: collapse lists on page & add show-full buttons ===== */
-  function collapseMainLists() {
-    // Bourbons
-    if (bourbonSection) {
-      const barList = qs('.bar-list', bourbonSection);
-      if (barList) {
-        const rows = qsa('.bar-row', barList);
-        rows.forEach((r, i) => r.classList.toggle('_visible', i < INITIAL_VISIBLE));
-        barList.classList.add('collapsed');
+function collapseMainLists() {
+  // ---- Bourbon: collapse and show top N ----
+  if (bourbonSection) {
+    const barList = qs('.bar-list', bourbonSection);
+    if (barList) {
+      const rows = qsa('.bar-row', barList);
+      rows.forEach((r, i) => r.classList.toggle('_visible', i < INITIAL_VISIBLE));
+      // add collapsed class on the bar-list itself (CSS targets this)
+      barList.classList.add('collapsed');
 
-        // add show full button if not present
-        if (!document.getElementById('openBourbonFullList')) {
-          const openBtn = document.createElement('button');
-          openBtn.id = 'openBourbonFullList';
-          openBtn.type = 'button';
-          openBtn.className = 'btn btn--primary';
-          openBtn.innerHTML = '<i class="fa-solid fa-list"></i> Show full bourbon list';
-          barList.insertAdjacentElement('afterend', openBtn);
-          openBtn.addEventListener('click', () => openFullListDrawer('bourbon'));
-        }
-      }
-    }
-
-    // Wine: show top groups in place and add show button
-    if (wineSection) {
-      // keep first two .wine-full__group visible, collapse the rest
-      const groups = qsa('.wine-full__group', wineSection);
-      groups.forEach((g, i) => {
-        if (i > 1) g.classList.add('collapsed');
-      });
-
-      if (!document.getElementById('openWineFullList')) {
-        const anchor = qs('.wine-note', wineSection) || qs('.wine-full', wineSection) || qs('.wine-columns', wineSection);
-        const btn = document.createElement('button');
-        btn.id = 'openWineFullList';
-        btn.type = 'button';
-        btn.className = 'btn btn--primary';
-        btn.innerHTML = '<i class="fa-solid fa-list"></i> Show full wine list';
-        if (anchor) anchor.insertAdjacentElement('afterend', btn);
-        else wineSection.appendChild(btn);
-        btn.addEventListener('click', () => openFullListDrawer('wine'));
+      // add show full button if not present
+      if (!document.getElementById('openBourbonFullList')) {
+        const openBtn = document.createElement('button');
+        openBtn.id = 'openBourbonFullList';
+        openBtn.type = 'button';
+        openBtn.className = 'btn btn--primary';
+        openBtn.innerHTML = '<i class="fa-solid fa-list"></i> Show full bourbon list';
+        barList.insertAdjacentElement('afterend', openBtn);
+        openBtn.addEventListener('click', () => openFullListDrawer('bourbon'));
       }
     }
   }
+
+  // ---- Wine: collapse by targeting the internal .bar-list(s) (not just the group) ----
+  if (wineSection) {
+    const groups = qsa('.wine-full__group', wineSection);
+    groups.forEach((g, i) => {
+      // target the bar-list inside the group and collapse that list
+      const innerList = qs('.bar-list', g) || qs('.items', g) || g;
+      if (innerList) {
+        // keep the first two groups expanded, collapse the rest
+        if (i > 1) {
+          innerList.classList.add('collapsed');
+          // additionally hide individual rows inside (in case innerList structure differs)
+          const rows = qsa('.bar-row', innerList);
+          rows.forEach((r) => r.classList.remove('_visible'));
+        } else {
+          innerList.classList.remove('collapsed');
+        }
+      }
+    });
+
+    // Add a "Show full wine list" button if missing (placed near the wine-note or wine-full)
+    if (!document.getElementById('openWineFullList')) {
+      const anchor = qs('.wine-note', wineSection) || qs('.wine-full', wineSection) || qs('.wine-columns', wineSection);
+      const btn = document.createElement('button');
+      btn.id = 'openWineFullList';
+      btn.type = 'button';
+      btn.className = 'btn btn--primary';
+      btn.innerHTML = '<i class="fa-solid fa-list"></i> Show full wine list';
+      if (anchor) anchor.insertAdjacentElement('afterend', btn);
+      else wineSection.appendChild(btn);
+      btn.addEventListener('click', () => openFullListDrawer('wine'));
+    }
+  }
+}
+
 
   /* ===== Extract data from DOM (reads your existing lists so we don't duplicate markup) ===== */
   function extractBourbonItems() {
