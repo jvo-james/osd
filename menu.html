@@ -1865,103 +1865,90 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   .menu-cta{ padding: 44px 0; }
   .footer{ padding: 54px 0 28px; }
 }
-/* =========================
-   BAR LIST DRAWER (Luxury)
-   ========================= */
-.bar-drawer { display: none; }
-.bar-drawer.is-open { display: block; }
+/* ===== ADD: Collapsed lists + Full-list drawer styles (paste at end of your existing <style>) ===== */
 
-.bar-drawer .bar-drawer__backdrop{
-  position: fixed; inset: 0;
-  background: rgba(10,10,10,.6);
-  backdrop-filter: blur(6px);
-  border: 0;
-}
+/* Collapsed list (main page) */
+.bar-list.collapsed .bar-row { display: none; }
+.bar-list.collapsed .bar-row._visible { display: flex; }
 
-.bar-drawer__dialog{
+/* Drawer overlay */
+#fullListDrawer {
   position: fixed;
   inset: 0;
-  margin: 0;
-  background: rgba(255,255,255,.92);
-  backdrop-filter: blur(10px);
-  display: grid;
-  grid-template-rows: auto auto auto 1fr;
-  box-shadow: 0 30px 90px rgba(0,0,0,.35);
-}
-
-.bar-drawer__head{
-  padding: 18px 16px 10px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
-
-.bar-drawer__tabs{
-  padding: 10px 16px;
-  display: flex;
-  gap: 10px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
-
-.bar-tab{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,.10);
-  background: rgba(255,255,255,.7);
-  font: inherit;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.bar-tab.is-active{
-  border-color: rgba(0,0,0,.20);
-  background: rgba(0,0,0,.92);
-  color: #fff;
-}
-
-.bar-drawer__tools{
-  padding: 12px 16px;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 10px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
-
-.tool--wide{ min-width: 0; }
-
-.bar-drawer__body{
-  min-height: 0;
-  padding: 14px 16px 22px;
-}
-
-.bar-panel{
+  z-index: 220;
   display: none;
-  height: 100%;
-  overflow: auto;      /* internal scroll */
-  padding-right: 4px;  /* nicer scroll */
+  align-items: center;
+  justify-content: center;
+  background: rgba(20,16,12,.46);
 }
-.bar-panel.is-active{ display: block; }
+#fullListDrawer.is-open { display: flex; }
 
-/* Make the cloned content feel “tight” inside drawer */
-.bar-drawer .container{ max-width: 980px; margin: 0 auto; padding: 0; }
-.bar-drawer .bar-gallery,
-.bar-drawer .wine-gallery{ margin-top: 10px; }
-.bar-drawer .section-head{ margin: 0 0 12px; }
+/* Drawer panel */
+#fullListDrawer .drawer-panel {
+  width: min(1100px, 96vw);
+  height: 92vh;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(900px 500px at 20% 0%, rgba(156,114,66,.08), transparent 60%),
+    linear-gradient(180deg, rgba(251,247,240,.98), rgba(247,240,230,.98));
+  box-shadow: 0 60px 140px rgba(20,16,12,.45);
+}
 
-/* Mobile polish */
-@media (max-width: 720px){
-  .bar-drawer__tools{
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: auto;
-  }
-  #barClear{ grid-column: 1 / -1; }
-  .bar-drawer__head{ padding: 16px 14px 10px; }
-  .bar-drawer__tabs{ padding: 10px 14px; }
-  .bar-drawer__body{ padding: 12px 14px 18px; }
+/* Head / controls */
+#fullListDrawer .drawer-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(31,26,20,.08);
+  background: rgba(243,231,214,.55);
+}
+#fullListDrawer .drawer-head .drawer-title { font-family: var(--serif); font-size: 18px; }
+
+/* Body layout */
+#fullListDrawer .drawer-body {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  height: calc(100% - 74px);
+  padding: 14px;
+}
+#fullListDrawer .drawer-left { overflow:auto; padding-right: 6px; }
+#fullListDrawer .drawer-right { overflow:auto; padding: 8px 12px; }
+
+/* controls */
+#drawerSearchRow { display: none; margin-bottom: 12px; }
+#drawerSearchRow input { width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(31,26,20,.10); background: rgba(255,255,255,.95); }
+.chips { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0; }
+.chip { padding:8px 10px; border-radius:999px; border:1px solid rgba(31,26,20,.08); background: rgba(255,255,255,.72); cursor:pointer; font-size:13px; }
+.chip.is-active { background: linear-gradient(90deg, rgba(156,114,66,.12), rgba(224,200,154,.06)); border-color: rgba(156,114,66,.22); }
+
+/* A–Z jump */
+.az-jump { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.az-jump button { padding:6px 8px; border-radius:8px; border:1px solid rgba(31,26,20,.06); background:transparent; cursor:pointer; font-size:13px; }
+
+/* Letter accordion */
+.letter-section { margin-bottom:8px; border-radius:12px; overflow:hidden; border:1px solid rgba(31,26,20,.08); background: rgba(255,255,255,.96); }
+.letter-head { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; cursor:pointer; }
+.letter-list { padding:6px 12px; max-height:0; overflow:hidden; transition: max-height .22s ease; }
+.letter-section.is-open .letter-list { max-height: 600px; }
+
+/* letter item */
+.letter-item { display:flex; justify-content:space-between; padding:8px 6px; border-bottom: 1px dashed rgba(31,26,20,.04); }
+.letter-item:last-child { border-bottom:0; }
+
+/* Drawer footer */
+.drawer-footer { display:flex; gap:8px; align-items:center; justify-content:center; padding:12px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  #fullListDrawer .drawer-body { grid-template-columns: 1fr; }
+  #fullListDrawer .drawer-left { order: 2; }
+  #fullListDrawer .drawer-right { order: 1; }
 }
 
 </style>
@@ -3706,89 +3693,74 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   <button class="float-reserve" type="button" data-open-reserve aria-label="Reserve a table">
     <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
   </button>
-  <!-- Bar List Trigger (place anywhere you want) -->
-<button class="btn btn--ghost" type="button" data-open-barlist>
-  <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i>
-  <span>Bar List</span>
-</button>
-
-<!-- Bar List Drawer (NEW) -->
-<div class="modal bar-drawer" id="barDrawer" aria-hidden="true">
-  <div class="bar-drawer__dialog" role="dialog" aria-modal="true" aria-label="Bar List">
-    <div class="bar-drawer__head">
-      <div class="bar-drawer__title">
-        <p class="modal__eyebrow">
-          <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i>
-          Bar List
-        </p>
-        <h2 class="modal__title">Bourbon & Wine</h2>
-        <p class="modal__subtitle">Search, filter, and browse—without leaving the page.</p>
+ <!-- ===== ADD: Full list drawer (paste once near end of <body>, before </body>) ===== -->
+<div id="fullListDrawer" aria-hidden="true" class="">
+  <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Full list panel">
+    <div class="drawer-head">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <button id="drawerClose" class="icon-btn" aria-label="Close full list"><i class="fa-solid fa-xmark"></i></button>
+        <div>
+          <div class="eyebrow"><i class="fa-solid fa-list"></i> Full List</div>
+          <div class="drawer-title">Explore the full selection</div>
+        </div>
       </div>
-
-      <button class="icon-btn" type="button" data-close-barlist aria-label="Close bar list">
-        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-      </button>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button id="downloadBourbonPdf" class="btn" title="Download Bourbon list (PDF)"><i class="fa-solid fa-file-pdf"></i> Bourbon PDF</button>
+        <button id="downloadWinePdf" class="btn" title="Download Wine list (PDF)"><i class="fa-solid fa-file-pdf"></i> Wine PDF</button>
+      </div>
     </div>
 
-    <div class="bar-drawer__tabs" role="tablist" aria-label="Bar list tabs">
-      <button class="bar-tab is-active" type="button" role="tab" aria-selected="true" data-tab="bourbonPanel">
-        <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i><span>Bourbon</span>
-      </button>
-      <button class="bar-tab" type="button" role="tab" aria-selected="false" data-tab="winePanel">
-        <i class="fa-solid fa-wine-glass" aria-hidden="true"></i><span>Wine</span>
-      </button>
-    </div>
+    <div class="drawer-body">
+      <aside class="drawer-left" aria-label="Full list controls">
+        <div id="drawerControls">
+          <div id="drawerSearchRow">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="drawerSearch" type="search" placeholder="Search full list (name, price)...">
+          </div>
 
-    <div class="bar-drawer__tools" aria-label="Search and filter">
-      <label class="tool tool--wide">
-        <span class="tool__label">Search</span>
-        <div class="tool__row">
-          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="barSearch" type="search" class="tool__input" placeholder="Search (e.g., Blanton’s, Caymus)">
+          <div style="margin-top:8px;">
+            <div class="tool__label">Category</div>
+            <div id="categoryChips" class="chips" role="tablist" aria-label="Filter categories">
+              <button class="chip is-active" data-type="all">All</button>
+              <button class="chip" data-type="bourbon">Bourbon</button>
+              <button class="chip" data-type="rye">Rye</button>
+              <button class="chip" data-type="scotch">Scotch</button>
+              <button class="chip" data-type="irish">Irish</button>
+              <button class="chip" data-type="tequila">Tequila</button>
+            </div>
+          </div>
+
+          <div style="margin-top:8px;">
+            <div class="tool__label">Sort</div>
+            <select id="drawerSort" class="tool__input" aria-label="Sort">
+              <option value="az">A — Z</option>
+              <option value="za">Z — A</option>
+              <option value="price-asc">Price: low → high</option>
+              <option value="price-desc">Price: high → low</option>
+            </select>
+          </div>
+
+          <div style="margin-top:8px;">
+            <div class="tool__label">Jump to letter</div>
+            <div id="azJump" class="az-jump" aria-label="Jump to letter"></div>
+          </div>
+
         </div>
-      </label>
+      </aside>
 
-      <label class="tool">
-        <span class="tool__label">Max Price</span>
-        <div class="tool__row">
-          <i class="fa-solid fa-tag" aria-hidden="true"></i>
-          <select id="barMaxPrice" class="tool__input">
-            <option value="">Any</option>
-            <option value="15">$15</option>
-            <option value="25">$25</option>
-            <option value="50">$50</option>
-            <option value="100">$100</option>
-            <option value="200">$200</option>
-            <option value="999">$999+</option>
-          </select>
+      <main class="drawer-right" aria-label="Full list content">
+        <div id="drawerContent" tabindex="0"><!-- A–Z accordion will render here --></div>
+        <div class="drawer-footer">
+          <button id="loadMoreBtn" class="btn btn--primary">Load more</button>
+          <button id="showAllBtn" class="btn btn--ghost">Show all</button>
         </div>
-      </label>
-
-      <button class="btn btn--ghost" type="button" id="barClear">
-        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
-        <span>Clear</span>
-      </button>
-    </div>
-
-    <!-- Panels (we clone your existing sections into here via JS) -->
-    <div class="bar-drawer__body">
-      <section id="bourbonPanel" class="bar-panel is-active" role="tabpanel" aria-label="Bourbon panel"></section>
-      <section id="winePanel" class="bar-panel" role="tabpanel" aria-label="Wine panel"></section>
+      </main>
     </div>
   </div>
-
-  <button class="bar-drawer__backdrop" type="button" data-close-barlist aria-label="Close bar list"></button>
 </div>
 
   <script>
-/* Oaklawn Southern Dining — Menu Page Script
-   - Mobile nav drawer (open/close, focus trap, ESC)
-   - Reservations modal (open/close, focus trap, ESC)
-   - Smooth scrolling for in-page anchors
-   - Sticky menu-nav active section highlighting
-   - Bourbon search + max price filter (no backend)
-   - Reservation form UX (basic validation + success toast; no submission)
-*/
+
 
 (() => {
   'use strict';
@@ -4224,230 +4196,437 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 })();
 </script>
 <script>
-(() => {
-  const $ = (sel, root=document) => root.querySelector(sel);
-  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+/* ===== ADD: Full-list drawer behavior (append this script after your page's existing script) ===== */
+(function () {
+  'use strict';
 
-  // ---------- Generic Modal Helpers ----------
-  function openModal(modal, focusEl) {
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-    (focusEl || modal).focus?.();
+  /* CONFIG */
+  const INITIAL_VISIBLE = 16;    // how many to show on the main page
+  const DRAWER_PAGE_SIZE = 25;   // how many items per "page" inside drawer
+
+  /* DOM references we'll use */
+  const bourbonSection = document.querySelector('#bourbon');
+  const wineSection = document.querySelector('#wine');
+  const drawer = document.getElementById('fullListDrawer');
+  const drawerClose = document.getElementById('drawerClose');
+  const drawerSearchRow = document.getElementById('drawerSearchRow');
+  const drawerSearch = document.getElementById('drawerSearch');
+  const categoryChips = document.getElementById('categoryChips');
+  const drawerSort = document.getElementById('drawerSort');
+  const azJump = document.getElementById('azJump');
+  const drawerContent = document.getElementById('drawerContent');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const showAllBtn = document.getElementById('showAllBtn');
+  const downloadBourbonPdf = document.getElementById('downloadBourbonPdf');
+  const downloadWinePdf = document.getElementById('downloadWinePdf');
+
+  /* state */
+  let bourbonItems = [];
+  let wineItems = [];
+  let activeTab = 'bourbon';
+  let currentRenderList = []; // flattened items after filter+search+sort
+  let currentPageIndex = 0;
+
+  /* UTILS */
+  const qs = (sel, root = document) => (root || document).querySelector(sel);
+  const qsa = (sel, root = document) => Array.from((root || document).querySelectorAll(sel));
+  const escapeHtml = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function debounce(fn, ms = 200) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+  /* Focus trap inside drawer */
+  function getFocusable(container) {
+    return qsa('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])', container)
+      .filter(el => el.offsetWidth || el.offsetHeight || el.getClientRects().length);
   }
-  function closeModal(modal, restoreFocusEl) {
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-    restoreFocusEl?.focus?.();
-  }
-
-  // ---------- Existing: Mobile Nav ----------
-  const mobileNav = $('#mobileNav');
-  const openMobileNavBtns = $$('[data-open-mobile-nav]');
-  const closeMobileNavBtns = $$('[data-close-mobile-nav]');
-
-  function openMobileNav() {
-    if (!mobileNav) return;
-    mobileNav.classList.add('is-open');
-    mobileNav.setAttribute('aria-hidden', 'false');
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-  }
-  function closeMobileNav() {
-    if (!mobileNav) return;
-    mobileNav.classList.remove('is-open');
-    mobileNav.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-  }
-
-  openMobileNavBtns.forEach(b => b.addEventListener('click', openMobileNav));
-  closeMobileNavBtns.forEach(b => b.addEventListener('click', closeMobileNav));
-
-  // ---------- Existing: Reserve Modal ----------
-  const reserveModal = $('#reserveModal');
-  const openReserveBtns = $$('[data-open-reserve]');
-  const closeReserveBtns = $$('[data-close-reserve]');
-
-  let lastFocus = null;
-
-  function openReserve() {
-    if (!reserveModal) return;
-    lastFocus = document.activeElement;
-    reserveModal.classList.add('is-open');
-    reserveModal.setAttribute('aria-hidden', 'false');
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-    const firstInput = reserveModal.querySelector('input, select, textarea, button');
-    firstInput && firstInput.focus();
-  }
-  function closeReserve() {
-    if (!reserveModal) return;
-    reserveModal.classList.remove('is-open');
-    reserveModal.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-    lastFocus && lastFocus.focus();
+  function trapFocusInDrawer(e) {
+    if (!drawer.classList.contains('is-open')) return;
+    if (e.key !== 'Tab') return;
+    const focusables = getFocusable(drawer);
+    if (!focusables.length) return;
+    const first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
-  openReserveBtns.forEach(b => b.addEventListener('click', openReserve));
-  closeReserveBtns.forEach(b => b.addEventListener('click', closeReserve));
-  reserveModal?.querySelector('.modal__backdrop')?.addEventListener('click', closeReserve);
-
-  // (Optional) prevent fake submit
-  reserveModal?.querySelector('form')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    // Replace with real integration later (OpenTable/Resy/form endpoint)
-    closeReserve();
-  });
-
-  // ---------- NEW: Bar List Drawer ----------
-  const barDrawer = $('#barDrawer');
-  const openBarBtns = $$('[data-open-barlist]');
-  const closeBarBtns = $$('[data-close-barlist]');
-  const bourbonPanel = $('#bourbonPanel');
-  const winePanel = $('#winePanel');
-
-  const barSearch = $('#barSearch');
-  const barMaxPrice = $('#barMaxPrice');
-  const barClear = $('#barClear');
-
-  // Sources (your existing sections)
-  const bourbonSource = $('#bourbon');
-  const wineSource = $('#wine');
-
-  let barLastFocus = null;
-  let isCloned = false;
-
-  function cloneIntoDrawer() {
-    if (isCloned) return;
-    if (!bourbonSource || !wineSource || !bourbonPanel || !winePanel) return;
-
-    // Clone entire sections so you don’t break the page layout
-    const bourbonClone = bourbonSource.cloneNode(true);
-    const wineClone = wineSource.cloneNode(true);
-
-    // Remove duplicate IDs inside clones to avoid DOM conflicts
-    bourbonClone.id = 'bourbonClone';
-    wineClone.id = 'wineClone';
-
-    // Optional: tighten headings inside drawer (keep your luxury layout)
-    bourbonPanel.innerHTML = '';
-    winePanel.innerHTML = '';
-    bourbonPanel.appendChild(bourbonClone);
-    winePanel.appendChild(wineClone);
-
-    isCloned = true;
+  /* Lock scroll utility */
+  function lockScroll(lock) {
+    document.documentElement.classList.toggle('no-scroll', !!lock);
+    document.body.classList.toggle('no-scroll', !!lock);
   }
 
-  function setActivePanel(panelId) {
-    const panels = [bourbonPanel, winePanel].filter(Boolean);
-    panels.forEach(p => p.classList.remove('is-active'));
-    const active = $('#' + panelId);
-    active?.classList.add('is-active');
+  /* ===== Main: collapse lists on page & add show-full buttons ===== */
+  function collapseMainLists() {
+    // Bourbons
+    if (bourbonSection) {
+      const barList = qs('.bar-list', bourbonSection);
+      if (barList) {
+        const rows = qsa('.bar-row', barList);
+        rows.forEach((r, i) => r.classList.toggle('_visible', i < INITIAL_VISIBLE));
+        barList.classList.add('collapsed');
 
-    $$('.bar-tab', barDrawer).forEach(btn => {
-      const isActive = btn.getAttribute('data-tab') === panelId;
-      btn.classList.toggle('is-active', isActive);
-      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
+        // add show full button if not present
+        if (!document.getElementById('openBourbonFullList')) {
+          const openBtn = document.createElement('button');
+          openBtn.id = 'openBourbonFullList';
+          openBtn.type = 'button';
+          openBtn.className = 'btn btn--primary';
+          openBtn.innerHTML = '<i class="fa-solid fa-list"></i> Show full bourbon list';
+          barList.insertAdjacentElement('afterend', openBtn);
+          openBtn.addEventListener('click', () => openFullListDrawer('bourbon'));
+        }
+      }
+    }
 
-    // Reset filters when switching (feels premium + controlled)
-    applyBarFilters();
-    active?.scrollTo({ top: 0, behavior: 'smooth' });
+    // Wine: show top groups in place and add show button
+    if (wineSection) {
+      // keep first two .wine-full__group visible, collapse the rest
+      const groups = qsa('.wine-full__group', wineSection);
+      groups.forEach((g, i) => {
+        if (i > 1) g.classList.add('collapsed');
+      });
+
+      if (!document.getElementById('openWineFullList')) {
+        const anchor = qs('.wine-note', wineSection) || qs('.wine-full', wineSection) || qs('.wine-columns', wineSection);
+        const btn = document.createElement('button');
+        btn.id = 'openWineFullList';
+        btn.type = 'button';
+        btn.className = 'btn btn--primary';
+        btn.innerHTML = '<i class="fa-solid fa-list"></i> Show full wine list';
+        if (anchor) anchor.insertAdjacentElement('afterend', btn);
+        else wineSection.appendChild(btn);
+        btn.addEventListener('click', () => openFullListDrawer('wine'));
+      }
+    }
   }
 
-  function getActivePanel() {
-    return bourbonPanel?.classList.contains('is-active') ? bourbonPanel : winePanel;
-  }
-
-  function parsePrice(text) {
-    // handles $59, Market, $999+, etc.
-    const m = String(text || '').match(/\$?\s*(\d+)/);
-    return m ? Number(m[1]) : NaN;
-  }
-
-  function applyBarFilters() {
-    const panel = getActivePanel();
-    if (!panel) return;
-
-    const q = (barSearch?.value || '').trim().toLowerCase();
-    const max = barMaxPrice?.value ? Number(barMaxPrice.value) : Infinity;
-
-    // Filter only rows with .bar-row (your lists)
-    const rows = $$('.bar-row', panel);
-    rows.forEach(row => {
-      const name = $('.bar-row__name', row)?.textContent || '';
-      const priceText = $('.bar-row__price', row)?.textContent || '';
-      const price = parsePrice(priceText);
-
-      const matchText = !q || name.toLowerCase().includes(q);
-      const matchPrice = (Number.isNaN(price) ? true : price <= max);
-
-      row.style.display = (matchText && matchPrice) ? '' : 'none';
+  /* ===== Extract data from DOM (reads your existing lists so we don't duplicate markup) ===== */
+  function extractBourbonItems() {
+    bourbonItems = [];
+    if (!bourbonSection) return;
+    const rows = qsa('.bar-list .bar-row', bourbonSection);
+    rows.forEach((r, i) => {
+      const name = (qs('.bar-row__name', r)?.textContent || '').trim();
+      const priceText = (qs('.bar-row__price', r)?.textContent || '').trim();
+      const priceMatch = priceText.match(/(\d+(?:\.\d+)?)/);
+      const price = priceMatch ? Number(priceMatch[1]) : Infinity;
+      bourbonItems.push({ name, price, sourceEl: r });
     });
   }
 
-  function openBarDrawer() {
-    if (!barDrawer) return;
-    barLastFocus = document.activeElement;
-
-    cloneIntoDrawer();
-
-    // Default tab = bourbon
-    setActivePanel('bourbonPanel');
-
-    barDrawer.classList.add('is-open');
-    barDrawer.setAttribute('aria-hidden', 'false');
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-
-    // Focus search for fast UX
-    setTimeout(() => barSearch?.focus(), 50);
+  function extractWineItems() {
+    wineItems = [];
+    if (!wineSection) return;
+    // two places: wine-full .bar-row and wine-columns .item
+    const barRows = qsa('.wine-full .bar-row', wineSection);
+    barRows.forEach(r => {
+      const name = (qs('.bar-row__name', r)?.textContent || '').trim();
+      const priceText = (qs('.bar-row__price', r)?.textContent || '').trim();
+      const priceMatch = priceText.match(/(\d+(?:\.\d+)?)/);
+      const price = priceMatch ? Number(priceMatch[1]) : Infinity;
+      wineItems.push({ name, price, sourceEl: r });
+    });
+    const items = qsa('.wine-columns .item', wineSection);
+    items.forEach(r => {
+      const name = (qs('.item__name', r)?.textContent || '').trim();
+      const priceText = (qs('.item__price', r)?.textContent || '').trim();
+      const priceMatch = priceText.match(/(\d+(?:\.\d+)?)/);
+      const price = priceMatch ? Number(priceMatch[1]) : Infinity;
+      wineItems.push({ name, price, sourceEl: r });
+    });
   }
 
-  function closeBarDrawer() {
-    if (!barDrawer) return;
-    barDrawer.classList.remove('is-open');
-    barDrawer.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-    barLastFocus?.focus?.();
+  /* ===== Drawer open/close & render core ===== */
+  function openFullListDrawer(tab = 'bourbon') {
+    activeTab = tab;
+    // ensure items fresh
+    extractBourbonItems();
+    extractWineItems();
+
+    drawer.setAttribute('aria-hidden', 'false');
+    drawer.classList.add('is-open');
+    lockScroll(true);
+    // show the drawer search
+    if (drawerSearchRow) drawerSearchRow.style.display = '';
+    // focus search
+    window.requestAnimationFrame(() => { drawerSearch && drawerSearch.focus(); });
+    // prepare and render
+    prepareAndRender(activeTab, { reset: true });
+    // add document-level handlers for focus trap & ESC
+    document.addEventListener('keydown', docKeyHandler, true);
   }
 
-  openBarBtns.forEach(b => b.addEventListener('click', openBarDrawer));
-  closeBarBtns.forEach(b => b.addEventListener('click', closeBarDrawer));
-  $('.bar-drawer__backdrop', barDrawer)?.addEventListener('click', closeBarDrawer);
+  function closeFullListDrawer() {
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.classList.remove('is-open');
+    lockScroll(false);
+    if (drawerSearchRow) drawerSearchRow.style.display = 'none';
+    currentPageIndex = 0;
+    currentRenderList = [];
+    document.removeEventListener('keydown', docKeyHandler, true);
+  }
 
-  // Tabs
-  barDrawer?.addEventListener('click', (e) => {
-    const tabBtn = e.target.closest?.('.bar-tab');
-    if (!tabBtn) return;
-    const id = tabBtn.getAttribute('data-tab');
-    if (id) setActivePanel(id);
+  function docKeyHandler(e) {
+    if (e.key === 'Escape') { closeFullListDrawer(); }
+    trapFocusInDrawer(e);
+  }
+
+  drawerClose && drawerClose.addEventListener('click', closeFullListDrawer);
+
+  /* ===== Filtering / Sorting / Pagination / Render ===== */
+  function sortItems(items, mode) {
+    const copy = items.slice();
+    if (mode === 'az') copy.sort((a,b)=> a.name.localeCompare(b.name));
+    else if (mode === 'za') copy.sort((a,b)=> b.name.localeCompare(a.name));
+    else if (mode === 'price-asc') copy.sort((a,b)=> (a.price||Infinity) - (b.price||Infinity));
+    else if (mode === 'price-desc') copy.sort((a,b)=> (b.price||Infinity) - (a.price||Infinity));
+    return copy;
+  }
+
+  function makeAZMap(items) {
+    const map = {};
+    items.forEach(it => {
+      const letter = (it.name && it.name[0]) ? it.name[0].toUpperCase() : '#';
+      const key = /[A-Z]/.test(letter) ? letter : '#';
+      if (!map[key]) map[key] = [];
+      map[key].push(it);
+    });
+    return map;
+  }
+
+  function prepareAndRender(tab, opts = {}) {
+    const mode = drawerSort?.value || 'az';
+    const query = (drawerSearch?.value || '').trim().toLowerCase();
+    const activeChip = qs('.chip.is-active', categoryChips)?.dataset?.type || 'all';
+
+    let items = (tab === 'wine') ? wineItems.slice() : bourbonItems.slice();
+
+    // filter by chip (simple contains check - can be extended)
+    if (activeChip && activeChip !== 'all') {
+      items = items.filter(it => it.name.toLowerCase().includes(activeChip));
+    }
+
+    // filter by search
+    if (query) {
+      items = items.filter(it => (it.name || '').toLowerCase().includes(query) || String(it.price).includes(query));
+    }
+
+    // sort
+    items = sortItems(items, mode);
+
+    // store and reset pagination if requested
+    currentRenderList = items;
+    if (opts.reset) currentPageIndex = 0;
+
+    renderPage();
+    buildAZJump(items);
+  }
+
+  function renderPage() {
+    const end = Math.min(currentRenderList.length, (currentPageIndex + 1) * DRAWER_PAGE_SIZE);
+    const pageItems = currentRenderList.slice(0, end);
+    const map = makeAZMap(pageItems);
+    const letters = Object.keys(map).sort((a,b)=> {
+      if (a === '#') return 1;
+      if (b === '#') return -1;
+      return a.localeCompare(b);
+    });
+
+    drawerContent.innerHTML = '';
+    letters.forEach((letter, li) => {
+      const section = document.createElement('section');
+      section.className = 'letter-section';
+      section.dataset.letter = letter;
+
+      const head = document.createElement('div');
+      head.className = 'letter-head';
+      head.innerHTML = `<strong>${letter}</strong><span>${map[letter].length} item${map[letter].length>1?'s':''}</span>`;
+      section.appendChild(head);
+
+      const list = document.createElement('div');
+      list.className = 'letter-list';
+      map[letter].forEach(it => {
+        const item = document.createElement('div');
+        item.className = 'letter-item';
+        item.innerHTML = `<div>${escapeHtml(it.name)}</div><div style="white-space:nowrap; font-family:var(--serif)">${isFinite(it.price) ? '$' + it.price : ''}</div>`;
+        list.appendChild(item);
+      });
+      section.appendChild(list);
+
+      // toggle: only one open at a time
+      head.addEventListener('click', () => {
+        const open = drawerContent.querySelector('.letter-section.is-open');
+        if (open && open !== section) open.classList.remove('is-open');
+        section.classList.toggle('is-open');
+        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      // open the first section by default
+      if (li === 0) section.classList.add('is-open');
+
+      drawerContent.appendChild(section);
+    });
+
+    // update load more visibility
+    if ((currentPageIndex + 1) * DRAWER_PAGE_SIZE >= currentRenderList.length) {
+      loadMoreBtn.style.display = 'none';
+      showAllBtn.style.display = 'none';
+    } else {
+      loadMoreBtn.style.display = '';
+      showAllBtn.style.display = '';
+    }
+  }
+
+  /* Build A–Z jump buttons */
+  function buildAZJump(items) {
+    const lettersSet = new Set(items.map(i => {
+      const l = (i.name && i.name[0]) ? i.name[0].toUpperCase() : '#';
+      return /[A-Z]/.test(l) ? l : '#';
+    }));
+    azJump.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(ch => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = ch;
+      if (!lettersSet.has(ch)) btn.disabled = true;
+      btn.addEventListener('click', () => jumpToLetter(ch));
+      azJump.appendChild(btn);
+    });
+    const hashBtn = document.createElement('button');
+    hashBtn.type = 'button';
+    hashBtn.textContent = '#';
+    if (!lettersSet.has('#')) hashBtn.disabled = true;
+    hashBtn.addEventListener('click', () => jumpToLetter('#'));
+    azJump.appendChild(hashBtn);
+  }
+
+  /* Jump to letter: if not present (not yet paginated), load more pages until found (or exhausted) */
+  function jumpToLetter(letter) {
+    const findInDOM = () => drawerContent.querySelector(`.letter-section[data-letter="${letter}"]`);
+    let found = findInDOM();
+    if (found) {
+      const open = drawerContent.querySelector('.letter-section.is-open');
+      if (open && open !== found) open.classList.remove('is-open');
+      found.classList.add('is-open');
+      found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    // not found → try loading more pages until found or exhausted
+    const tryLoad = () => {
+      if ((currentPageIndex + 1) * DRAWER_PAGE_SIZE >= currentRenderList.length) { return; } // exhausted
+      currentPageIndex++;
+      renderPage();
+      found = findInDOM();
+      if (found) {
+        const open = drawerContent.querySelector('.letter-section.is-open');
+        if (open && open !== found) open.classList.remove('is-open');
+        found.classList.add('is-open');
+        found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        // try next chunk (recursive but small)
+        tryLoad();
+      }
+    };
+    tryLoad();
+  }
+
+  /* ===== Event handlers wiring ===== */
+  if (drawerSearch) {
+    drawerSearch.addEventListener('input', debounce(() => prepareAndRender(activeTab, { reset: true }), 220));
+  }
+  if (drawerSort) {
+    drawerSort.addEventListener('change', () => prepareAndRender(activeTab, { reset: true }));
+  }
+
+  // category chips behavior (single-select)
+  if (categoryChips) {
+    categoryChips.addEventListener('click', (e) => {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+      const prev = categoryChips.querySelector('.chip.is-active');
+      if (prev) prev.classList.remove('is-active');
+      btn.classList.add('is-active');
+      prepareAndRender(activeTab, { reset: true });
+    });
+  }
+
+  loadMoreBtn && loadMoreBtn.addEventListener('click', () => {
+    currentPageIndex++;
+    renderPage();
   });
 
-  // Filters
-  barSearch?.addEventListener('input', applyBarFilters);
-  barMaxPrice?.addEventListener('change', applyBarFilters);
-  barClear?.addEventListener('click', () => {
-    if (barSearch) barSearch.value = '';
-    if (barMaxPrice) barMaxPrice.value = '';
-    applyBarFilters();
-    barSearch?.focus();
+  showAllBtn && showAllBtn.addEventListener('click', () => {
+    currentPageIndex = Math.ceil(currentRenderList.length / DRAWER_PAGE_SIZE);
+    renderPage();
   });
 
-  // Global Escape handling (reserve, bar drawer, mobile nav)
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
+  // Add open buttons (in case page already had them added)
+  const openBourbonBtn = document.getElementById('openBourbonFullList');
+  openBourbonBtn && openBourbonBtn.addEventListener('click', () => openFullListDrawer('bourbon'));
+  const openWineBtn = document.getElementById('openWineFullList');
+  openWineBtn && openWineBtn.addEventListener('click', () => openFullListDrawer('wine'));
 
-    if (barDrawer?.classList.contains('is-open')) return closeBarDrawer();
-    if (reserveModal?.classList.contains('is-open')) return closeReserve();
-    if (mobileNav?.classList.contains('is-open')) return closeMobileNav();
+  // click outside drawer panel to close (backdrop)
+  drawer && drawer.addEventListener('click', (e) => {
+    if (e.target === drawer) closeFullListDrawer();
   });
+
+  /* ESC already bound via docKeyHandler added on open */
+
+  /* download PDF - uses your existing jsPDF include */
+  function downloadPdfFromList(items, title = 'List') {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert('PDF library not loaded.');
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    const margin = 40;
+    let y = 60;
+    doc.setFontSize(14);
+    doc.text(title, margin, y); y += 22;
+    doc.setFontSize(11);
+    items.forEach((it, i) => {
+      if (y > 720) { doc.addPage(); y = 60; }
+      doc.text(String(i+1) + '. ' + it.name, margin, y);
+      if (isFinite(it.price)) doc.text('$' + it.price, 520, y, { align: 'right' });
+      y += 16;
+    });
+    doc.save(`${title.replace(/\s+/g,'_')}.pdf`);
+  }
+
+  downloadBourbonPdf && downloadBourbonPdf.addEventListener('click', () => {
+    // download the whole bourbon list (not only page) — warn if huge
+    extractBourbonItems();
+    if (bourbonItems.length > 500 && !confirm(`This will generate a long PDF (${bourbonItems.length} items). Continue?`)) return;
+    downloadPdfFromList(bourbonItems, 'Bourbon List');
+  });
+
+  downloadWinePdf && downloadWinePdf.addEventListener('click', () => {
+    extractWineItems();
+    if (wineItems.length > 500 && !confirm(`This will generate a long PDF (${wineItems.length} items). Continue?`)) return;
+    downloadPdfFromList(wineItems, 'Wine List');
+  });
+
+  /* ===== Initialization: run on DOMContentLoaded ===== */
+  function init() {
+    collapseMainLists();
+    extractBourbonItems();
+    extractWineItems();
+
+    // If someone added the open buttons before this script ran, wire them
+    const maybeOpenBourbon = document.getElementById('openBourbonFullList');
+    if (maybeOpenBourbon) maybeOpenBourbon.addEventListener('click', () => openFullListDrawer('bourbon'));
+    const maybeOpenWine = document.getElementById('openWineFullList');
+    if (maybeOpenWine) maybeOpenWine.addEventListener('click', () => openFullListDrawer('wine'));
+
+    // ensure keyboard trap uses the page-level listener too (extra safety)
+    document.addEventListener('keydown', (e) => {
+      if (drawer.classList.contains('is-open')) trapFocusInDrawer(e);
+    }, true);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 
 })();
 </script>
