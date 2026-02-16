@@ -1865,189 +1865,129 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   .menu-cta{ padding: 44px 0; }
   .footer{ padding: 54px 0 28px; }
 }
-/* ======== Full List Overlay — Premium Styling ======== */
-.full-list-overlay{
+/* ===== Bourbon preview & overlay styles (add into existing <style>) ===== */
+.bar-preview {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on large screens */
+  margin-top: 14px;
+}
+
+/* make individual rows look like small cards in preview */
+.bar-preview .bar-row{
+  display:block;
+  padding: 10px;
+  border-radius: 14px;
+  border:1px solid rgba(31,26,20,.06);
+  background: rgba(255,255,255,.85);
+  box-shadow: 0 10px 22px rgba(31,26,20,.05);
+}
+
+/* responsive down to 2 / 1 columns */
+@media (max-width: 1100px){ .bar-preview{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px){ .bar-preview{ grid-template-columns: 1fr; } }
+
+/* hide the original long .bar-list (we'll clone into modal) */
+.bar-list--hidden { display: none !important; }
+
+/* new full-screen bourbon modal / drawer */
+.bourbon-modal{
   position: fixed;
   inset: 0;
-  z-index: 220;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, rgba(10,8,6,.35), rgba(10,8,6,.45));
-  backdrop-filter: blur(6px) saturate(1.06);
-  padding: 28px;
-}
-.full-list-overlay.is-open{ display:flex; }
-
-.full-list-panel{
-  width: min(1180px, 96vw);
-  max-height: calc(100vh - 56px);
-  border-radius: 18px;
-  overflow: hidden;
+  z-index: 150;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  box-shadow: 0 40px 120px rgba(11,8,6,.56);
-  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,240,232,.98));
-  border: 1px solid rgba(31,26,20,.06);
+  place-items: center;
+  padding: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+  font-family: var(--sans);
+}
+.bourbon-modal.is-open{ opacity: 1; pointer-events: auto; }
+.bourbon-modal__backdrop{ position:absolute; inset:0; background: rgba(20,16,12,.55); }
+
+/* dialog area */
+.bourbon-modal__dialog{
+  width: min(1100px, 98vw);
+  height: 90vh;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(251,247,240,.98), rgba(243,231,214,.98));
+  border: 1px solid rgba(31,26,20,.12);
+  box-shadow: 0 40px 120px rgba(31,26,20,.28);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
-/* header */
-.full-list-head.premium{
+/* header inside modal */
+.bourbon-modal__head{
+  padding: 18px;
   display:flex;
+  gap:12px;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(31,26,20,.06);
-  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
+  border-bottom: 1px solid rgba(31,26,20,.08);
+  background: rgba(243,231,214,.6);
 }
-.full-list-head .title{ font-family: var(--serif); font-size: 20px; color:var(--espresso); }
-.full-list-head .section-lead{ font-size:13px; color:var(--muted); }
+.bourbon-modal__title{ font-family: var(--serif); font-size:20px; color:var(--espresso); }
 
-/* sticky filters */
-.full-list-filters{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  justify-content:space-between;
-  padding: 12px 18px;
-  border-bottom: 1px solid rgba(31,26,20,.04);
-  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(250,246,240,.92));
-}
-.premium-sticky { position: sticky; top: 0; z-index: 5; }
-
-/* Search + chips */
-.filter-search{
+/* controls area */
+.bourbon-controls{
   display:flex;
   gap:10px;
+  flex-wrap:wrap;
   align-items:center;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(31,26,20,.06);
-  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,246,240,.98));
-  width: 100%;
-  max-width: 620px;
 }
-.filter-search input{
-  border:0; outline:none; width:100%; font-size:15px; color:var(--espresso); background:transparent;
-}
-.chips{ display:flex; gap:8px; flex-wrap:wrap; }
-.chip{
-  padding: 8px 12px; border-radius: 999px; border:1px solid rgba(31,26,20,.06); background: rgba(255,255,255,.9);
-  cursor:pointer; font-size:13px; transition: transform .12s ease, box-shadow .12s ease;
-}
-.chip:hover{ transform: translateY(-3px); box-shadow: 0 12px 30px rgba(31,26,20,.06); }
-.chip.is-active{ background: linear-gradient(90deg,var(--gold),var(--gold-2)); color: white; border-color: rgba(156,114,66,.35); }
+.bourbon-controls .tool__row{ padding:8px 10px; border-radius:12px; }
 
-/* main layout */
-.full-list-main{ display:grid; grid-template-columns: 92px 1fr; gap:18px; padding: 14px 18px; }
-
-/* alphabet rail (desktop) */
-.alpha-rail{
-  display:flex;
-  flex-direction: column;
-  gap:8px;
-  align-items:center;
-  padding:6px;
-  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
-  border-radius: 12px;
-  border:1px solid rgba(31,26,20,.04);
-  box-shadow: 0 10px 30px rgba(31,26,20,.04);
+/* modal body (scrollable) */
+.bourbon-modal__body{
   overflow:auto;
-}
-.alpha-rail button{
-  width:44px; height:44px; border-radius:10px; border:0; background:transparent; cursor:pointer;
-  display:grid; place-items:center; font-weight:700; color:var(--ink-2); font-size:13px;
-  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
-}
-.alpha-rail button:hover{ transform: translateY(-3px); box-shadow: 0 12px 30px rgba(31,26,20,.06); }
-.alpha-rail button.is-active{ background: linear-gradient(180deg, var(--gold), var(--gold-2)); color:#fff; box-shadow: 0 18px 40px rgba(156,114,66,.16); }
-
-/* main scroller */
-.full-list-body{
-  overflow:auto; padding-right:10px;
-  display:block;
-  scroll-behavior: smooth;
+  padding: 18px;
+  display:grid;
+  gap: 14px;
 }
 
-/* A–Z group (accordion) */
-.az-group{
-  margin-bottom:12px;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid rgba(31,26,20,.04);
-  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,246,240,.98));
+/* list inside modal: we will create alphabet sections */
+.alpha-section{
+  border-radius: 14px;
+  border: 1px solid rgba(31,26,20,.08);
+  background: rgba(255,255,255,.92);
+  overflow: hidden;
 }
-.az-head{
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding: 12px 14px; cursor:pointer;
-  transition: background .12s ease;
+.alpha-section__head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 12px 14px;
+  cursor:pointer;
+  gap:12px;
 }
-.az-head:hover{ background: rgba(156,114,66,.03); }
-.az-head h4{ margin:0; font-family:var(--serif); font-size:15px; color:var(--espresso); }
-.az-list{ padding: 12px 14px; display:grid; gap:10px; grid-template-columns: repeat(2, minmax(0,1fr)); }
-@media (max-width: 820px){ .az-list{ grid-template-columns: 1fr; } }
+.alpha-section__body{ padding: 12px 14px; display:none; }
+.alpha-section.is-open .alpha-section__body{ display:block; }
 
-/* modal row (card) */
-.modal-row{
-  display:flex; align-items:center; justify-content:space-between; gap:8px;
-  padding: 10px 12px; border-radius: 10px;
-  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,244,238,.98));
-  border:1px solid rgba(31,26,20,.04);
-  transition: transform .12s ease, box-shadow .12s ease;
+/* modal list rows: compact */
+.modal-bar-row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 8px;
+  border-bottom:1px dashed rgba(31,26,20,.04);
 }
-.modal-row:hover{ transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31,26,20,.06); }
-.modal-row__name{ font-weight:700; color:var(--espresso); font-size:14px; }
-.modal-row__price{ font-family:var(--serif); color:var(--oak); font-size:14px; }
+.modal-bar-row:last-child{ border-bottom:0; }
 
-/* footer */
-.full-list-foot.premium{
-  padding: 12px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px;
-  border-top:1px solid rgba(31,26,20,.04); background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
-}
-
-/* responsive: mobile stacks */
-@media (max-width: 980px){
-  .full-list-main{ grid-template-columns: 1fr; }
-  .alpha-rail{ flex-direction:row; width:100%; overflow:auto; padding: 8px; justify-content:flex-start; }
-  .alpha-rail button{ width:36px; height:36px; margin-right:6px; }
-  .full-list-panel{ width: calc(100vw - 20px); max-height: calc(100vh - 30px); border-radius: 14px; }
+/* footer (controls) */
+.bourbon-modal__foot{
+  padding: 12px 18px;
+  border-top:1px solid rgba(31,26,20,.08);
+  display:flex;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
 }
 
-/* small accessibility */
-.full-list-overlay [tabindex="0"]:focus{ outline: 3px solid rgba(156,114,66,.25); outline-offset: 4px; border-radius: 8px; }
-
-/* ===== Inline condensed lists — 3 cols desktop, 2 cols tablet, 1 col phone ===== */
-.bar-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  padding: 14px;
-  align-items: start;
-}
-.bar-list .bar-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(31,26,20,.06);
-  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
-  box-shadow: 0 10px 30px rgba(31,26,20,.06);
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.bar-list .bar-row:hover{
-  transform: translateY(-4px);
-  box-shadow: 0 22px 60px rgba(31,26,20,.10);
-}
-@media (max-width: 1100px){
-  .bar-list { grid-template-columns: repeat(2, minmax(0,1fr)); }
-}
-@media (max-width: 640px){
-  .bar-list { grid-template-columns: 1fr; }
-  .bar-list .bar-row { padding: 10px; border-radius: 10px; }
-}
+/* small helpers */
+.hidden-on-preview{ display:none; } /* hide search in page */
+.btn--ghost.chips { padding: 8px 10px; border-radius: 10px; }
 
 </style>
 </head>
@@ -3021,30 +2961,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
           </div>
         </div>
 
-       <div class="bar-cta">
-  <button class="btn btn--primary btn--xl" type="button" data-open-reserve>
-    <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
-    <span>Reserve for the Bar</span>
-  </button>
-
-  <a class="btn btn--ghost btn--xl" href="#cocktails">
-    <i class="fa-solid fa-martini-glass-citrus" aria-hidden="true"></i>
-    <span>Signature Cocktails</span>
-  </a>
-
-  <!-- NEW: Show full list (opens overlay) -->
-  <button class="btn btn--ghost btn--xl" type="button" data-open-full-list data-list="bourbon" aria-expanded="false">
-    <i class="fa-solid fa-list" aria-hidden="true"></i>
-    <span>Show full list</span>
-  </button>
-
-  <!-- NEW: Download PDF -->
-  <button class="btn btn--ghost btn--xl" type="button" data-download-pdf data-list="bourbon">
-    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
-    <span>Download Bourbon PDF</span>
-  </button>
-</div>
-
+        <div class="bar-cta">
+          <button class="btn btn--primary btn--xl" type="button" data-open-reserve>
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+            <span>Reserve for the Bar</span>
+          </button>
+          <a class="btn btn--ghost btn--xl" href="#cocktails">
+            <i class="fa-solid fa-martini-glass-citrus" aria-hidden="true"></i>
+            <span>Signature Cocktails</span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -3441,16 +3367,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
             The full wine list is extensive. Ask your server for pairing recommendations—our team is happy to guide your evening.
           </p>
         </div>
-        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-  <button class="btn btn--ghost btn--xl" type="button" data-open-full-list data-list="wine" aria-expanded="false">
-    <i class="fa-solid fa-list" aria-hidden="true"></i>
-    <span>Show full list</span>
-  </button>
-  <button class="btn btn--ghost btn--xl" type="button" data-download-pdf data-list="wine">
-    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
-    <span>Download Wine PDF</span>
-  </button>
-</div>
       </div>
     </section>
 
@@ -3816,71 +3732,79 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
     <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
   </button>
 
-  <!-- FULL-LIST OVERLAY — PREMIUM / REDESIGNED -->
-<div class="full-list-overlay" id="fullListOverlay" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="full-list-panel" role="document" aria-label="Full list panel">
-    <!-- HEAD -->
-    <div class="full-list-head premium">
-      <div class="head-left" style="display:flex;gap:12px;align-items:center;">
-        <span class="brand__mark" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(156,114,66,.18);background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(243,231,214,.85));box-shadow:0 12px 30px rgba(31,26,20,.08);">
-          <i class="fa-solid fa-oak-leaf" style="color:var(--oak);"></i>
-        </span>
-        <div>
-          <div id="fullListTitle" style="font-family:var(--serif);font-size:20px;color:var(--espresso);">Full List</div>
-          <div id="fullListSubtitle" style="font-size:13px;color:var(--muted);margin-top:6px;">Search, filter, or jump to letter</div>
+  <!-- Bourbon Full List Modal (paste after #reserveModal) -->
+<div class="bourbon-modal" id="bourbonModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Full Bourbon list">
+  <div class="bourbon-modal__backdrop" data-close-bourbon></div>
+
+  <div class="bourbon-modal__dialog" role="document">
+    <div class="bourbon-modal__head">
+      <div style="display:flex; flex-direction:column;">
+        <span class="bourbon-modal__eyebrow eyebrow"><i class="fa-solid fa-whiskey-glass"></i> Bourbon & Whiskeys</span>
+        <div class="bourbon-modal__title">Full Bourbon List</div>
+      </div>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div class="bourbon-controls" aria-hidden="false">
+          <!-- Search will live in modal -->
+          <label class="tool" style="margin:0;">
+            <span class="tool__label">Search</span>
+            <div class="tool__row">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="bourbonModalSearch" type="search" class="tool__input" placeholder="Search (e.g., Blanton’s)">
+            </div>
+          </label>
+
+          <!-- Category chips (future-proof) -->
+          <div class="tool__row" style="display:flex; gap:6px;">
+            <button type="button" class="btn btn--ghost chips" data-cat="all">All</button>
+            <button type="button" class="btn btn--ghost chips" data-cat="bourbon">Bourbon</button>
+            <button type="button" class="btn btn--ghost chips" data-cat="rye">Rye</button>
+            <button type="button" class="btn btn--ghost chips" data-cat="scotch">Scotch</button>
+          </div>
+
+          <!-- Sort -->
+          <div class="tool__row">
+            <select id="bourbonModalSort" class="tool__input" aria-label="Sort">
+              <option value="az">A–Z</option>
+              <option value="price-asc">Price low → high</option>
+              <option value="price-desc">Price high → low</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="downloadBourbonPdf" class="btn btn--ghost" type="button">
+            <i class="fa-solid fa-file-pdf"></i><span style="margin-left:6px;">Download PDF</span>
+          </button>
+          <button class="icon-btn" type="button" data-close-bourbon aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="head-actions" style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn--ghost" id="fullListDownloadPDF" title="Download PDF"><i class="fa-solid fa-file-pdf"></i></button>
-        <button class="btn" id="fullListClosePrimary" title="Close full list"><i class="fa-solid fa-check"></i> Done</button>
-        <button class="icon-btn" id="fullListClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="bourbon-modal__body" id="bourbonModalBody">
+      <!-- A–Z chips (jump) -->
+      <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; align-items:center;">
+        <div style="font-size:13px; color:var(--muted);">Jump to:</div>
+        <div id="alphaChips" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+      </div>
+
+      <!-- Results container (JS will populate with alphabet sections) -->
+      <div id="bourbonModalResults" aria-live="polite"></div>
+
+      <!-- Load more -->
+      <div style="display:flex; justify-content:center; margin-top:12px;">
+        <button id="bourbonLoadMore" class="btn btn--primary" type="button">Load more</button>
       </div>
     </div>
 
-    <!-- FILTERS + SEARCH (sticky top inside the panel on scroll) -->
-    <div class="full-list-filters premium-sticky" role="region" aria-label="Filters and search">
-      <div class="filter-search" aria-hidden="false" style="flex:1;">
-        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-        <input id="fullListSearch" type="search" placeholder="Search full list (name, keyword, distillery)...">
+    <div class="bourbon-modal__foot">
+      <div style="color:var(--muted); font-size:13px;">
+        Showing <span id="bourbonShownCount">0</span> of <span id="bourbonTotalCount">0</span>
       </div>
-
-      <div class="filter-controls" style="display:flex;gap:10px;align-items:center;">
-        <div class="chips" id="fullListChips" aria-hidden="false"></div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <label style="font-size:12px;color:var(--muted);">Sort</label>
-          <select id="fullListSort" aria-label="Sort results">
-            <option value="az">A–Z</option>
-            <option value="za">Z–A</option>
-            <option value="price-asc">Price low→high</option>
-            <option value="price-desc">Price high→low</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- MAIN: left A–Z rail (desktop) + right scrollable content -->
-    <div class="full-list-main" style="display:grid;grid-template-columns: 92px 1fr; gap: 18px;">
-      <!-- A–Z vertical rail (desktop) -->
-      <nav class="alpha-rail" id="fullListAlphaRail" aria-label="Alphabet navigation" style="padding: 18px 6px;">
-        <!-- letters rendered by JS -->
-      </nav>
-
-      <!-- Body: scroll area for A–Z groups -->
-      <div class="full-list-body" id="fullListBody" tabindex="0" aria-label="Full list results">
-        <!-- JS populates .az-group blocks here -->
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="full-list-foot premium">
-      <div style="display:flex;gap:12px;align-items:center;">
-        <div id="fullListSummary" style="color:var(--muted);font-size:13px;">Showing •</div>
-      </div>
-
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn btn--ghost" id="fullListLoadMore" type="button" style="display:none;"><i class="fa-solid fa-plus"></i> Load more</button>
-        <button class="btn btn--primary" id="fullListDownloadPDFFooter" type="button"><i class="fa-solid fa-file-arrow-down"></i> Download PDF</button>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn--ghost" type="button" data-close-bourbon>Close</button>
       </div>
     </div>
   </div>
@@ -4323,318 +4247,464 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 })();
 </script>
 <script>
-(() => {
+/* Bourbon preview + modal controller
+   Paste AFTER your main script (or at end of body). */
+(function(){
   'use strict';
 
-  const TOP_N_ON_PAGE = 18;    // inline visible per list
-  const PAGE_SIZE = 25;        // number of items loaded per click in modal
+  /* CONFIG */
+  const PREVIEW_COUNT = 18;     // how many show on page
+  const PAGE_SIZE = 25;         // how many to add with Load more
 
-  const overlay = document.getElementById('fullListOverlay');
-  const bodyEl = document.getElementById('fullListBody');
-  const alphaRail = document.getElementById('fullListAlphaRail');
-  const searchInput = document.getElementById('fullListSearch');
-  const chipsCont = document.getElementById('fullListChips');
-  const sortSelect = document.getElementById('fullListSort');
-  const loadMoreBtn = document.getElementById('fullListLoadMore');
-  const downloadPDFBtns = [document.getElementById('fullListDownloadPDF'), document.getElementById('fullListDownloadPDFFooter')];
-  const closeButtons = [document.getElementById('fullListClose'), document.getElementById('fullListClosePrimary')];
-  const summary = document.getElementById('fullListSummary');
-  const titleEl = document.getElementById('fullListTitle');
-  const subtitleEl = document.getElementById('fullListSubtitle');
+  const bourbonSection = document.querySelector('#bourbon');
+  if (!bourbonSection) return;
 
-  // find the on-page lists
-  const bourbonContainer = document.querySelector('#bourbon .bar-list');
-  const wineContainer = document.querySelector('#wine .bar-list, #wine .wine-full .bar-list');
+  const originalList = bourbonSection.querySelector('.bar-list');
+  const allRows = Array.from(originalList ? originalList.querySelectorAll('.bar-row') : []);
 
-  function collectItemsFrom(container) {
-    if (!container) return [];
-    return Array.from(container.querySelectorAll('.bar-row')).map(row => {
-      const nameEl = row.querySelector('.bar-row__name') || row.querySelector('.item__name');
-      const priceEl = row.querySelector('.bar-row__price') || row.querySelector('.item__price');
-      const name = nameEl ? nameEl.textContent.trim() : '';
-      const priceRaw = priceEl ? priceEl.textContent.trim() : '';
-      const price = (priceRaw && /\d/.test(priceRaw)) ? Number((priceRaw.match(/(\d+(\.\d+)?)/)||[])[0]) : null;
-      return { name, priceRaw, price, sourceRow: row };
-    });
+  // 1) Create preview block and move first PREVIEW_COUNT items into it (clone)
+  const previewWrap = document.createElement('div');
+  previewWrap.className = 'bar-preview';
+  previewWrap.setAttribute('aria-label', 'Bourbons preview');
+
+  const previewRows = allRows.slice(0, PREVIEW_COUNT).map(r => r.cloneNode(true));
+  previewRows.forEach(r => previewWrap.appendChild(r));
+
+  // Insert preview after gallery (bar-gallery exists)
+  const gallery = bourbonSection.querySelector('.bar-gallery');
+  if (gallery && gallery.parentNode) {
+    gallery.parentNode.insertBefore(previewWrap, gallery.nextSibling);
+  } else {
+    // fallback insert before original list
+    originalList.parentNode.insertBefore(previewWrap, originalList);
   }
 
-  // initial dataset
-  const datasets = {
-    bourbon: collectItemsFrom(bourbonContainer),
-    wine: collectItemsFrom(wineContainer)
-  };
+  // Hide the original long list (so page length stays short)
+  originalList.classList.add('bar-list--hidden');
 
-  // collapse inline lists into columns (keeps all DOM nodes)
-  function collapseInline(container, n) {
-    if (!container) return;
-    const items = Array.from(container.querySelectorAll('.bar-row'));
-    items.forEach((it, i) => {
-      if (i < n) { it.style.display = ''; it.setAttribute('aria-hidden','false'); }
-      else { it.style.display = 'none'; it.setAttribute('aria-hidden','true'); }
-    });
+  // 2) Add Show More button under preview
+  const showMoreBtn = document.createElement('div');
+  showMoreBtn.style.marginTop = '12px';
+  showMoreBtn.innerHTML = `
+    <button id="openBourbonFull" class="btn btn--primary btn--xl" type="button" aria-expanded="false">
+      <i class="fa-solid fa-list"></i> <span style="margin-left:8px;">Show full list</span>
+    </button>
+    <button id="downloadPreviewPdf" class="btn btn--ghost btn--xl" style="margin-left:10px;" type="button">
+      <i class="fa-solid fa-file-pdf"></i> <span style="margin-left:8px;">Download Preview PDF</span>
+    </button>
+  `;
+  previewWrap.parentNode.insertBefore(showMoreBtn, previewWrap.nextSibling);
+
+  // Hide the 'Search' in bar-tools on the page so search only appears inside modal
+  const pageSearch = bourbonSection.querySelector('.bar-tools');
+  if (pageSearch) pageSearch.classList.add('hidden-on-preview');
+
+  // 3) Hook modal open/close controls
+  const bourbonModal = document.getElementById('bourbonModal');
+  const openBtn = document.getElementById('openBourbonFull');
+  const closeSelectors = bourbonModal ? bourbonModal.querySelectorAll('[data-close-bourbon]') : [];
+  const modalDialog = bourbonModal ? bourbonModal.querySelector('.bourbon-modal__dialog') : null;
+
+  // Data representation: extract name & price text into array of objects
+  // This is robust if the original list contains rich markup.
+  const bourbonData = allRows.map(row => {
+    const nameEl = row.querySelector('.bar-row__name');
+    const priceEl = row.querySelector('.bar-row__price');
+    const name = nameEl ? nameEl.textContent.trim() : '';
+    const priceText = priceEl ? priceEl.textContent.trim() : '';
+    // parse numeric price for sorting; Market/unknown => Infinity
+    const m = priceText.match(/(\d+(\.\d+)?)/);
+    const price = m ? Number(m[1]) : Infinity;
+    // letter for A–Z sections
+    const letter = name.charAt(0).toUpperCase() || '#';
+    return { name, priceText, price, letter, rawHTML: row.innerHTML };
+  });
+
+  // state for pagination
+  let currentIndex = 0; // how many items already rendered in modal (per PAGE_SIZE increments)
+  const totalCount = bourbonData.length;
+
+  // utility: open modal
+  function openModal(){
+    bourbonModal.classList.add('is-open');
+    bourbonModal.removeAttribute('aria-hidden');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+    // reset pagination & build initial view
+    currentIndex = 0;
+    buildAlphaSections(true); // true -> initial render with first chunk
+    // set focus inside modal search
+    setTimeout(()=> {
+      const s = bourbonModal.querySelector('#bourbonModalSearch');
+      if (s) s.focus();
+    }, 120);
   }
-  collapseInline(bourbonContainer, TOP_N_ON_PAGE);
-  collapseInline(wineContainer, TOP_N_ON_PAGE);
 
-  // ===== helpers =====
-  function normalize(s){ return (s||'').toLowerCase().replace(/[’']/g,"'").trim(); }
-  function buildMap(items){
-    const map = {};
-    items.forEach(it=>{
-      let c = (it.name||'').charAt(0).toUpperCase();
-      if (!/^[A-Z]$/.test(c)) c = '#';
-      map[c] = map[c] || [];
-      map[c].push(it);
+  function closeModal(){
+    bourbonModal.classList.remove('is-open');
+    bourbonModal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+    // return focus to open button
+    openBtn && openBtn.focus();
+  }
+
+  openBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+
+  closeSelectors.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); closeModal(); }));
+
+  // ESC + backdrop handling
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && bourbonModal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+
+  bourbonModal.addEventListener('click', (e) => {
+    if (e.target === bourbonModal.querySelector('.bourbon-modal__backdrop')) closeModal();
+  });
+
+  // Build A–Z chips
+  const alphaChips = document.getElementById('alphaChips');
+  const uniqueLetters = Array.from(new Set(bourbonData.map(d => /[A-Z]/.test(d.letter) ? d.letter : '#'))).sort();
+  uniqueLetters.forEach(letter => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn btn--ghost chips';
+    b.textContent = letter;
+    b.dataset.alpha = letter;
+    b.addEventListener('click', () => {
+      // open that section
+      const sec = document.getElementById('alpha-' + letter);
+      if (sec) {
+        // collapse any open section
+        document.querySelectorAll('.alpha-section.is-open').forEach(s => s.classList.remove('is-open'));
+        sec.classList.add('is-open');
+        // scroll into view within modal body
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
-    const keys = Object.keys(map).sort((a,b)=> {
+    alphaChips.appendChild(b);
+  });
+
+  // Build alphabetical sections and populate with initial chunk
+  const resultsContainer = document.getElementById('bourbonModalResults');
+  const shownCountEl = document.getElementById('bourbonShownCount');
+  const totalCountEl = document.getElementById('bourbonTotalCount');
+  totalCountEl.textContent = totalCount;
+
+  // helper to group data by letter
+  function groupByLetter(data) {
+    const groups = {};
+    data.forEach(item => {
+      const L = (/[A-Z]/.test(item.letter) ? item.letter : '#');
+      groups[L] = groups[L] || [];
+      groups[L].push(item);
+    });
+    // sort keys A..Z then #
+    return Object.keys(groups).sort((a,b) => {
       if (a === '#') return 1;
       if (b === '#') return -1;
       return a.localeCompare(b);
-    });
-    return { map, keys };
+    }).reduce((acc,k)=> { acc[k]=groups[k]; return acc; }, {});
   }
 
-  // render alphabet rail (desktop)
-  function renderAlphaRail(keys){
-    alphaRail.innerHTML = '';
-    keys.forEach(k=>{
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = '';
-      btn.textContent = k;
-      btn.dataset.letter = k;
-      btn.title = `Jump to ${k}`;
-      btn.addEventListener('click', ()=> {
-        const target = bodyEl.querySelector(`.az-group[data-letter="${k}"]`);
-        if (target) {
-          bodyEl.querySelectorAll('.az-group').forEach(g=>g.classList.remove('is-open'));
-          target.classList.add('is-open');
-          // update rail active
-          alphaRail.querySelectorAll('button').forEach(b=>b.classList.toggle('is-active', b.dataset.letter===k));
-          // scroll into view
-          const rect = target.getBoundingClientRect();
-          const containerRect = bodyEl.getBoundingClientRect();
-          bodyEl.scrollTop += rect.top - containerRect.top - 12;
-        }
+  // current filtered list (search/sort/chips)
+  let currentFiltered = bourbonData.slice();
+
+  // Render helper: create a section DOM for a given letter with up to N items (we lazy append on Load more)
+  function createAlphaSection(letter, items) {
+    const sec = document.createElement('div');
+    sec.className = 'alpha-section';
+    sec.id = 'alpha-' + letter;
+
+    const head = document.createElement('div');
+    head.className = 'alpha-section__head';
+    head.innerHTML = `<strong>${letter}</strong><span style="color:var(--muted); font-size:13px;">${items.length} item(s)</span>`;
+    head.addEventListener('click', () => {
+      // toggle, but ensure only one open at a time
+      const currentlyOpen = document.querySelector('.alpha-section.is-open');
+      if (currentlyOpen && currentlyOpen !== sec) currentlyOpen.classList.remove('is-open');
+      sec.classList.toggle('is-open');
+      // if opening, scroll to top of sec
+      if (sec.classList.contains('is-open')) sec.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    const body = document.createElement('div');
+    body.className = 'alpha-section__body';
+    // populate rows (initially empty; we add rows in appendAlphaRows)
+    sec.appendChild(head);
+    sec.appendChild(body);
+    return sec;
+  }
+
+  // Keep a map of letter sections for quick append
+  const alphaSectionMap = new Map();
+
+  function clearResults() {
+    resultsContainer.innerHTML = '';
+    alphaSectionMap.clear();
+  }
+
+  // create all sections (buckets) ahead of time (but bodies empty)
+  function prepareSectionsFor(data) {
+    clearResults();
+    const grouped = groupByLetter(data);
+    Object.keys(grouped).forEach(letter => {
+      const sec = createAlphaSection(letter, grouped[letter]);
+      resultsContainer.appendChild(sec);
+      alphaSectionMap.set(letter, { node: sec, items: grouped[letter], rendered: 0 });
+    });
+  }
+
+  // Append next chunk (PAGE_SIZE) items across letters in natural order
+  function appendNextChunk() {
+    let toRender = PAGE_SIZE;
+    // iterate letters in order
+    for (const [letter, info] of alphaSectionMap) {
+      if (toRender <= 0) break;
+      const remainingInLetter = info.items.length - info.rendered;
+      if (remainingInLetter <= 0) continue;
+      const take = Math.min(remainingInLetter, toRender);
+      const itemsSlice = info.items.slice(info.rendered, info.rendered + take);
+      const body = info.node.querySelector('.alpha-section__body');
+      itemsSlice.forEach(it => {
+        const row = document.createElement('div');
+        row.className = 'modal-bar-row';
+        row.innerHTML = `<div style="font-weight:700; color:var(--espresso);">${escapeHtml(it.name)}</div><div style="font-family:var(--serif); color:var(--oak);">${escapeHtml(it.priceText)}</div>`;
+        body.appendChild(row);
       });
-      alphaRail.appendChild(btn);
-    });
-  }
-
-  // create chip buttons
-  const defaultChips = ['All','House Picks','Most Requested','Bourbon','Rye','Scotch','Irish','Tequila'];
-  function renderChips(){
-    chipsCont.innerHTML = '';
-    defaultChips.forEach(ch=>{
-      const b = document.createElement('button');
-      b.type='button';
-      b.className = 'chip' + (ch==='All' ? ' is-active' : '');
-      b.textContent = ch;
-      b.dataset.chip = ch.toLowerCase();
-      b.addEventListener('click', ()=>{
-        chipsCont.querySelectorAll('.chip').forEach(x=>x.classList.remove('is-active'));
-        b.classList.add('is-active');
-        applyFilters(true);
-      });
-      chipsCont.appendChild(b);
-    });
-  }
-
-  // create A–Z groups in body
-  function createGroups(mapObj){
-    bodyEl.innerHTML = '';
-    const { map, keys } = mapObj;
-    keys.forEach(k=>{
-      const g = document.createElement('section');
-      g.className = 'az-group';
-      g.dataset.letter = k;
-
-      const head = document.createElement('div');
-      head.className = 'az-head';
-      head.tabIndex = 0;
-      head.innerHTML = `<h4>${k}</h4><div style="opacity:.6;font-size:13px;">${map[k].length} item${map[k].length>1?'s':''}</div>`;
-
-      const list = document.createElement('div');
-      list.className = 'az-list';
-      list.dataset.rendered = '0';
-
-      head.addEventListener('click', ()=> {
-        const was = g.classList.contains('is-open');
-        bodyEl.querySelectorAll('.az-group').forEach(x=>x.classList.remove('is-open'));
-        if (!was) g.classList.add('is-open');
-      });
-      head.addEventListener('keydown', (e)=> { if (e.key==='Enter' || e.key===' ') { e.preventDefault(); head.click(); } });
-
-      g.appendChild(head);
-      g.appendChild(list);
-      bodyEl.appendChild(g);
-    });
-  }
-
-  // create a card element for an item
-  function createCard(it){
-    const el = document.createElement('div');
-    el.className = 'modal-row';
-    const n = document.createElement('div'); n.className='modal-row__name'; n.textContent = it.name;
-    const p = document.createElement('div'); p.className='modal-row__price'; p.textContent = it.priceRaw || '';
-    el.appendChild(n); el.appendChild(p);
-    return el;
-  }
-
-  // paginate and render next chunk across groups (flat)
-  let renderIndex = 0;
-  function renderNextChunk(items, count){
-    const chunk = items.slice(renderIndex, renderIndex + count);
-    chunk.forEach(it=>{
-      const letter = (it.name||'').charAt(0).toUpperCase(); const L = /^[A-Z]$/.test(letter) ? letter : '#';
-      const groupList = bodyEl.querySelector(`.az-group[data-letter="${L}"] .az-list`);
-      if (groupList) groupList.appendChild(createCard(it));
-      // increment rendered counter
-    });
-    renderIndex += chunk.length;
-    loadMoreBtn.style.display = renderIndex < items.length ? '' : 'none';
-    summary.textContent = `Showing ${Math.min(renderIndex, items.length)} of ${items.length} items`;
-  }
-
-  // apply filters (reset + re-render)
-  function applyFilters(resetScroll){
-    if (!currentKey) return;
-    const q = normalize(searchInput.value || '');
-    const selectedChip = (chipsCont.querySelector('.chip.is-active') || {}).dataset?.chip || 'all';
-    const sort = sortSelect.value;
-
-    // filter items
-    let items = datasets[currentKey].slice(0);
-    if (selectedChip && selectedChip !== 'all') {
-      items = items.filter(it => normalize(it.name).includes(selectedChip));
+      info.rendered += take;
+      toRender -= take;
+      currentIndex += take;
+      // If a section gained content and is the first section, open it by default
     }
-    if (q) {
-      items = items.filter(it => normalize(it.name).includes(q) || (it.priceRaw && normalize(it.priceRaw).includes(q)));
+    // update shown count
+    shownCountEl.textContent = currentIndex;
+    // hide Load More if fully rendered
+    const allRendered = Array.from(alphaSectionMap.values()).every(v => v.rendered >= v.items.length);
+    document.getElementById('bourbonLoadMore').style.display = allRendered ? 'none' : 'inline-flex';
+  }
+
+  // Build the alphabet sections and render first chunk
+  function buildAlphaSections(initial){
+    // reset
+    currentIndex = 0;
+    prepareSectionsFor(currentFiltered);
+    // show zero initially, then append
+    shownCountEl.textContent = 0;
+    // clear any bodies
+    Array.from(alphaSectionMap.values()).forEach(v => {
+      v.node.querySelector('.alpha-section__body').innerHTML = '';
+      v.rendered = 0;
+    });
+    appendNextChunk();
+    // open first non-empty section
+    const first = resultsContainer.querySelector('.alpha-section');
+    if (first) {
+      // open first by default
+      first.classList.add('is-open');
     }
+  }
+
+  // simple escape to avoid HTML injection when using raw data
+  function escapeHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  // Filter / Sort / Category handlers in modal
+  const searchInput = document.getElementById('bourbonModalSearch');
+  const sortSelect = document.getElementById('bourbonModalSort');
+  const chips = bourbonModal.querySelectorAll('.chips');
+
+  // default category = all (not used for now)
+  let activeCategory = 'all';
+
+  function applyModalFilters() {
+    const q = (searchInput.value || '').trim().toLowerCase();
+    const sortVal = sortSelect.value;
+    // filter by search + category
+    currentFiltered = bourbonData.filter(it => {
+      const matchesQ = !q || it.name.toLowerCase().includes(q);
+      const matchesCat = activeCategory === 'all' || (it.name.toLowerCase().includes(activeCategory)); // placeholder
+      return matchesQ && matchesCat;
+    });
 
     // sort
-    if (sort === 'az') items.sort((a,b)=>a.name.localeCompare(b.name));
-    else if (sort === 'za') items.sort((a,b)=>b.name.localeCompare(a.name));
-    else if (sort === 'price-asc') items.sort((a,b)=>(a.price||999999)-(b.price||999999));
-    else if (sort === 'price-desc') items.sort((a,b)=>(b.price||-1)-(a.price||-1));
+    if (sortVal === 'az') currentFiltered.sort((a,b)=> a.name.localeCompare(b.name));
+    else if (sortVal === 'price-asc') currentFiltered.sort((a,b)=> (a.price || Infinity) - (b.price || Infinity));
+    else if (sortVal === 'price-desc') currentFiltered.sort((a,b)=> (b.price || Infinity) - (a.price || Infinity));
 
-    // build map
-    const mapObj = buildMap(items);
-    createGroups(mapObj);
-    renderAlphaRail(mapObj.keys);
-
-    // reset renderIndex and show first chunk
-    renderIndex = 0;
-    renderNextChunk(items, PAGE_SIZE);
-
-    if (resetScroll) bodyEl.scrollTop = 0;
+    // rebuild sections & render initial page
+    buildAlphaSections(true);
   }
 
-  // download PDF (simple)
-  function downloadPDF(listKey){
-    const items = (datasets[listKey] || []).slice(0);
-    if (!items.length) return alert('No items to download.');
-    const { jsPDF } = window.jspdf || {};
-    if (!jsPDF) return alert('PDF library not loaded.');
-    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
-    doc.setFontSize(14); doc.text(listKey==='bourbon'?'Bourbon List':'Wine List', 40, 50);
-    doc.setFontSize(11);
-    let y = 72; const lineH = 16;
-    items.forEach((it, idx) => {
-      const text = `${idx+1}. ${it.name} — ${it.priceRaw || ''}`;
-      const lines = doc.splitTextToSize(text, 520);
-      doc.text(lines, 40, y);
-      y += lines.length * lineH;
-      if (y > 720) { doc.addPage(); y = 48; }
+  searchInput.addEventListener('input', () => {
+    applyModalFilters();
+  });
+  sortSelect.addEventListener('change', () => applyModalFilters());
+  chips.forEach(ch => {
+    ch.addEventListener('click', (e) => {
+      chips.forEach(c=> c.classList.remove('btn--primary')); // visual
+      ch.classList.add('btn--primary');
+      activeCategory = ch.dataset.cat || 'all';
+      applyModalFilters();
     });
-    doc.save(`${listKey}-list.pdf`);
-  }
-
-  // ===== open/close overlay logic =====
-  let currentKey = null;
-  function openOverlay(key){
-    currentKey = key;
-    titleEl.textContent = key === 'bourbon' ? 'Bourbon & Whiskeys — Full List' : 'Wine & Champagne — Full List';
-    subtitleEl.textContent = key === 'bourbon' ? 'Filter, search, or jump to a letter.' : 'Filter, search, or jump to a letter.';
-    overlay.classList.add('is-open'); overlay.setAttribute('aria-hidden','false');
-    document.documentElement.classList.add('no-scroll');
-    renderChips();
-    applyFilters(true);
-
-    // focus search
-    setTimeout(()=> searchInput.focus(), 80);
-  }
-  function closeOverlay(){
-    overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden','true');
-    document.documentElement.classList.remove('no-scroll');
-    currentKey = null;
-    bodyEl.innerHTML = '';
-  }
-
-  // attach open triggers
-  document.querySelectorAll('[data-open-full-list]').forEach(btn=>{
-    btn.addEventListener('click', ()=> openOverlay(btn.dataset.list || 'bourbon'));
   });
 
-  // attach close triggers
-  closeButtons.forEach(b=>{
-    if (!b) return;
-    b.addEventListener('click', ()=> closeOverlay());
+  // Load more button
+  const loadMoreBtn = document.getElementById('bourbonLoadMore');
+  loadMoreBtn.addEventListener('click', (e) => {
+    appendNextChunk();
   });
 
-  // download triggers
-  downloadPDFBtns.forEach(b=>{ if (!b) return b.addEventListener('click', ()=> currentKey && downloadPDF(currentKey)); });
-  document.querySelectorAll('[data-download-pdf]').forEach(b=>{
-    b.addEventListener('click', ()=> downloadPDF(b.dataset.list || 'bourbon'));
-  });
-  document.getElementById('fullListDownloadPDFFooter')?.addEventListener('click', ()=> currentKey && downloadPDF(currentKey));
+  // initial prepare (do not open yet)
+  prepareSectionsFor(bourbonData);
+  // set initial shown count (preview area already shows first PREVIEW_COUNT)
+  document.getElementById('bourbonShownCount').textContent = Math.min(PREVIEW_COUNT, totalCount);
+  document.getElementById('bourbonTotalCount').textContent = totalCount;
 
-  // search / sort / chips events
-  searchInput.addEventListener('input', () => applyFilters(false));
-  sortSelect.addEventListener('change', () => applyFilters(false));
+  // 4) PDF generation for the full list (uses jsPDF)
+  function generateLuxuryPDF(items, title='Bourbon & Whiskeys — Oaklawn') {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 40;
+      const columnGap = 18;
+      const colWidth = (pageWidth - margin*2 - columnGap)/2;
+      let y = 60;
 
-  // load more
-  loadMoreBtn.addEventListener('click', () => {
-    if (!currentKey) return;
-    // regenerate filtered & sorted items then render next chunk
-    const q = normalize(searchInput.value || '');
-    const chip = (chipsCont.querySelector('.chip.is-active') || {}).dataset?.chip || 'all';
-    const sort = sortSelect.value;
-    let items = datasets[currentKey].slice(0);
-    if (chip && chip !== 'all') items = items.filter(it => normalize(it.name).includes(chip));
-    if (q) items = items.filter(it => normalize(it.name).includes(q) || (it.priceRaw && normalize(it.priceRaw).includes(q)));
-    if (sort === 'az') items.sort((a,b)=>a.name.localeCompare(b.name));
-    else if (sort === 'za') items.sort((a,b)=>b.name.localeCompare(a.name));
-    else if (sort === 'price-asc') items.sort((a,b)=>(a.price||999999)-(b.price||999999));
-    else if (sort === 'price-desc') items.sort((a,b)=>(b.price||-1)-(a.price||-1));
-    renderNextChunk(items, PAGE_SIZE);
-  });
+      // Header block (gold band)
+      doc.setFillColor(156,114,66);
+      doc.rect(0, 0, pageWidth, 48, 'F');
+      doc.setFontSize(18);
+      doc.setTextColor(255,255,255);
+      doc.text(title, margin, 34);
 
-  // escape key closes overlay
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Escape' || e.key === 'Esc') && overlay.classList.contains('is-open')) closeOverlay();
-  });
+      doc.setFontSize(11);
+      doc.setTextColor(60,50,40);
+      doc.text('Curated list • Oaklawn Southern Dining', margin, y);
+      y += 22;
 
-  // accessibility: keep focus inside overlay (simple)
-  document.addEventListener('focus', (e) => {
-    if (!overlay.classList.contains('is-open')) return;
-    if (!overlay.contains(e.target)) {
-      const focusable = overlay.querySelector('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (focusable) focusable.focus();
+      // decorative divider
+      doc.setDrawColor(200,180,150);
+      doc.setLineWidth(0.6);
+      doc.line(margin, y, pageWidth - margin, y);
+      y += 12;
+
+      // layout: two columns
+      const leftX = margin;
+      const rightX = margin + colWidth + columnGap;
+      let col = 0;
+      let rowYLeft = y;
+      let rowYRight = y;
+
+      doc.setFont('helvetica', 'normal');
+
+      // group by letter for small header rows
+      const grouped = {};
+      items.forEach(it => {
+        const L = (/[A-Z]/.test(it.letter) ? it.letter : '#');
+        grouped[L] = grouped[L] || [];
+        grouped[L].push(it);
+      });
+      const letters = Object.keys(grouped).sort();
+
+      for (const L of letters) {
+        const group = grouped[L];
+        for (const it of group) {
+          const x = (col === 0) ? leftX : rightX;
+          const ypos = (col === 0) ? rowYLeft : rowYRight;
+
+          // if near bottom, add new page
+          if (ypos > doc.internal.pageSize.getHeight() - 80) {
+            doc.addPage();
+            // redraw header on new page
+            doc.setFontSize(11);
+            doc.setTextColor(60,50,40);
+            rowYLeft = 60;
+            rowYRight = 60;
+          }
+
+          // name
+          doc.setFontSize(11);
+          doc.setTextColor(34,30,24);
+          doc.text(it.name, x, (col===0? rowYLeft: rowYRight));
+          // price aligned to right
+          doc.setFontSize(11);
+          doc.setTextColor(96,70,45);
+          const pw = doc.getStringUnitWidth(it.priceText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+          doc.text(it.priceText, x + colWidth - 4, (col===0? rowYLeft: rowYRight), { align: 'right' });
+
+          // increment vertical position in that column
+          if (col === 0) rowYLeft += 16; else rowYRight += 16;
+
+          // alternate column
+          col = (col + 1) % 2;
+        }
+      }
+
+      doc.save('Oaklawn-Bourbon-List.pdf');
+    } catch (err) {
+      console.error('PDF error', err);
+      alert('Sorry — could not generate PDF in this browser.');
     }
-  }, true);
+  }
 
-  // small helper: render initial chips into DOM (called in openOverlay)
-  function renderChips(){ chipsCont.innerHTML=''; defaultChips.forEach(ch=>{
-    const b=document.createElement('button'); b.type='button'; b.className='chip'+(ch==='All'?' is-active':''); b.textContent=ch; b.dataset.chip=ch.toLowerCase();
-    b.addEventListener('click', ()=> { chipsCont.querySelectorAll('.chip').forEach(x=>x.classList.remove('is-active')); b.classList.add('is-active'); applyFilters(true); });
-    chipsCont.appendChild(b);
-  }); }
+  // Wire download button (inside modal)
+  document.getElementById('downloadBourbonPdf').addEventListener('click', () => {
+    // use full currentFiltered list (if user applied search/filter, export that)
+    const itemsToExport = currentFiltered.slice();
+    // If there are more than ~800 items, you might chunk; but typically fine.
+    generateLuxuryPDF(itemsToExport);
+  });
 
-  // end
+  // Download preview PDF (the small preview on page)
+  document.getElementById('downloadPreviewPdf').addEventListener('click', () => {
+    const previewItems = bourbonData.slice(0, PREVIEW_COUNT);
+    generateLuxuryPDF(previewItems, 'Bourbon & Whiskeys — Oaklawn (Preview)');
+  });
+
+  // small helper: clicking a modal's alphabetical header toggles only that open at a time
+  resultsContainer.addEventListener('click', (e) => {
+    const head = e.target.closest('.alpha-section__head');
+    if (!head) return;
+    const sec = head.parentElement;
+    if (!sec) return;
+    // close others
+    document.querySelectorAll('.alpha-section.is-open').forEach(s => { if (s !== sec) s.classList.remove('is-open'); });
+    sec.classList.toggle('is-open');
+  });
+
+  // ensure the main preview shows at most PREVIEW_COUNT (some might be missing)
+  // if there were fewer than PREVIEW_COUNT items, fine.
+
+  // Security: prevent accidental form submissions of search in modal
+  const modalSearchForm = bourbonModal.querySelector('#bourbonModalSearch');
+  if (modalSearchForm) {
+    modalSearchForm.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') e.preventDefault();
+    });
+  }
+
+  // Apply initial filters/sort so the modal is built on first open
+  currentFiltered = bourbonData.slice();
+  buildAlphaSections(true);
+
+  // small accessibility: trap focus inside modal when open
+  function trapFocusInModal(e){
+    if (!bourbonModal.classList.contains('is-open')) return;
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(bourbonModal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])'))
+      .filter(el => el.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+  document.addEventListener('keydown', trapFocusInModal, true);
+
 })();
 </script>
-
 
 </body>
 </html>
