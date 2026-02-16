@@ -1865,6 +1865,255 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   .menu-cta{ padding: 44px 0; }
   .footer{ padding: 54px 0 28px; }
 }
+/* ------------------------------
+   Section Head
+------------------------------ */
+.menu-section{
+  padding: 26px 0;
+}
+
+.section-head{
+  margin-bottom: 16px;
+}
+.section-head--split{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: end;
+}
+@media (max-width: 760px){
+  .section-head--split{
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
+.eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-1);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(22,19,17,.74);
+  margin: 0 0 8px;
+}
+.eyebrow i{ color: rgba(176,138,60,.92); }
+
+.section-title{
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(24px, 4.8vw, 36px);
+  letter-spacing: .01em;
+  line-height: 1.08;
+}
+
+.section-lead{
+  margin: 8px 0 0;
+  max-width: 70ch;
+  color: rgba(22,19,17,.72);
+}
+
+/* ------------------------------
+   Category Grid Cards
+------------------------------ */
+.menu-cats{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 14px;
+}
+@media (max-width: 860px){
+  .menu-cats{ grid-template-columns: 1fr; }
+}
+
+.cat-card{
+  position: relative;
+  border-radius: var(--r-xl);
+  padding: 16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,255,255,.62)),
+    var(--grain),
+    var(--paper);
+  border: 1px solid rgba(22,19,17,.12);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.cat-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: inherit;
+  background:
+    radial-gradient(520px 240px at 20% 0%, rgba(176,138,60,.20), transparent 55%),
+    radial-gradient(520px 240px at 110% 30%, rgba(28,43,44,.12), transparent 60%);
+  pointer-events:none;
+}
+
+.cat-card__head{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cat-card__title{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cat-card__title h3{
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 22px;
+  letter-spacing: .01em;
+}
+.cat-card__title i{
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background:
+    radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,0)),
+    rgba(176,138,60,.18);
+  border: 1px solid rgba(176,138,60,.30);
+  color: rgba(22,19,17,.85);
+}
+
+.cat-card__note{
+  font-size: var(--fs-1);
+  color: rgba(22,19,17,.70);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,19,17,.12);
+  background: rgba(255,255,255,.55);
+}
+
+.cat-card__items{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+}
+
+.item{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 14px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(22,19,17,.10);
+  background: rgba(255,255,255,.58);
+  box-shadow: 0 12px 26px rgba(22,19,17,.08);
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t) var(--ease), background var(--t) var(--ease);
+}
+
+.item:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.80);
+  box-shadow: 0 16px 34px rgba(22,19,17,.10);
+}
+
+.item__name{
+  font-weight: 720;
+  letter-spacing: .01em;
+}
+.item__meta{
+  grid-column: 1 / -1;
+  color: rgba(22,19,17,.72);
+  font-size: var(--fs-2);
+  line-height: 1.35;
+}
+.item__price{
+  font-weight: 760;
+  color: rgba(22,19,17,.90);
+  font-variant-numeric: tabular-nums;
+}
+
+.item--addons .item__name{
+  font-weight: 700;
+  color: rgba(22,19,17,.84);
+}
+.item--addons .item__meta{ color: rgba(22,19,17,.66); }
+
+.cat-card__foot{
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.cat-card__photo{
+  margin: 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid rgba(22,19,17,.12);
+  background: rgba(255,255,255,.35);
+  box-shadow: 0 16px 44px rgba(22,19,17,.10);
+}
+.cat-card__photo img{
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform var(--t) var(--ease);
+}
+.cat-card:hover .cat-card__photo img{ transform: scale(1.06); }
+
+.cat-card__link{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-2);
+  color: rgba(22,19,17,.82);
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.60);
+  border: 1px solid rgba(22,19,17,.12);
+  transition: transform var(--t-fast) var(--ease), background var(--t) var(--ease);
+}
+.cat-card__link:hover{ transform: translateY(-1px); background: rgba(255,255,255,.82); }
+.cat-card__tiny{
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--fs-2);
+  color: rgba(22,19,17,.74);
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,19,17,.12);
+  background: rgba(255,255,255,.55);
+}
+
+.cat-card__items--columns{
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+}
+@media (max-width: 520px){
+  .cat-card__items--columns{ grid-template-columns: 1fr; }
+  .cat-card__foot{ grid-template-columns: 1fr; }
+  .cat-card__photo img{ height: 150px; }
+}
+
+.pill{
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,19,17,.10);
+  background: rgba(255,255,255,.58);
+  box-shadow: 0 12px 26px rgba(22,19,17,.08);
+  font-size: var(--fs-2);
+  color: rgba(22,19,17,.80);
+}
+
+/* Compact card variant */
+.cat-card--compact .cat-card__photo{ display:none; }
+.cat-card--compact .cat-card__foot{ grid-template-columns: 1fr; }
 
 </style>
 </head>
@@ -2238,53 +2487,47 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
       
 
 
-          <!-- From the Farm -->
-          <section class="menu-card-xl" aria-label="From the Farm" id="farm">
-            <header class="menu-card-xl__head">
-              <h3 class="menu-card-xl__title">
+           <!-- FROM THE FARM -->
+          <article class="cat-card" aria-label="From the Farm">
+            <header class="cat-card__head">
+              <div class="cat-card__title">
                 <i class="fa-solid fa-wheat-awn" aria-hidden="true"></i>
-                From the Farm
-              </h3>
-              <p class="menu-card-xl__sub">We only use Springer Mountain Farms chicken.</p>
+                <h3>From the Farm</h3>
+              </div>
+              <span class="cat-card__note">Springer Mountain Farms</span>
             </header>
 
-            <div class="items">
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Bertha’s Fried Chicken</h4>
-                  <div class="item__price">$39</div>
-                </div>
-                <p class="item__desc">Breaded and fried tenders, garlic smashed potatoes, sautéed bacon green beans.</p>
-              </article>
+            <div class="cat-card__items" role="list">
+              <div class="item" role="listitem">
+                <div class="item__name">Bertha’s Fried Chicken</div>
+                <div class="item__meta">Fried Tenders • Garlic Smashed Potatoes • Sautéed Bacon Green Beans</div>
+                <div class="item__price">$39</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Bourbon Chicken</h4>
-                  <div class="item__price">$39</div>
-                </div>
-                <p class="item__desc">Grilled, bourbon maple bacon glazed, garlic smashed potatoes, seasoned bacon green beans.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Bourbon Chicken</div>
+                <div class="item__meta">Grilled • Bourbon Maple Bacon Glazed • Garlic Smashed Potatoes • Seasoned Bacon Green Beans</div>
+                <div class="item__price">$39</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Chicken & Waffles</h4>
-                  <div class="item__price">$39</div>
-                </div>
-                <p class="item__desc">
-                  Bertha’s free-range fried chicken, Belgian waffle, bourbon maple bacon syrup,
-                  bourbon maple bacon Brussels sprouts.
-                </p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Chicken & Waffles</div>
+                <div class="item__meta">Bertha’s Fried Chicken • Belgian Waffle • Bourbon Maple Bacon Syrup • Brussels Sprouts</div>
+                <div class="item__price">$39</div>
+              </div>
             </div>
 
-            <figure class="menu-card-xl__photo">
-              <img src="images/menu-farm.jpg" alt="Fried chicken plated with sides and waffle." loading="lazy">
-              <figcaption>
-                <i class="fa-solid fa-star" aria-hidden="true"></i>
-                A signature comfort—served with elegance.
-              </figcaption>
-            </figure>
-          </section>
+            <footer class="cat-card__foot">
+              <figure class="cat-card__photo" aria-hidden="true">
+                <img src="ribeye.jpg" alt="Fried chicken plated with sides." loading="lazy">
+              </figure>
+              <div class="cat-card__tiny">
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                Please let us know dietary needs
+              </div>
+            </footer>
+          </article>
+
         </div>
 
         <!-- Prime Steaks & Chops -->
