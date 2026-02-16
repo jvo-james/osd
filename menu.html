@@ -1865,166 +1865,188 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   .menu-cta{ padding: 44px 0; }
   .footer{ padding: 54px 0 28px; }
 }
-/* ------------------------------
-  Full list overlay / A–Z panel
---------------------------------*/
+/* ======== Full List Overlay — Premium Styling ======== */
 .full-list-overlay{
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 220;
   display: none;
-  background: rgba(20,16,12,.65);
-  padding: 28px;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  overflow: auto;
+  background: linear-gradient(180deg, rgba(10,8,6,.35), rgba(10,8,6,.45));
+  backdrop-filter: blur(6px) saturate(1.06);
+  padding: 28px;
 }
-.full-list-overlay.is-open{ display: flex; }
+.full-list-overlay.is-open{ display:flex; }
 
 .full-list-panel{
-  width: min(1200px, 96vw);
+  width: min(1180px, 96vw);
   max-height: calc(100vh - 56px);
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(251,247,240,0.98), rgba(243,231,214,0.98));
-  box-shadow: 0 40px 120px rgba(31,26,20,.45);
   overflow: hidden;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
+  box-shadow: 0 40px 120px rgba(11,8,6,.56);
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,240,232,.98));
+  border: 1px solid rgba(31,26,20,.06);
 }
 
 /* header */
-.full-list-head{
+.full-list-head.premium{
   display:flex;
-  gap: 12px;
   align-items:center;
-  justify-content: space-between;
-  padding: 18px;
-  border-bottom: 1px solid rgba(31,26,20,.08);
-  background: rgba(243,231,214,.55);
+  justify-content:space-between;
+  gap:12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(31,26,20,.06);
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
 }
-.full-list-head .title{ font-family: var(--serif); font-size: 20px; color: var(--espresso); }
-.full-list-controls{
-  display:flex;
-  gap: 8px;
-  align-items:center;
-}
+.full-list-head .title{ font-family: var(--serif); font-size: 20px; color:var(--espresso); }
+.full-list-head .section-lead{ font-size:13px; color:var(--muted); }
 
-/* filter row */
+/* sticky filters */
 .full-list-filters{
   display:flex;
-  gap: 10px;
-  padding: 10px 18px;
-  align-items:center;
-  flex-wrap:wrap;
-  border-bottom: 1px solid rgba(31,26,20,.06);
-}
-.filter-search{
-  flex: 1 1 360px;
-  min-width: 180px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  padding: 8px 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(31,26,20,.08);
-  background: rgba(255,255,255,.85);
-}
-.filter-search input{ width:100%; border:0; background:transparent; outline:none; font-size:14px; color:var(--espresso); }
-
-/* category chips */
-.chips{ display:flex; gap:8px; flex-wrap:wrap; }
-.chip{
-  border-radius: 999px;
-  padding: 8px 12px;
-  border:1px solid rgba(31,26,20,.08);
-  background: rgba(255,255,255,.75);
-  cursor:pointer;
-  font-size: 13px;
-}
-.chip.is-active{ background: linear-gradient(90deg, var(--gold), var(--gold-2)); color:white; border-color: rgba(156,114,66,.35); }
-
-/* sort select */
-.filter-sort select{
-  padding:8px 10px;
-  border-radius:12px;
-  border:1px solid rgba(31,26,20,.08);
-  background: rgba(255,255,255,.85);
-}
-
-/* alphabet nav */
-.alpha-nav{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  padding: 10px 18px;
-  border-bottom: 1px solid rgba(31,26,20,.06);
-}
-.alpha-nav button{
-  min-width:28px;
-  height:28px;
-  border-radius:6px;
-  border:1px solid rgba(31,26,20,.06);
-  background: rgba(255,255,255,.75);
-  font-size:12px;
-}
-.alpha-nav button.is-active{ background: rgba(156,114,66,.95); color: #fff; border-color: rgba(156,114,66,.6); }
-
-/* content area */
-.full-list-body{
-  overflow:auto;
-  padding: 18px;
-}
-
-/* A–Z accordion group */
-.az-group{ margin-bottom: 12px; border-radius: 12px; overflow: hidden; border:1px solid rgba(31,26,20,.06); background: rgba(255,255,255,.82); }
-.az-head{
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  cursor: pointer;
-}
-.az-head h4{ font-family: var(--serif); margin:0; font-size:16px; color:var(--espresso); }
-.az-list{ padding: 8px 14px 14px; display:grid; gap:8px; }
-
-/* only one letter open at a time will have .is-open */
-.az-group .az-list{ display: none; }
-.az-group.is-open .az-list{ display: grid; }
-
-/* inline item in modal (same visuals as bar-row but slightly denser) */
-.modal-row{ display:flex; justify-content: space-between; gap:12px; padding:10px; border-radius:10px; align-items:center; border:1px solid rgba(31,26,20,.04); background:rgba(255,255,255,.95); }
-.modal-row__name{ font-weight:700; color:var(--espresso); }
-.modal-row__price{ font-family:var(--serif); color:var(--oak); }
-
-/* load more + actions area */
-.full-list-foot{
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
   gap:12px;
+  align-items:center;
+  justify-content:space-between;
   padding: 12px 18px;
-  border-top: 1px solid rgba(31,26,20,.06);
-  background: rgba(243,231,214,.45);
+  border-bottom: 1px solid rgba(31,26,20,.04);
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(250,246,240,.92));
 }
-.btn-load-more{ padding: 10px 14px; border-radius: 12px; }
+.premium-sticky { position: sticky; top: 0; z-index: 5; }
 
-/* small helpers */
-.full-list-empty{ padding: 28px; color: var(--muted); text-align:center; }
-
-/* hide original search on page (search will live in modal) */
-#bourbon .bar-tools input[type="search"],
-#wine .bar-tools input[type="search"]{ display: none !important; }
-
-/* Add small "search in full list" hint visible on page */
-.full-list-invoker{
-  display:inline-flex;
-  gap:8px;
+/* Search + chips */
+.filter-search{
+  display:flex;
+  gap:10px;
   align-items:center;
   padding: 10px 12px;
-  border-radius: 999px;
-  border:1px solid rgba(31,26,20,.08);
-  background: rgba(255,255,255,.8);
-  cursor:pointer;
+  border-radius: 12px;
+  border: 1px solid rgba(31,26,20,.06);
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,246,240,.98));
+  width: 100%;
+  max-width: 620px;
+}
+.filter-search input{
+  border:0; outline:none; width:100%; font-size:15px; color:var(--espresso); background:transparent;
+}
+.chips{ display:flex; gap:8px; flex-wrap:wrap; }
+.chip{
+  padding: 8px 12px; border-radius: 999px; border:1px solid rgba(31,26,20,.06); background: rgba(255,255,255,.9);
+  cursor:pointer; font-size:13px; transition: transform .12s ease, box-shadow .12s ease;
+}
+.chip:hover{ transform: translateY(-3px); box-shadow: 0 12px 30px rgba(31,26,20,.06); }
+.chip.is-active{ background: linear-gradient(90deg,var(--gold),var(--gold-2)); color: white; border-color: rgba(156,114,66,.35); }
+
+/* main layout */
+.full-list-main{ display:grid; grid-template-columns: 92px 1fr; gap:18px; padding: 14px 18px; }
+
+/* alphabet rail (desktop) */
+.alpha-rail{
+  display:flex;
+  flex-direction: column;
+  gap:8px;
+  align-items:center;
+  padding:6px;
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
+  border-radius: 12px;
+  border:1px solid rgba(31,26,20,.04);
+  box-shadow: 0 10px 30px rgba(31,26,20,.04);
+  overflow:auto;
+}
+.alpha-rail button{
+  width:44px; height:44px; border-radius:10px; border:0; background:transparent; cursor:pointer;
+  display:grid; place-items:center; font-weight:700; color:var(--ink-2); font-size:13px;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+}
+.alpha-rail button:hover{ transform: translateY(-3px); box-shadow: 0 12px 30px rgba(31,26,20,.06); }
+.alpha-rail button.is-active{ background: linear-gradient(180deg, var(--gold), var(--gold-2)); color:#fff; box-shadow: 0 18px 40px rgba(156,114,66,.16); }
+
+/* main scroller */
+.full-list-body{
+  overflow:auto; padding-right:10px;
+  display:block;
+  scroll-behavior: smooth;
+}
+
+/* A–Z group (accordion) */
+.az-group{
+  margin-bottom:12px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid rgba(31,26,20,.04);
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,246,240,.98));
+}
+.az-head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding: 12px 14px; cursor:pointer;
+  transition: background .12s ease;
+}
+.az-head:hover{ background: rgba(156,114,66,.03); }
+.az-head h4{ margin:0; font-family:var(--serif); font-size:15px; color:var(--espresso); }
+.az-list{ padding: 12px 14px; display:grid; gap:10px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+@media (max-width: 820px){ .az-list{ grid-template-columns: 1fr; } }
+
+/* modal row (card) */
+.modal-row{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding: 10px 12px; border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,244,238,.98));
+  border:1px solid rgba(31,26,20,.04);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.modal-row:hover{ transform: translateY(-4px); box-shadow: 0 18px 40px rgba(31,26,20,.06); }
+.modal-row__name{ font-weight:700; color:var(--espresso); font-size:14px; }
+.modal-row__price{ font-family:var(--serif); color:var(--oak); font-size:14px; }
+
+/* footer */
+.full-list-foot.premium{
+  padding: 12px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px;
+  border-top:1px solid rgba(31,26,20,.04); background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
+}
+
+/* responsive: mobile stacks */
+@media (max-width: 980px){
+  .full-list-main{ grid-template-columns: 1fr; }
+  .alpha-rail{ flex-direction:row; width:100%; overflow:auto; padding: 8px; justify-content:flex-start; }
+  .alpha-rail button{ width:36px; height:36px; margin-right:6px; }
+  .full-list-panel{ width: calc(100vw - 20px); max-height: calc(100vh - 30px); border-radius: 14px; }
+}
+
+/* small accessibility */
+.full-list-overlay [tabindex="0"]:focus{ outline: 3px solid rgba(156,114,66,.25); outline-offset: 4px; border-radius: 8px; }
+
+/* ===== Inline condensed lists — 3 cols desktop, 2 cols tablet, 1 col phone ===== */
+.bar-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+  align-items: start;
+}
+.bar-list .bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(31,26,20,.06);
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,240,.95));
+  box-shadow: 0 10px 30px rgba(31,26,20,.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.bar-list .bar-row:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 22px 60px rgba(31,26,20,.10);
+}
+@media (max-width: 1100px){
+  .bar-list { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 640px){
+  .bar-list { grid-template-columns: 1fr; }
+  .bar-list .bar-row { padding: 10px; border-radius: 10px; }
 }
 
 </style>
@@ -3793,65 +3815,72 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   <button class="float-reserve" type="button" data-open-reserve aria-label="Reserve a table">
     <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
   </button>
- <!-- FULL-LIST OVERLAY (bourbon / wine) -->
+
+  <!-- FULL-LIST OVERLAY — PREMIUM / REDESIGNED -->
 <div class="full-list-overlay" id="fullListOverlay" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="full-list-panel" role="document">
-    <div class="full-list-head">
-      <div>
-        <div class="title" id="fullListTitle">Full List</div>
-        <div class="section-lead" id="fullListSubtitle" style="font-size:13px; color:var(--muted); margin-top:6px;"></div>
+  <div class="full-list-panel" role="document" aria-label="Full list panel">
+    <!-- HEAD -->
+    <div class="full-list-head premium">
+      <div class="head-left" style="display:flex;gap:12px;align-items:center;">
+        <span class="brand__mark" style="width:48px;height:48px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(156,114,66,.18);background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(243,231,214,.85));box-shadow:0 12px 30px rgba(31,26,20,.08);">
+          <i class="fa-solid fa-oak-leaf" style="color:var(--oak);"></i>
+        </span>
+        <div>
+          <div id="fullListTitle" style="font-family:var(--serif);font-size:20px;color:var(--espresso);">Full List</div>
+          <div id="fullListSubtitle" style="font-size:13px;color:var(--muted);margin-top:6px;">Search, filter, or jump to letter</div>
+        </div>
       </div>
 
-      <div class="full-list-controls">
-        <button class="btn" type="button" id="fullListClose" aria-label="Close full list">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
+      <div class="head-actions" style="display:flex;gap:10px;align-items:center;">
+        <button class="btn btn--ghost" id="fullListDownloadPDF" title="Download PDF"><i class="fa-solid fa-file-pdf"></i></button>
+        <button class="btn" id="fullListClosePrimary" title="Close full list"><i class="fa-solid fa-check"></i> Done</button>
+        <button class="icon-btn" id="fullListClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="full-list-filters" role="region" aria-label="Full list filters">
-      <div class="filter-search" aria-hidden="false">
+    <!-- FILTERS + SEARCH (sticky top inside the panel on scroll) -->
+    <div class="full-list-filters premium-sticky" role="region" aria-label="Filters and search">
+      <div class="filter-search" aria-hidden="false" style="flex:1;">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         <input id="fullListSearch" type="search" placeholder="Search full list (name, keyword, distillery)...">
       </div>
 
-      <div class="chips" id="fullListChips" aria-hidden="false" style="margin-left:6px;">
-        <!-- chips inserted by JS -->
-      </div>
-
-      <div class="filter-sort" style="margin-left:auto;">
-        <label style="font-size:12px;color:var(--muted);margin-right:8px;">Sort</label>
-        <select id="fullListSort" aria-label="Sort results">
-          <option value="az">A–Z</option>
-          <option value="za">Z–A</option>
-          <option value="price-asc">Price low→high</option>
-          <option value="price-desc">Price high→low</option>
-        </select>
+      <div class="filter-controls" style="display:flex;gap:10px;align-items:center;">
+        <div class="chips" id="fullListChips" aria-hidden="false"></div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <label style="font-size:12px;color:var(--muted);">Sort</label>
+          <select id="fullListSort" aria-label="Sort results">
+            <option value="az">A–Z</option>
+            <option value="za">Z–A</option>
+            <option value="price-asc">Price low→high</option>
+            <option value="price-desc">Price high→low</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <!-- A-Z nav -->
-    <div class="alpha-nav" role="navigation" aria-label="Jump to letter" id="fullListAlpha">
-      <!-- letters inserted by JS -->
+    <!-- MAIN: left A–Z rail (desktop) + right scrollable content -->
+    <div class="full-list-main" style="display:grid;grid-template-columns: 92px 1fr; gap: 18px;">
+      <!-- A–Z vertical rail (desktop) -->
+      <nav class="alpha-rail" id="fullListAlphaRail" aria-label="Alphabet navigation" style="padding: 18px 6px;">
+        <!-- letters rendered by JS -->
+      </nav>
+
+      <!-- Body: scroll area for A–Z groups -->
+      <div class="full-list-body" id="fullListBody" tabindex="0" aria-label="Full list results">
+        <!-- JS populates .az-group blocks here -->
+      </div>
     </div>
 
-    <!-- Content -->
-    <div class="full-list-body" id="fullListBody">
-      <!-- dynamic A–Z sections rendered here by JS -->
-    </div>
-
-    <!-- Footer -->
-    <div class="full-list-foot">
-      <div>
-        <button class="btn btn--ghost btn-load-more" id="fullListLoadMore" type="button" style="display:none;">
-          <i class="fa-solid fa-plus" aria-hidden="true"></i> Load more
-        </button>
+    <!-- FOOTER -->
+    <div class="full-list-foot premium">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <div id="fullListSummary" style="color:var(--muted);font-size:13px;">Showing •</div>
       </div>
 
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button class="btn btn--ghost" id="fullListDownloadPDF" type="button"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Download PDF</button>
-        <button class="btn btn--primary" id="fullListClosePrimary" type="button">Done</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn--ghost" id="fullListLoadMore" type="button" style="display:none;"><i class="fa-solid fa-plus"></i> Load more</button>
+        <button class="btn btn--primary" id="fullListDownloadPDFFooter" type="button"><i class="fa-solid fa-file-arrow-down"></i> Download PDF</button>
       </div>
     </div>
   </div>
@@ -4297,96 +4326,67 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 (() => {
   'use strict';
 
-  /**
-   * Full List Overlay — Controls
-   *
-   * Behavior summary:
-   * - Collapses the inline lists to TOP_N_ON_PAGE items
-   * - data-open-full-list buttons open the overlay for 'bourbon' or 'wine'
-   * - overlay presents filter-first UI: search, chips, sort, alphabet nav, A–Z accordions
-   * - Load more shows the next PAGE_SIZE items
-   * - Download PDF generates a quick list via jsPDF (simple text table)
-   */
-
-  const TOP_N_ON_PAGE = 18;     // initial inline visible items (change me)
-  const PAGE_SIZE = 25;         // items added per "Load more" inside overlay
+  const TOP_N_ON_PAGE = 18;    // inline visible per list
+  const PAGE_SIZE = 25;        // number of items loaded per click in modal
 
   const overlay = document.getElementById('fullListOverlay');
-  const overlayPanel = overlay && overlay.querySelector('.full-list-panel');
-  const fullListTitle = document.getElementById('fullListTitle');
-  const fullListSubtitle = document.getElementById('fullListSubtitle');
-  const fullListBody = document.getElementById('fullListBody');
-  const fullListSearch = document.getElementById('fullListSearch');
-  const fullListChips = document.getElementById('fullListChips');
-  const fullListAlpha = document.getElementById('fullListAlpha');
-  const fullListSort = document.getElementById('fullListSort');
-  const fullListLoadMore = document.getElementById('fullListLoadMore');
-  const fullListDownloadPDF = document.getElementById('fullListDownloadPDF');
-  const fullListClose = document.getElementById('fullListClose');
-  const fullListClosePrimary = document.getElementById('fullListClosePrimary');
+  const bodyEl = document.getElementById('fullListBody');
+  const alphaRail = document.getElementById('fullListAlphaRail');
+  const searchInput = document.getElementById('fullListSearch');
+  const chipsCont = document.getElementById('fullListChips');
+  const sortSelect = document.getElementById('fullListSort');
+  const loadMoreBtn = document.getElementById('fullListLoadMore');
+  const downloadPDFBtns = [document.getElementById('fullListDownloadPDF'), document.getElementById('fullListDownloadPDFFooter')];
+  const closeButtons = [document.getElementById('fullListClose'), document.getElementById('fullListClosePrimary')];
+  const summary = document.getElementById('fullListSummary');
+  const titleEl = document.getElementById('fullListTitle');
+  const subtitleEl = document.getElementById('fullListSubtitle');
 
-  // Find the bourbon & wine list containers on the page
+  // find the on-page lists
   const bourbonContainer = document.querySelector('#bourbon .bar-list');
   const wineContainer = document.querySelector('#wine .bar-list, #wine .wine-full .bar-list');
 
-  // Collect items from an element: expects .bar-row children
   function collectItemsFrom(container) {
     if (!container) return [];
-    const rows = Array.from(container.querySelectorAll('.bar-row'));
-    return rows.map(row => {
-      const name = (row.querySelector('.bar-row__name') || row.querySelector('.item__name') || { textContent: '' }).textContent.trim();
-      const priceRaw = (row.querySelector('.bar-row__price') || { textContent: '' }).textContent.trim();
-      const price = parseFloat((priceRaw.match(/(\d+(\.\d+)?)/) || [])[0]) || null;
-      return { name, priceRaw, price, node: row };
+    return Array.from(container.querySelectorAll('.bar-row')).map(row => {
+      const nameEl = row.querySelector('.bar-row__name') || row.querySelector('.item__name');
+      const priceEl = row.querySelector('.bar-row__price') || row.querySelector('.item__price');
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const priceRaw = priceEl ? priceEl.textContent.trim() : '';
+      const price = (priceRaw && /\d/.test(priceRaw)) ? Number((priceRaw.match(/(\d+(\.\d+)?)/)||[])[0]) : null;
+      return { name, priceRaw, price, sourceRow: row };
     });
   }
 
-  // Reduce inline list to top N (hide the rest but keep in DOM)
-  function collapseInlineList(container, n = TOP_N_ON_PAGE) {
-    if (!container) return;
-    const rows = Array.from(container.querySelectorAll('.bar-row'));
-    rows.forEach((r, i) => {
-      if (i < n) {
-        r.style.display = '';
-        r.setAttribute('aria-hidden', 'false');
-      } else {
-        r.style.display = 'none';
-        r.setAttribute('aria-hidden', 'true');
-      }
-    });
-  }
-
-  // Prepare data sets
-  const dataSets = {
+  // initial dataset
+  const datasets = {
     bourbon: collectItemsFrom(bourbonContainer),
     wine: collectItemsFrom(wineContainer)
   };
 
-  // Collapse inline lists now
-  collapseInlineList(bourbonContainer, TOP_N_ON_PAGE);
-  collapseInlineList(wineContainer, TOP_N_ON_PAGE);
-
-  // Overlay state
-  let currentListKey = null;   // 'bourbon' or 'wine'
-  let currentItems = [];       // items being shown in overlay (master)
-  let pagedIndex = 0;          // how many items have been rendered in "flat" mode
-  let letterOrder = [];        // A-Z keys present
-
-  // Utilities
-  function normalize(s) {
-    return (s || '').toLowerCase().replace(/[’']/g, "'").trim();
-  }
-
-  function buildAlphabetMap(items) {
-    const map = {};
-    items.forEach(it => {
-      let first = (it.name || '').charAt(0).toUpperCase();
-      if (!first || !/^[A-Z]$/.test(first)) first = '#';
-      if (!map[first]) map[first] = [];
-      map[first].push(it);
+  // collapse inline lists into columns (keeps all DOM nodes)
+  function collapseInline(container, n) {
+    if (!container) return;
+    const items = Array.from(container.querySelectorAll('.bar-row'));
+    items.forEach((it, i) => {
+      if (i < n) { it.style.display = ''; it.setAttribute('aria-hidden','false'); }
+      else { it.style.display = 'none'; it.setAttribute('aria-hidden','true'); }
     });
-    // sort letters A-Z then #
-    const keys = Object.keys(map).sort((a,b) => {
+  }
+  collapseInline(bourbonContainer, TOP_N_ON_PAGE);
+  collapseInline(wineContainer, TOP_N_ON_PAGE);
+
+  // ===== helpers =====
+  function normalize(s){ return (s||'').toLowerCase().replace(/[’']/g,"'").trim(); }
+  function buildMap(items){
+    const map = {};
+    items.forEach(it=>{
+      let c = (it.name||'').charAt(0).toUpperCase();
+      if (!/^[A-Z]$/.test(c)) c = '#';
+      map[c] = map[c] || [];
+      map[c].push(it);
+    });
+    const keys = Object.keys(map).sort((a,b)=> {
       if (a === '#') return 1;
       if (b === '#') return -1;
       return a.localeCompare(b);
@@ -4394,340 +4394,247 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
     return { map, keys };
   }
 
-  // Render alphabet nav buttons
-  function renderAlphaNav(keys) {
-    fullListAlpha.innerHTML = '';
-    keys.forEach(k => {
+  // render alphabet rail (desktop)
+  function renderAlphaRail(keys){
+    alphaRail.innerHTML = '';
+    keys.forEach(k=>{
       const btn = document.createElement('button');
       btn.type = 'button';
+      btn.className = '';
       btn.textContent = k;
       btn.dataset.letter = k;
-      btn.addEventListener('click', (e) => {
-        // open that accordion and scroll to it
-        const target = fullListBody.querySelector(`.az-group[data-letter="${k}"]`);
+      btn.title = `Jump to ${k}`;
+      btn.addEventListener('click', ()=> {
+        const target = bodyEl.querySelector(`.az-group[data-letter="${k}"]`);
         if (target) {
-          openSingleAccordion(target);
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          bodyEl.querySelectorAll('.az-group').forEach(g=>g.classList.remove('is-open'));
+          target.classList.add('is-open');
+          // update rail active
+          alphaRail.querySelectorAll('button').forEach(b=>b.classList.toggle('is-active', b.dataset.letter===k));
+          // scroll into view
+          const rect = target.getBoundingClientRect();
+          const containerRect = bodyEl.getBoundingClientRect();
+          bodyEl.scrollTop += rect.top - containerRect.top - 12;
         }
       });
-      fullListAlpha.appendChild(btn);
+      alphaRail.appendChild(btn);
     });
   }
 
-  // Only allow one A–Z section open at a time
-  function openSingleAccordion(groupEl) {
-    const groups = Array.from(fullListBody.querySelectorAll('.az-group'));
-    groups.forEach(g => g.classList.remove('is-open'));
-    if (groupEl) groupEl.classList.add('is-open');
-    // update alpha nav active state
-    const letter = groupEl && groupEl.dataset && groupEl.dataset.letter;
-    Array.from(fullListAlpha.querySelectorAll('button')).forEach(b => {
-      b.classList.toggle('is-active', b.dataset.letter === letter);
+  // create chip buttons
+  const defaultChips = ['All','House Picks','Most Requested','Bourbon','Rye','Scotch','Irish','Tequila'];
+  function renderChips(){
+    chipsCont.innerHTML = '';
+    defaultChips.forEach(ch=>{
+      const b = document.createElement('button');
+      b.type='button';
+      b.className = 'chip' + (ch==='All' ? ' is-active' : '');
+      b.textContent = ch;
+      b.dataset.chip = ch.toLowerCase();
+      b.addEventListener('click', ()=>{
+        chipsCont.querySelectorAll('.chip').forEach(x=>x.classList.remove('is-active'));
+        b.classList.add('is-active');
+        applyFilters(true);
+      });
+      chipsCont.appendChild(b);
     });
   }
 
-  // Render the initial overlay content structure using alphabet map
-  function renderAlphabetSections(mapObj, initialAll = false) {
-    fullListBody.innerHTML = '';
+  // create A–Z groups in body
+  function createGroups(mapObj){
+    bodyEl.innerHTML = '';
     const { map, keys } = mapObj;
-    letterOrder = keys;
-
-    keys.forEach(k => {
-      const group = document.createElement('div');
-      group.className = 'az-group';
-      group.dataset.letter = k;
+    keys.forEach(k=>{
+      const g = document.createElement('section');
+      g.className = 'az-group';
+      g.dataset.letter = k;
 
       const head = document.createElement('div');
       head.className = 'az-head';
-      head.setAttribute('role','button');
       head.tabIndex = 0;
       head.innerHTML = `<h4>${k}</h4><div style="opacity:.6;font-size:13px;">${map[k].length} item${map[k].length>1?'s':''}</div>`;
 
       const list = document.createElement('div');
       list.className = 'az-list';
-      // initially, we will not render all items for performance; we show up to PAGE_SIZE across groups
       list.dataset.rendered = '0';
 
-      // Attach head toggles
-      head.addEventListener('click', () => {
-        const wasOpen = group.classList.contains('is-open');
-        // close all, open this when clicked (or toggle)
-        if (wasOpen) group.classList.remove('is-open');
-        else openSingleAccordion(group);
+      head.addEventListener('click', ()=> {
+        const was = g.classList.contains('is-open');
+        bodyEl.querySelectorAll('.az-group').forEach(x=>x.classList.remove('is-open'));
+        if (!was) g.classList.add('is-open');
       });
-      head.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); head.click(); }
-      });
+      head.addEventListener('keydown', (e)=> { if (e.key==='Enter' || e.key===' ') { e.preventDefault(); head.click(); } });
 
-      group.appendChild(head);
-      group.appendChild(list);
-      fullListBody.appendChild(group);
+      g.appendChild(head);
+      g.appendChild(list);
+      bodyEl.appendChild(g);
     });
-
-    renderAlphaNav(keys);
   }
 
-  // Render items into a specific letter container.
-  // The function supports paged render: it renders the next "count" items across letters if flatPaging true.
-  function renderItemsIntoGroups(mapObj, options = { flatPaging: true, count: PAGE_SIZE, reset: true, filter: null, sort: 'az' }) {
-    const { map, keys } = mapObj;
-    // Flatten matching items (apply filter & sort)
-    let flat = [];
-    keys.forEach(k => {
-      (map[k] || []).forEach(it => flat.push(Object.assign({}, it, { letter: k })));
-    });
-
-    // apply text filter
-    if (options.filter) {
-      const q = normalize(options.filter);
-      flat = flat.filter(it => normalize(it.name).includes(q) || (it.priceRaw && normalize(it.priceRaw).includes(q)));
-    }
-
-    // apply chip/category filter (set on items as .category maybe — we use substring match)
-    if (options.category && options.category !== 'all') {
-      const cat = options.category.toLowerCase();
-      flat = flat.filter(it => normalize(it.name).includes(cat));
-    }
-
-    // sorting
-    if (options.sort === 'az') flat.sort((a,b) => a.name.localeCompare(b.name));
-    else if (options.sort === 'za') flat.sort((a,b) => b.name.localeCompare(a.name));
-    else if (options.sort === 'price-asc') flat.sort((a,b) => (a.price||999999) - (b.price||999999));
-    else if (options.sort === 'price-desc') flat.sort((a,b) => (b.price||-1) - (a.price||-1));
-
-    // if reset true, clear all lists
-    if (options.reset) {
-      Array.from(fullListBody.querySelectorAll('.az-list')).forEach(list => {
-        list.innerHTML = '';
-        list.dataset.rendered = '0';
-      });
-      pagedIndex = 0;
-    }
-
-    // If flatPaging: render next 'count' items from flat starting at pagedIndex.
-    if (options.flatPaging) {
-      const nextChunk = flat.slice(pagedIndex, pagedIndex + options.count);
-      nextChunk.forEach(it => {
-        const targetGroup = fullListBody.querySelector(`.az-group[data-letter="${it.letter}"] .az-list`);
-        if (targetGroup) {
-          const row = createModalRow(it);
-          targetGroup.appendChild(row);
-          // update rendered count
-          targetGroup.dataset.rendered = String(Number(targetGroup.dataset.rendered || 0) + 1);
-        }
-      });
-      pagedIndex += nextChunk.length;
-      // show / hide Load more
-      if (pagedIndex < flat.length) fullListLoadMore.style.display = '';
-      else fullListLoadMore.style.display = 'none';
-      // If nothing rendered show empty
-      if (!flat.length) fullListBody.innerHTML = `<div class="full-list-empty">No results.</div>`;
-    } else {
-      // render all matching into their groups
-      keys.forEach(k => {
-        const list = fullListBody.querySelector(`.az-group[data-letter="${k}"] .az-list`);
-        (map[k] || []).forEach(it => {
-          if (options.filter && !normalize(it.name).includes(normalize(options.filter))) return;
-          const row = createModalRow(it);
-          list.appendChild(row);
-        });
-      });
-      fullListLoadMore.style.display = 'none';
-    }
-  }
-
-  // Create a modal-row element for an item object {name, priceRaw, price}
-  function createModalRow(it) {
+  // create a card element for an item
+  function createCard(it){
     const el = document.createElement('div');
     el.className = 'modal-row';
-    el.innerHTML = `<div class="modal-row__name">${it.name}</div><div class="modal-row__price">${it.priceRaw || ''}</div>`;
+    const n = document.createElement('div'); n.className='modal-row__name'; n.textContent = it.name;
+    const p = document.createElement('div'); p.className='modal-row__price'; p.textContent = it.priceRaw || '';
+    el.appendChild(n); el.appendChild(p);
     return el;
   }
 
-  // Build chips (categories). We use a pragmatic list of common categories for spirits.
-  const defaultChips = ['All','Bourbon','Rye','Scotch','Irish','Tequila','House Picks','Most Requested'];
-
-  function renderChipsFor(listKey) {
-    fullListChips.innerHTML = '';
-    defaultChips.forEach(ch => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'chip';
-      b.textContent = ch;
-      b.dataset.chip = ch.toLowerCase();
-      if (ch === 'All') b.classList.add('is-active');
-      b.addEventListener('click', () => {
-        // toggle active (only one active at a time)
-        Array.from(fullListChips.children).forEach(c => c.classList.remove('is-active'));
-        b.classList.add('is-active');
-        applyFiltersAndRender();
-      });
-      fullListChips.appendChild(b);
+  // paginate and render next chunk across groups (flat)
+  let renderIndex = 0;
+  function renderNextChunk(items, count){
+    const chunk = items.slice(renderIndex, renderIndex + count);
+    chunk.forEach(it=>{
+      const letter = (it.name||'').charAt(0).toUpperCase(); const L = /^[A-Z]$/.test(letter) ? letter : '#';
+      const groupList = bodyEl.querySelector(`.az-group[data-letter="${L}"] .az-list`);
+      if (groupList) groupList.appendChild(createCard(it));
+      // increment rendered counter
     });
+    renderIndex += chunk.length;
+    loadMoreBtn.style.display = renderIndex < items.length ? '' : 'none';
+    summary.textContent = `Showing ${Math.min(renderIndex, items.length)} of ${items.length} items`;
   }
 
-  // Build master map and render overlay for a list key
-  function openOverlayFor(listKey) {
-    if (!overlay) return;
-    currentListKey = listKey;
-    // set title/subtitle
-    fullListTitle.textContent = listKey === 'bourbon' ? 'Bourbon & Whiskeys — Full List' : 'Wine & Champagne — Full List';
-    fullListSubtitle.textContent = listKey === 'bourbon' ?
-      'Search, filter, jump-to-letter, or download our full bourbon list.' :
-      'Search, filter, jump-to-letter, or download our full wine list.';
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.documentElement.classList.add('no-scroll');
+  // apply filters (reset + re-render)
+  function applyFilters(resetScroll){
+    if (!currentKey) return;
+    const q = normalize(searchInput.value || '');
+    const selectedChip = (chipsCont.querySelector('.chip.is-active') || {}).dataset?.chip || 'all';
+    const sort = sortSelect.value;
 
-    // populate currentItems from dataSets
-    currentItems = (dataSets[listKey] || []).map(i => Object.assign({}, i));
-    const alphaMap = buildAlphabetMap(currentItems);
-
-    // render groups
-    renderAlphabetSections(alphaMap);
-    renderChipsFor(listKey);
-    renderItemsIntoGroups(alphaMap, { flatPaging:true, reset:true, count: PAGE_SIZE, filter: null, sort: fullListSort.value });
-    renderAlphaNav(alphaMap.keys);
-
-    // focus search for quick searching
-    setTimeout(()=> fullListSearch.focus(), 80);
-
-    // update PDF button
-    fullListDownloadPDF.dataset.list = listKey;
-  }
-
-  function closeOverlay() {
-    if (!overlay) return;
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('no-scroll');
-    currentListKey = null;
-    fullListBody.innerHTML = '';
-    fullListChips.innerHTML = '';
-    fullListAlpha.innerHTML = '';
-    fullListSearch.value = '';
-    fullListLoadMore.style.display = 'none';
-  }
-
-  // Apply filters: search text, chip, sort. This resets paging.
-  function applyFiltersAndRender() {
-    if (!currentListKey) return;
-    const q = fullListSearch.value.trim();
-    const chipEl = fullListChips.querySelector('.chip.is-active');
-    const chip = chipEl ? chipEl.dataset.chip : 'all';
-    const sort = fullListSort.value;
-
-    const master = (dataSets[currentListKey] || []).map(i => Object.assign({}, i));
-    const alphaMap = buildAlphabetMap(master);
-
-    renderAlphabetSections(alphaMap);
-    renderItemsIntoGroups(alphaMap, { flatPaging:true, reset:true, count: PAGE_SIZE, filter: q, category: chip, sort });
-  }
-
-  // Event handlers
-  document.querySelectorAll('[data-open-full-list]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const listKey = btn.dataset.list || 'bourbon';
-      openOverlayFor(listKey);
-      // set aria-expanded
-      btn.setAttribute('aria-expanded', 'true');
-    });
-  });
-
-  // close buttons
-  [fullListClose, fullListClosePrimary].forEach(b => {
-    if (b) b.addEventListener('click', () => closeOverlay());
-  });
-  // ESC to close overlay
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Escape' || e.key === 'Esc') && overlay && overlay.classList.contains('is-open')) {
-      closeOverlay();
+    // filter items
+    let items = datasets[currentKey].slice(0);
+    if (selectedChip && selectedChip !== 'all') {
+      items = items.filter(it => normalize(it.name).includes(selectedChip));
     }
+    if (q) {
+      items = items.filter(it => normalize(it.name).includes(q) || (it.priceRaw && normalize(it.priceRaw).includes(q)));
+    }
+
+    // sort
+    if (sort === 'az') items.sort((a,b)=>a.name.localeCompare(b.name));
+    else if (sort === 'za') items.sort((a,b)=>b.name.localeCompare(a.name));
+    else if (sort === 'price-asc') items.sort((a,b)=>(a.price||999999)-(b.price||999999));
+    else if (sort === 'price-desc') items.sort((a,b)=>(b.price||-1)-(a.price||-1));
+
+    // build map
+    const mapObj = buildMap(items);
+    createGroups(mapObj);
+    renderAlphaRail(mapObj.keys);
+
+    // reset renderIndex and show first chunk
+    renderIndex = 0;
+    renderNextChunk(items, PAGE_SIZE);
+
+    if (resetScroll) bodyEl.scrollTop = 0;
+  }
+
+  // download PDF (simple)
+  function downloadPDF(listKey){
+    const items = (datasets[listKey] || []).slice(0);
+    if (!items.length) return alert('No items to download.');
+    const { jsPDF } = window.jspdf || {};
+    if (!jsPDF) return alert('PDF library not loaded.');
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    doc.setFontSize(14); doc.text(listKey==='bourbon'?'Bourbon List':'Wine List', 40, 50);
+    doc.setFontSize(11);
+    let y = 72; const lineH = 16;
+    items.forEach((it, idx) => {
+      const text = `${idx+1}. ${it.name} — ${it.priceRaw || ''}`;
+      const lines = doc.splitTextToSize(text, 520);
+      doc.text(lines, 40, y);
+      y += lines.length * lineH;
+      if (y > 720) { doc.addPage(); y = 48; }
+    });
+    doc.save(`${listKey}-list.pdf`);
+  }
+
+  // ===== open/close overlay logic =====
+  let currentKey = null;
+  function openOverlay(key){
+    currentKey = key;
+    titleEl.textContent = key === 'bourbon' ? 'Bourbon & Whiskeys — Full List' : 'Wine & Champagne — Full List';
+    subtitleEl.textContent = key === 'bourbon' ? 'Filter, search, or jump to a letter.' : 'Filter, search, or jump to a letter.';
+    overlay.classList.add('is-open'); overlay.setAttribute('aria-hidden','false');
+    document.documentElement.classList.add('no-scroll');
+    renderChips();
+    applyFilters(true);
+
+    // focus search
+    setTimeout(()=> searchInput.focus(), 80);
+  }
+  function closeOverlay(){
+    overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden','true');
+    document.documentElement.classList.remove('no-scroll');
+    currentKey = null;
+    bodyEl.innerHTML = '';
+  }
+
+  // attach open triggers
+  document.querySelectorAll('[data-open-full-list]').forEach(btn=>{
+    btn.addEventListener('click', ()=> openOverlay(btn.dataset.list || 'bourbon'));
   });
 
-  // search
-  fullListSearch.addEventListener('input', () => {
-    applyFiltersAndRender();
+  // attach close triggers
+  closeButtons.forEach(b=>{
+    if (!b) return;
+    b.addEventListener('click', ()=> closeOverlay());
   });
 
-  // sort change
-  fullListSort.addEventListener('change', () => {
-    applyFiltersAndRender();
+  // download triggers
+  downloadPDFBtns.forEach(b=>{ if (!b) return b.addEventListener('click', ()=> currentKey && downloadPDF(currentKey)); });
+  document.querySelectorAll('[data-download-pdf]').forEach(b=>{
+    b.addEventListener('click', ()=> downloadPDF(b.dataset.list || 'bourbon'));
   });
+  document.getElementById('fullListDownloadPDFFooter')?.addEventListener('click', ()=> currentKey && downloadPDF(currentKey));
+
+  // search / sort / chips events
+  searchInput.addEventListener('input', () => applyFilters(false));
+  sortSelect.addEventListener('change', () => applyFilters(false));
 
   // load more
-  fullListLoadMore.addEventListener('click', () => {
-    if (!currentListKey) return;
-    const master = (dataSets[currentListKey] || []).map(i => Object.assign({}, i));
-    const alphaMap = buildAlphabetMap(master);
-    renderItemsIntoGroups(alphaMap, { flatPaging:true, reset:false, count: PAGE_SIZE, filter: fullListSearch.value, sort: fullListSort.value, category: (fullListChips.querySelector('.chip.is-active')||{}).dataset.chip || 'all' });
+  loadMoreBtn.addEventListener('click', () => {
+    if (!currentKey) return;
+    // regenerate filtered & sorted items then render next chunk
+    const q = normalize(searchInput.value || '');
+    const chip = (chipsCont.querySelector('.chip.is-active') || {}).dataset?.chip || 'all';
+    const sort = sortSelect.value;
+    let items = datasets[currentKey].slice(0);
+    if (chip && chip !== 'all') items = items.filter(it => normalize(it.name).includes(chip));
+    if (q) items = items.filter(it => normalize(it.name).includes(q) || (it.priceRaw && normalize(it.priceRaw).includes(q)));
+    if (sort === 'az') items.sort((a,b)=>a.name.localeCompare(b.name));
+    else if (sort === 'za') items.sort((a,b)=>b.name.localeCompare(a.name));
+    else if (sort === 'price-asc') items.sort((a,b)=>(a.price||999999)-(b.price||999999));
+    else if (sort === 'price-desc') items.sort((a,b)=>(b.price||-1)-(a.price||-1));
+    renderNextChunk(items, PAGE_SIZE);
   });
 
-  // PDF download (simple, text list using jsPDF)
-  function downloadPDFFor(listKey) {
-    const items = (dataSets[listKey] || []).map(i => ({ name: i.name, price: i.priceRaw || '' }));
-    if (!items.length) {
-      alert('No items to download.');
-      return;
-    }
-    // using jsPDF (you have it included)
-    try {
-      const { jsPDF } = window.jspdf || {};
-      if (!jsPDF) {
-        alert('PDF generation library not found.');
-        return;
-      }
-      const doc = new jsPDF({ unit:'pt', format:'letter' });
-      doc.setFontSize(14);
-      doc.text(listKey === 'bourbon' ? 'Full Bourbon List' : 'Full Wine List', 40, 48);
-      doc.setFontSize(11);
-      let y = 72;
-      const lineHeight = 16;
-      items.forEach((it, i) => {
-        const text = `${i+1}. ${it.name} — ${it.price}`;
-        // wrap manually if needed
-        const split = doc.splitTextToSize(text, 520);
-        doc.text(split, 40, y);
-        y += split.length * lineHeight;
-        if (y > 720) { doc.addPage(); y = 48; }
-      });
-      const fileName = `${(listKey==='bourbon'?'bourbon-list':'wine-list')}.pdf`;
-      doc.save(fileName);
-    } catch (err) {
-      console.error(err);
-      alert('Could not generate PDF.');
-    }
-  }
-
-  // wire global download triggers (buttons in sections)
-  document.querySelectorAll('[data-download-pdf]').forEach(b => {
-    b.addEventListener('click', (e) => {
-      const list = b.dataset.list || 'bourbon';
-      downloadPDFFor(list);
-    });
+  // escape key closes overlay
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Escape' || e.key === 'Esc') && overlay.classList.contains('is-open')) closeOverlay();
   });
 
-  // also wire overlay internal PDF button
-  fullListDownloadPDF.addEventListener('click', () => {
-    if (!currentListKey) return;
-    downloadPDFFor(currentListKey);
-  });
-
-  // small accessibility: trap focus inside overlay when open
+  // accessibility: keep focus inside overlay (simple)
   document.addEventListener('focus', (e) => {
     if (!overlay.classList.contains('is-open')) return;
     if (!overlay.contains(e.target)) {
-      // redirect focus to the first focusable element inside overlay
-      const focusables = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (focusables.length) focusables[0].focus();
+      const focusable = overlay.querySelector('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable) focusable.focus();
     }
   }, true);
 
-  // Prevent page search input from showing (we hid via CSS); if you want the inline search to remain, remove that CSS.
-  // Finally, small helper: when overlay opens, set focus to search; done in openOverlayFor
+  // small helper: render initial chips into DOM (called in openOverlay)
+  function renderChips(){ chipsCont.innerHTML=''; defaultChips.forEach(ch=>{
+    const b=document.createElement('button'); b.type='button'; b.className='chip'+(ch==='All'?' is-active':''); b.textContent=ch; b.dataset.chip=ch.toLowerCase();
+    b.addEventListener('click', ()=> { chipsCont.querySelectorAll('.chip').forEach(x=>x.classList.remove('is-active')); b.classList.add('is-active'); applyFilters(true); });
+    chipsCont.appendChild(b);
+  }); }
 
+  // end
 })();
 </script>
+
 
 </body>
 </html>
