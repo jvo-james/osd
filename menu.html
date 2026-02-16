@@ -2109,155 +2109,134 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
         </div>
       </div>
     </nav>
-
-    <!-- Dinner Menu -->
-    <section class="menu-section" id="dinner" aria-label="Dinner menu">
+   
+    <!-- DINNER MENU -->
+  <section id="dinner" class="menu-section" aria-label="Dinner menu">
       <div class="container">
-        <header class="section-head">
-          <p class="eyebrow">
-            <i class="fa-solid fa-plate-wheat" aria-hidden="true"></i>
-            Dinner
-          </p>
-          <h2 class="section-title">Dinner Menu</h2>
-          <p class="section-lead">
-            Please let us know if you have any specific dietary needs.
-            Bread available upon request.
-          </p>
+
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow">
+              <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+              Dinner Menu
+            </p>
+            <h2 class="section-title">Crafted for the table.</h2>
+            <p class="section-lead">
+              Steaks are cooked to order. Seafood is subject to availability. Bread available upon request.
+            </p>
+          </div>
+          <div class="section-head__actions">
+            <button class="btn btn--ghost" type="button" data-open-reserve>
+              <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+              <span>Reserve for Dinner</span>
+            </button>
+          </div>
         </header>
 
-        <!-- Dinner Layout: Left (For the Table + Soup + Salads) / Right (Farm) -->
-        <div class="menu-layout">
-          <!-- For the Table -->
-          <section class="menu-card-xl" aria-label="For the Table">
-            <header class="menu-card-xl__head">
-              <h3 class="menu-card-xl__title">
-                <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-                For the Table
-              </h3>
-              <p class="menu-card-xl__sub">Begin with bold Southern craft and refined comfort.</p>
+        <!-- Small, premium category cards (keeps page short) -->
+        <div class="menu-cats" aria-label="Dinner categories">
+
+          <!-- FOR THE TABLE -->
+          <article class="cat-card" aria-label="For the Table">
+            <header class="cat-card__head">
+              <div class="cat-card__title">
+                <i class="fa-solid fa-plate-wheat" aria-hidden="true"></i>
+                <h3>For the Table</h3>
+              </div>
+              <span class="cat-card__note">Chef favorites</span>
             </header>
 
-            <div class="items">
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Fresh Oysters <span class="item__note">Market Price • Subject to Availability</span></h4>
-                  <div class="item__price">Market</div>
-                </div>
-                <p class="item__desc">½ dozen, cocktail sauce, mignonette, raw horseradish.</p>
-              </article>
+            <div class="cat-card__items" role="list">
+              <div class="item" role="listitem">
+                <div class="item__name">Fresh Oysters</div>
+                <div class="item__meta">½ Dozen • Cocktail Sauce • Mignonette • Raw Horseradish</div>
+                <div class="item__price">Market Price</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Angel Eggs</h4>
-                  <div class="item__price">$19</div>
-                </div>
-                <p class="item__desc">Blackened shrimp, pure maple candied bacon.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Angel Eggs</div>
+                <div class="item__meta">Blackened Shrimp • Pure Maple Candied Bacon</div>
+                <div class="item__price">$19</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">New Orleans Shrimp</h4>
-                  <div class="item__price">$21</div>
-                </div>
-                <p class="item__desc">Cajun and blackened shrimp, black bourbon sauce.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">New Orleans Shrimp</div>
+                <div class="item__meta">Cajun & Blackened Shrimp • Black Bourbon Sauce</div>
+                <div class="item__price">$21</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Lollipop Lamb Chops</h4>
-                  <div class="item__price">$23</div>
-                </div>
-                <p class="item__desc">Blackened and bourbon glazed.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Lollipop Lamb Chops</div>
+                <div class="item__meta">Blackened & Bourbon Glazed</div>
+                <div class="item__price">$23</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Fried Pimento Cheese Sandwiches</h4>
-                  <div class="item__price">$19</div>
-                </div>
-                <p class="item__desc">Pimento cheese, roasted red pepper jelly.</p>
-              </article>
-
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Artichoke Mushrooms</h4>
-                  <div class="item__price">$21</div>
-                </div>
-                <p class="item__desc">Artichoke hearts, parmesan, buttery burgundy wine reduction.</p>
-              </article>
-
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Fried Green Tomatoes</h4>
-                  <div class="item__price">$21</div>
-                </div>
-                <p class="item__desc">Gently breaded and deep fried, crab meat, cajun aioli, feta, celery, tomatoes.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Fried Green Tomatoes</div>
+                <div class="item__meta">Crab Meat • Cajun Aioli • Feta • Celery • Tomatoes</div>
+                <div class="item__price">$21</div>
+              </div>
             </div>
 
-            <figure class="menu-card-xl__photo">
-              <img src="risotto.jpg" alt="Assorted starters and oysters on ice." loading="lazy">
-              <figcaption>
-                <i class="fa-solid fa-crown" aria-hidden="true"></i>
-                A classic beginning—built for sharing.
-              </figcaption>
-            </figure>
-          </section>
+            <footer class="cat-card__foot">
+              <figure class="cat-card__photo" aria-hidden="true">
+                <img src="menusides.jpg" alt="Appetizers arranged on a dark wood table." loading="lazy">
+              </figure>
+              <a class="cat-card__link" href="#dinner-notes">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                See dining notes
+              </a>
+            </footer>
+          </article>
 
-          <!-- Soup + Salads -->
-          <section class="menu-card-xl" aria-label="Soup and Salads">
-            <header class="menu-card-xl__head">
-              <h3 class="menu-card-xl__title">
+          <!-- SOUP + SALADS -->
+          <article class="cat-card" aria-label="Soup & Salads">
+            <header class="cat-card__head">
+              <div class="cat-card__title">
                 <i class="fa-solid fa-leaf" aria-hidden="true"></i>
-                Soup & Salads
-              </h3>
-              <p class="menu-card-xl__sub">Bright, crisp, and thoughtfully dressed.</p>
+                <h3>Soup & Salads</h3>
+              </div>
+              <span class="cat-card__note">Bright & classic</span>
             </header>
 
-            <div class="items">
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Soup — She Crab</h4>
-                  <div class="item__price">$10</div>
-                </div>
-                <p class="item__desc">Creamy and bold.</p>
-              </article>
+            <div class="cat-card__items" role="list">
+              <div class="item" role="listitem">
+                <div class="item__name">Soup She Crab</div>
+                <div class="item__meta">Creamy & Bold</div>
+                <div class="item__price">$10</div>
+              </div>
 
-              <div class="items__divider" role="separator" aria-hidden="true"></div>
+              <div class="item" role="listitem">
+                <div class="item__name">Oaklawn Chopped</div>
+                <div class="item__meta">Mixed Greens • Bacon • Mixed Nuts • Seasonal Fruit • Blackberry Vinaigrette</div>
+                <div class="item__price">$14</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Oaklawn Chopped</h4>
-                  <div class="item__price">$14</div>
-                </div>
-                <p class="item__desc">Mixed greens, tomatoes, red onions, bacon, mixed nuts, seasonal fruit, blackberry vinaigrette.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Chopped Wedge</div>
+                <div class="item__meta">Mixed Greens • Bacon • Bleu Cheese Dressing & Crumbles</div>
+                <div class="item__price">$14</div>
+              </div>
 
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Chopped Wedge</h4>
-                  <div class="item__price">$14</div>
-                </div>
-                <p class="item__desc">Mixed greens, tomatoes, red onions, bacon, bleu cheese dressing and crumbles.</p>
-              </article>
-
-              <article class="item">
-                <div class="item__top">
-                  <h4 class="item__name">Classic Caesar</h4>
-                  <div class="item__price">$12</div>
-                </div>
-                <p class="item__desc">Romaine mix, parmesan, Caesar dressing, croutons.</p>
-              </article>
+              <div class="item" role="listitem">
+                <div class="item__name">Classic Caesar</div>
+                <div class="item__meta">Romaine Mix • Parmesan • Caesar Dressing • Croutons</div>
+                <div class="item__price">$12</div>
+              </div>
             </div>
 
-            <figure class="menu-card-xl__photo">
-              <img src="salad.jpg" alt="Salad bowl with crisp greens and garnish." loading="lazy">
-              <figcaption>
-                <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i>
-                Clean flavors, elegant balance.
-              </figcaption>
-            </figure>
-          </section>
+            <footer class="cat-card__foot">
+              <figure class="cat-card__photo" aria-hidden="true">
+                <img src="salad.jpg" alt="Fresh salad with seasonal toppings." loading="lazy">
+              </figure>
+              <div class="cat-card__tiny">
+                <i class="fa-solid fa-bread-slice" aria-hidden="true"></i>
+                Bread available upon request
+              </div>
+            </footer>
+          </article> 
+      
+
 
           <!-- From the Farm -->
           <section class="menu-card-xl" aria-label="From the Farm" id="farm">
