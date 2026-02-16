@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> April Blossoms</title>
+  <title> Oaklawn Southern Dining </title>
 
   <!-- Font & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -20,2617 +20,3150 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-  /* =========================================================
-   Oaklawn Southern Dining — LIGHT MODE (Lux + Vintage)
-   Mobile-first • Premium typography • Phone-perfect
-   Works with your latest HOME body structure.
+/* =========================================================
+   OAKLAWN — HOME (Luxury + Vintage, Mobile-first)
+   Notes:
+   - This CSS assumes Font Awesome + your Google Fonts are loaded in <head>.
+   - Designed for phone-first: clean, breathable, not “doing too much”.
+   - Uses subtle grain, soft borders, and restrained motion readiness.
    ========================================================= */
 
-/* ---------------------------
-   Modern Reset
---------------------------- */
-*,
-*::before,
-*::after { box-sizing: border-box; }
-
-html { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; }
-body { margin: 0; min-height: 100vh; }
-img, video { display:block; max-width:100%; height:auto; }
-button, input, select, textarea { font: inherit; }
-a { color: inherit; text-decoration: none; }
-ul, ol { list-style:none; padding:0; margin:0; }
-h1,h2,h3,h4,p,figure { margin:0; }
-:focus { outline: none; }
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after { transition-duration: .001ms !important; animation-duration: .001ms !important; }
-}
-
-/* ---------------------------
-   Theme Tokens (Light Vintage Luxury)
---------------------------- */
+/* ---------- Design Tokens ---------- */
 :root{
-  /* Surfaces */
-  --bg: #fbf7f0;      /* parchment */
-  --bg-2:#f6efe3;     /* warm ivory */
-  --paper:#fffaf2;    /* elegant paper */
-  --surface: rgba(255,255,255,0.82);
-  --surface-2: rgba(255,255,255,0.92);
+  /* Vintage luxury palette (light mode) */
+  --bg: #fbf6ee;          /* parchment */
+  --bg2:#f5efe4;          /* warm ivory */
+  --paper:#fffaf1;        /* card base */
+  --ink:#181511;          /* near-black */
+  --muted:#51483f;        /* warm grey-brown */
+  --muted2:#7b6f62;       /* lighter warm */
+  --line: rgba(24,21,17,.12);
+  --line2: rgba(24,21,17,.18);
 
-  /* Ink */
-  --ink: #171513;     /* warm near-black */
-  --ink-2:#2a2622;
-  --muted:#5d554d;
-  --subtle:#7a726a;
+  /* Accent (muted gold + oxblood) */
+  --gold:#b08a3b;
+  --gold2:#8a6a2c;
+  --wine:#6b1f2a;
+  --wine2:#4f1620;
 
-  /* Vintage accents */
-  --gold: #b08a4b;    /* brass */
-  --gold-2:#d3b06f;   /* highlight */
-  --wine:#7b2a2f;     /* deep vintage red */
-  --olive:#3f4b3b;
-
-  /* Lines & shadows */
-  --stroke: rgba(23,21,19,0.10);
-  --stroke-2: rgba(23,21,19,0.16);
-  --shadow: 0 18px 50px rgba(23,21,19,0.12);
-  --shadow-2: 0 10px 28px rgba(23,21,19,0.10);
-  --glow: 0 0 0 1px rgba(176,138,75,0.30), 0 20px 55px rgba(176,138,75,0.10);
+  /* Shadows (soft, premium) */
+  --sh1: 0 8px 24px rgba(24,21,17,.10);
+  --sh2: 0 14px 46px rgba(24,21,17,.14);
+  --sh3: 0 24px 80px rgba(24,21,17,.18);
 
   /* Radius */
-  --r-sm: 14px;
-  --r-md: 18px;
-  --r-lg: 26px;
+  --r12: 12px;
+  --r16: 16px;
+  --r22: 22px;
+  --r28: 28px;
 
-  /* Layout */
+  /* Spacing */
   --container: 1120px;
   --pad: 18px;
-  --section-y: 54px;
+  --pad2: 22px;
+  --pad3: 28px;
+  --gap: 14px;
+  --gap2: 18px;
+  --gap3: 24px;
 
-  /* Typography */
-  --serif: "Playfair Display","Cormorant Garamond","Georgia",serif;
-  --sans: "Inter","Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  /* Type */
+  --serif: "Playfair Display", "Georgia", serif;
+  --sans: "Inter", "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
-  --h1: clamp(2.05rem, 7vw, 3.15rem);
-  --h2: clamp(1.55rem, 4.9vw, 2.35rem);
-  --h3: clamp(1.12rem, 3.2vw, 1.35rem);
-  --p:  clamp(0.98rem, 2.7vw, 1.05rem);
+  /* Sizes */
+  --h1: clamp(2.05rem, 4.5vw, 3.15rem);
+  --h2: clamp(1.55rem, 3.4vw, 2.35rem);
+  --h3: clamp(1.1rem, 2.2vw, 1.35rem);
+  --lead: clamp(1.02rem, 1.8vw, 1.18rem);
+
+  /* Effects */
+  --ring: 0 0 0 3px rgba(176,138,59,.24);
 }
 
-/* Body light theme */
-body.theme-lux.theme-light{
-  color: var(--ink);
+/* ---------- Base ---------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body.oaklawn{
+  margin:0;
+  color:var(--ink);
+  background: var(--bg);
   font-family: var(--sans);
-  background:
-    radial-gradient(900px 480px at 75% -10%, rgba(176,138,75,0.18), transparent 62%),
-    radial-gradient(700px 460px at 10% 10%, rgba(123,42,47,0.10), transparent 60%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 70%, var(--bg) 100%);
-  position: relative;
-  overflow-x: hidden;
+  line-height:1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
-/* Subtle paper grain (very light) */
-body.theme-lux.theme-light::before{
+/* Subtle paper grain (vintage) */
+body.oaklawn::before{
   content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(23,21,19,0.05), transparent 55%),
-    radial-gradient(circle at 80% 20%, rgba(23,21,19,0.03), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(23,21,19,0.015) 0 1px, transparent 1px 3px);
-  opacity: 0.25;
-  mix-blend-mode: multiply;
-  z-index: 0;
+  position:fixed; inset:0;
+  pointer-events:none;
+  opacity:.14;
+  mix-blend-mode:multiply;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(107,31,42,.06), transparent 40%),
+    radial-gradient(circle at 70% 20%, rgba(176,138,59,.07), transparent 45%),
+    radial-gradient(circle at 40% 70%, rgba(24,21,17,.05), transparent 45%),
+    url("images/grain.png");
+  background-size: cover, cover, cover, 420px 420px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  z-index:0;
 }
-header, main, footer, section { position: relative; z-index: 1; }
-
-/* Lock scroll for modals/drawer */
-.is-locked { overflow: hidden; }
-
-/* ---------------------------
-   Accessibility utilities
---------------------------- */
-.sr-only{
-  position:absolute!important;
-  width:1px;height:1px;
-  padding:0;margin:-1px;
-  overflow:hidden;clip:rect(0,0,0,0);
-  white-space:nowrap;border:0;
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
 }
+
+img, video{
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+a{
+  color:inherit;
+  text-decoration:none;
+}
+a:hover{opacity:.95}
+button, input, select, textarea{
+  font:inherit;
+}
+button{
+  cursor:pointer;
+  background:none;
+  border:none;
+  color:inherit;
+}
+:focus-visible{
+  outline:none;
+  box-shadow: var(--ring);
+  border-radius: 10px;
+}
+
+.container{
+  width:min(var(--container), 100% - (var(--pad) * 2));
+  margin-inline:auto;
+  position:relative;
+  z-index:1;
+}
+
+/* ---------- Skip Link ---------- */
 .skip-link{
-  position:absolute;
-  left: 12px;
-  top: 12px;
-  transform: translateY(-220%);
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(176,138,75,0.28);
-  color: var(--ink);
-  padding: 10px 12px;
-  border-radius: 12px;
-  box-shadow: var(--shadow-2);
+  position:absolute; left:12px; top:12px;
+  transform: translateY(-160%);
+  background: var(--paper);
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  padding: 10px 14px;
+  box-shadow: var(--sh1);
   z-index: 9999;
 }
-.skip-link:focus{ transform: translateY(0); box-shadow: var(--glow); }
+.skip-link:focus{transform: translateY(0)}
 
-/* Tap polish */
-a, button { -webkit-tap-highlight-color: transparent; }
-.btn, .icon-btn, .chip, .nav__link, .drawer__link { touch-action: manipulation; }
-input, select, textarea { font-size: 16px; } /* iOS zoom prevention */
-
-/* ---------------------------
-   Layout blocks
---------------------------- */
-.section{ padding: var(--section-y) 0; }
-.section__inner{
-  width: min(var(--container), 100%);
-  margin: 0 auto;
-  padding: 0 var(--pad);
-}
-.section__header{ margin-bottom: 18px; }
-.section__header--split{ display:grid; gap: 14px; }
-.section__eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap: 10px;
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(123,42,47,0.85);
-  font-weight: 750;
-}
-.section__title{
-  margin-top: 10px;
-  font-family: var(--serif);
-  font-size: var(--h2);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-}
-.section__lead{
-  margin-top: 12px;
-  font-size: var(--p);
-  line-height: 1.75;
-  color: var(--muted);
-  max-width: 70ch;
-}
-
-/* Vintage divider between sections */
-.section + .section{ position: relative; }
-.section + .section::before{
-  content:"";
-  position:absolute;
-  top: 0;
-  left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(176,138,75,0.35), transparent);
-}
-
-/* Split header on desktop */
-@media (min-width: 860px){
-  :root{ --pad: 24px; --section-y: 84px; }
-  .section__header--split{
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: start;
-  }
-}
-
-/* ---------------------------
-   Topbar
---------------------------- */
+/* ---------- Topbar ---------- */
 .topbar{
-  background: rgba(255,255,255,0.55);
-  border-bottom: 1px solid var(--stroke);
-  backdrop-filter: blur(14px);
+  position:sticky;
+  top:0;
+  z-index:80;
+  background: rgba(251,246,238,.80);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
 .topbar__inner{
-  width: min(var(--container), 100%);
-  margin: 0 auto;
-  padding: 10px var(--pad);
   display:flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 10px 0;
 }
 .topbar__left, .topbar__right{
   display:flex;
+  align-items:center;
   gap: 10px;
-  align-items:center;
-  flex-wrap: wrap;
+  flex-wrap:wrap;
+  color: var(--muted);
+  font-size:.92rem;
 }
-.topbar__badge{
-  display:inline-flex;
-  align-items:center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(176,138,75,0.12);
-  border: 1px solid rgba(176,138,75,0.22);
-  color: var(--ink);
-  box-shadow: 0 12px 30px rgba(23,21,19,0.08);
-}
-.topbar__sep{ color: rgba(23,21,19,0.35); }
-.topbar__note{ color: rgba(23,21,19,0.62); font-size: 0.92rem; }
+.topbar__left i, .topbar__right i{color: var(--gold2)}
+.dot{opacity:.55}
 .topbar__link{
-  display:inline-flex;
-  align-items:center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 12px;
-  color: rgba(23,21,19,0.72);
+  display:inline-flex; align-items:center; gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
 }
-.topbar__link:hover{
-  background: rgba(255,255,255,0.75);
-  border: 1px solid rgba(176,138,75,0.18);
+.topbar__link:hover{border-color: var(--line2); background: rgba(255,250,241,.6)}
+.topbar__btn{
+  display:inline-flex; align-items:center; gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,59,.28);
+  background: linear-gradient(180deg, rgba(176,138,59,.10), rgba(176,138,59,.06));
   color: var(--ink);
+}
+.topbar__btn:hover{box-shadow: var(--sh1)}
+@media (max-width: 860px){
+  .topbar__left .dot{display:none}
+  .topbar__left span:nth-child(2){display:none} /* hide address text chunk for compact */
 }
 
-/* ---------------------------
-   Header
---------------------------- */
-.header.header--light{
-  position: sticky;
-  top: 0;
-  z-index: 2000;
-  background: rgba(251,247,240,0.78);
-  border-bottom: 1px solid var(--stroke);
-  backdrop-filter: blur(16px);
-  transition: box-shadow .25s ease, background .25s ease;
-}
-.header.is-scrolled{
-  background: rgba(251,247,240,0.90);
-  box-shadow: 0 16px 45px rgba(23,21,19,0.12);
+/* ---------- Header ---------- */
+.header{
+  position:sticky;
+  top: 46px;
+  z-index:75;
+  background: rgba(251,246,238,.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
 .header__inner{
-  width: min(var(--container), 100%);
-  margin: 0 auto;
-  padding: 12px var(--pad);
-  display:grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
+  display:flex;
   align-items:center;
+  justify-content:space-between;
+  gap: 14px;
+  padding: 12px 0;
 }
 
 /* Brand */
 .brand{
-  display:inline-flex;
+  display:flex;
   align-items:center;
-  gap: 10px;
-  min-width: 190px;
+  gap: 12px;
+  min-width: 180px;
 }
 .brand__mark{
-  width: 44px; height: 44px;
-  border-radius: 16px;
+  width: 42px; height: 42px;
   display:grid; place-items:center;
+  border-radius: 999px;
   background:
-    radial-gradient(22px 22px at 30% 25%, rgba(255,255,255,0.9), rgba(255,255,255,0.2)),
-    linear-gradient(145deg, rgba(176,138,75,0.22), rgba(255,255,255,0.65));
-  border: 1px solid rgba(176,138,75,0.30);
-  box-shadow: var(--glow);
-  color: rgba(23,21,19,0.90);
+    radial-gradient(circle at 30% 30%, rgba(176,138,59,.22), rgba(176,138,59,.08) 40%, rgba(255,250,241,.6) 70%),
+    linear-gradient(180deg, rgba(255,250,241,.9), rgba(245,239,228,.65));
+  border: 1px solid rgba(176,138,59,.35);
+  box-shadow: 0 10px 24px rgba(24,21,17,.10);
 }
-.brand__type{ line-height:1.05; display:grid; }
+.brand__mark i{
+  color: var(--gold2);
+  font-size: 1.05rem;
+}
+.brand__text{display:flex; flex-direction:column; line-height:1}
 .brand__name{
   font-family: var(--serif);
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.02rem;
 }
 .brand__sub{
-  font-size: 0.84rem;
-  letter-spacing: 0.14em;
+  color: var(--muted2);
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(23,21,19,0.58);
+  font-size: .72rem;
+  margin-top: 3px;
 }
 
 /* Nav */
-.nav__toggle{
-  width: 44px; height: 44px;
-  border-radius: 16px;
-  border: 1px solid var(--stroke-2);
-  background: rgba(255,255,255,0.70);
-  color: rgba(23,21,19,0.88);
-  box-shadow: 0 12px 28px rgba(23,21,19,0.10);
+.nav{
+  display:flex;
+  align-items:center;
+  gap: 14px;
 }
-.nav__toggle:hover{ background: rgba(255,255,255,0.90); }
-.nav__toggle:focus-visible{ box-shadow: var(--glow); }
-
-.nav__list{ display:none; gap: 10px; justify-content:center; align-items:center; }
 .nav__link{
+  position:relative;
+  font-size:.95rem;
+  color: var(--muted);
   padding: 10px 10px;
-  border-radius: 14px;
-  color: rgba(23,21,19,0.72);
-  font-size: 0.95rem;
-  position: relative;
-  border: 1px solid transparent;
+  border-radius: 999px;
 }
 .nav__link:hover{
-  background: rgba(255,255,255,0.78);
-  border-color: rgba(176,138,75,0.18);
+  background: rgba(255,250,241,.65);
   color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 9px 9px; /* keep size same after border */
 }
-.nav__link.is-active{
-  background: rgba(176,138,75,0.14);
-  border-color: rgba(176,138,75,0.26);
-  box-shadow: 0 12px 30px rgba(176,138,75,0.12);
-  color: var(--ink);
+.nav__link--gift i{color: var(--gold2); margin-right: 8px}
+.nav__cta{
+  display:inline-flex; align-items:center; gap: 9px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(107,31,42,.10), rgba(107,31,42,.06));
+  border: 1px solid rgba(107,31,42,.22);
+  box-shadow: var(--sh1);
 }
+.nav__cta i{color: var(--wine)}
+.nav__cta:hover{box-shadow: var(--sh2)}
 
-@media (min-width: 1020px){
-  .nav__toggle{ display:none; }
-  .nav__list{ display:inline-flex; }
-}
-
-/* Actions */
+/* Header actions (mobile icons) */
 .header__actions{
-  display:inline-flex;
-  gap: 10px;
+  display:none;
   align-items:center;
-  justify-content: flex-end;
+  gap: 10px;
 }
 .icon-btn{
-  width: 42px; height: 42px;
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,250,241,.7);
   display:grid; place-items:center;
-  border-radius: 16px;
-  border: 1px solid var(--stroke-2);
-  background: rgba(255,255,255,0.70);
-  color: rgba(23,21,19,0.86);
-  box-shadow: 0 12px 26px rgba(23,21,19,0.10);
-  transition: transform .15s ease, background .2s ease;
+  box-shadow: 0 8px 18px rgba(24,21,17,.08);
 }
-.icon-btn:hover{ background: rgba(255,255,255,0.92); transform: translateY(-1px); }
-.icon-btn:active{ transform: translateY(0); }
+.icon-btn i{color: var(--gold2)}
+.icon-btn--menu i{color: var(--ink)}
+.icon-btn:hover{box-shadow: var(--sh2)}
 
-/* Buttons */
+@media (max-width: 980px){
+  .nav{display:none}
+  .header__actions{display:flex}
+}
+
+/* ---------- Drawer (Mobile Nav) ---------- */
+.drawer{
+  position:fixed; inset:0;
+  z-index:120;
+  display:none;
+}
+.drawer.is-open{display:block}
+.drawer__backdrop{
+  position:absolute; inset:0;
+  background: rgba(24,21,17,.42);
+}
+.drawer__panel{
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  width: min(420px, calc(100% - 20px));
+  max-height: calc(100vh - 20px);
+  overflow:auto;
+  background:
+    linear-gradient(180deg, rgba(255,250,241,.92), rgba(245,239,228,.92));
+  border: 1px solid rgba(24,21,17,.14);
+  border-radius: var(--r22);
+  box-shadow: var(--sh3);
+  padding: 14px;
+}
+.drawer__head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 6px 6px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.drawer__title{
+  font-family: var(--serif);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: .9rem;
+}
+.drawer__links{
+  display:grid;
+  gap: 10px;
+  padding: 12px 6px;
+}
+.drawer__link{
+  display:flex; align-items:center; gap: 12px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,250,241,.7);
+}
+.drawer__link i{color: var(--gold2)}
+.drawer__link:hover{box-shadow: var(--sh1)}
+.drawer__cta{
+  display:grid;
+  gap: 10px;
+  padding: 10px 6px 8px;
+}
+.drawer__fineprint{
+  color: var(--muted2);
+  font-size: .9rem;
+  padding: 8px 10px 6px;
+}
+
+/* ---------- Buttons ---------- */
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap: 10px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  border: 1px solid transparent;
-  font-weight: 780;
-  letter-spacing: 0.01em;
-  user-select:none;
-  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  border-radius: 999px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,250,241,.75);
+  box-shadow: 0 10px 22px rgba(24,21,17,.08);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  white-space: nowrap;
 }
-.btn--full{ width: 100%; }
-.btn:active{ transform: translateY(1px); }
-.btn:focus-visible{ box-shadow: var(--glow); }
-
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--sh2);
+}
 .btn--primary{
-  background: linear-gradient(135deg, var(--gold-2), var(--gold));
-  color: #1c160f;
-  border-color: rgba(176,138,75,0.45);
-  box-shadow: 0 16px 40px rgba(176,138,75,0.22);
+  border-color: rgba(176,138,59,.35);
+  background:
+    linear-gradient(180deg, rgba(176,138,59,.18), rgba(176,138,59,.08)),
+    radial-gradient(circle at 20% 0%, rgba(255,250,241,.65), rgba(255,250,241,.0) 60%);
 }
-.btn--primary:hover{ transform: translateY(-1px); box-shadow: 0 18px 48px rgba(176,138,75,0.26); }
-
-.btn--secondary{
-  background: rgba(255,255,255,0.82);
-  border-color: rgba(23,21,19,0.14);
-  color: rgba(23,21,19,0.88);
-  box-shadow: 0 14px 36px rgba(23,21,19,0.10);
-}
-.btn--secondary:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.94); }
-
+.btn--primary i{color: var(--gold2)}
 .btn--ghost{
-  background: rgba(123,42,47,0.08);
-  border-color: rgba(123,42,47,0.18);
-  color: rgba(23,21,19,0.88);
+  background: rgba(255,250,241,.45);
+}
+.btn--xl{
+  padding: 13px 16px;
+  font-size: 1.02rem;
 }
 
-@media (max-width: 420px){
-  .header__actions .icon-btn{ display:none; } /* keep clean on phones */
-  .brand{ min-width: 160px; }
-}
+/* ---------- Sections ---------- */
+.main{position:relative; z-index:1}
 
-/* ---------------------------
-   Drawer (Mobile)
---------------------------- */
-.drawer{ position: fixed; inset: 0; display:none; z-index: 5000; }
-.drawer.is-open{ display:block; }
-.drawer__backdrop{
-  position:absolute; inset:0;
-  background: rgba(23,21,19,0.45);
-  backdrop-filter: blur(8px);
+.section-head{
+  margin-bottom: 16px;
 }
-.drawer__panel{
-  position:absolute;
-  left: 10px; right: 10px; top: 10px;
-  max-width: 560px;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(176,138,75,0.24);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow);
-  overflow:hidden;
-}
-.drawer__header{
+.section-head--split{
   display:flex;
-  justify-content: space-between;
-  align-items:center;
-  padding: 14px 14px;
-  border-bottom: 1px solid rgba(23,21,19,0.10);
-  background: linear-gradient(180deg, rgba(176,138,75,0.10), rgba(255,255,255,0.55));
+  align-items:flex-end;
+  justify-content:space-between;
+  gap: 14px;
+  flex-wrap: wrap;
 }
-.drawer__title{
-  font-family: var(--serif);
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
-}
-.drawer__close{
-  width: 44px; height: 44px;
-  border-radius: 16px;
-  border: 1px solid rgba(23,21,19,0.14);
-  background: rgba(255,255,255,0.75);
-  color: rgba(23,21,19,0.86);
-}
-.drawer__close:hover{ background: rgba(255,255,255,0.95); }
-
-.drawer__body{ padding: 14px; display:grid; gap: 10px; }
-.drawer__link{
-  display:flex;
+.eyebrow{
+  margin:0 0 8px;
+  display:inline-flex;
   align-items:center;
   gap: 10px;
-  padding: 12px 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.72);
-  color: rgba(23,21,19,0.86);
+  color: var(--muted2);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: .78rem;
 }
-.drawer__link:hover{
-  background: rgba(255,255,255,0.95);
-  border-color: rgba(176,138,75,0.18);
+.eyebrow i{color: var(--gold2)}
+.section-title{
+  margin:0;
+  font-family: var(--serif);
+  font-size: var(--h2);
+  line-height:1.15;
+  letter-spacing: .01em;
 }
-.drawer__link.is-active{
-  background: rgba(176,138,75,0.14);
-  border-color: rgba(176,138,75,0.26);
+.section-lead{
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: var(--lead);
+  max-width: 62ch;
 }
-.drawer__divider{
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(176,138,75,0.35), transparent);
-  margin: 8px 0;
-}
-.drawer__cta{ display:grid; gap: 10px; margin-top: 6px; }
-.drawer__meta{
-  margin-top: 6px;
-  border-radius: 18px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(176,138,75,0.08);
-  padding: 12px;
-}
-.meta-row{ display:flex; align-items:center; gap: 10px; color: rgba(23,21,19,0.78); }
-.meta-row + .meta-row{ margin-top: 8px; }
 
-/* ---------------------------
-   Hero (Light Cinematic)
---------------------------- */
-.hero.hero--light{
-  position: relative;
-  min-height: calc(100svh - 86px);
-  display:grid;
-  place-items:center;
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
   overflow:hidden;
-  border-bottom: 1px solid var(--stroke);
+  border-bottom: 1px solid var(--line);
 }
-.hero__media{ position:absolute; inset:0; }
+.hero__media{
+  position:absolute; inset:0;
+  z-index:0;
+}
 .hero__video{
   width:100%;
   height:100%;
-  object-fit: cover;
-  filter: saturate(1.05) contrast(1.02) brightness(0.92);
+  object-fit:cover;
+  filter: saturate(.95) contrast(1.03) brightness(.75);
   transform: scale(1.02);
 }
-.hero__overlay.hero__overlay--light{
+.hero::after{
+  content:"";
   position:absolute; inset:0;
   background:
-    radial-gradient(900px 520px at 70% 10%, rgba(255,255,255,0.72), rgba(255,255,255,0.0) 60%),
-    linear-gradient(180deg, rgba(251,247,240,0.10) 0%, rgba(251,247,240,0.35) 35%, rgba(251,247,240,0.92) 100%);
+    linear-gradient(180deg, rgba(24,21,17,.58), rgba(24,21,17,.22) 40%, rgba(251,246,238,.88) 100%),
+    radial-gradient(circle at 20% 20%, rgba(176,138,59,.18), transparent 45%),
+    radial-gradient(circle at 80% 25%, rgba(107,31,42,.14), transparent 50%);
+  z-index:0;
 }
 .hero__content{
-  width: min(var(--container), 100%);
-  margin: 0 auto;
-  padding: 86px var(--pad) 66px;
-  display:grid;
-  gap: 16px;
-  align-items:start;
+  position:relative;
+  z-index:1;
+  padding: 44px 0 18px;
 }
 .hero__kicker{
-  width: fit-content;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.kicker{
   display:inline-flex;
   align-items:center;
   gap: 10px;
   padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(176,138,75,0.24);
-  background: rgba(255,255,255,0.72);
-  color: rgba(23,21,19,0.82);
-  box-shadow: var(--shadow-2);
+  border: 1px solid rgba(255,250,241,.22);
+  background: rgba(24,21,17,.28);
+  color: rgba(255,250,241,.92);
+  font-size: .92rem;
 }
+.kicker i{color: rgba(176,138,59,.95)}
 .hero__title{
+  margin: 10px 0 0;
   font-family: var(--serif);
   font-size: var(--h1);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
+  line-height: 1.05;
+  letter-spacing: .01em;
+  color: rgba(255,250,241,.98);
   max-width: 18ch;
 }
-.hero__subtitle{
-  color: rgba(23,21,19,0.70);
-  font-size: var(--p);
-  line-height: 1.75;
-  max-width: 62ch;
+.hero__title .accent{
+  color: rgba(255,250,241,.98);
+  text-shadow: 0 1px 0 rgba(0,0,0,.35);
+  position:relative;
 }
-.hero__cta{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
-.hero__highlights{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-.pill{
+.hero__lead{
+  margin: 12px 0 0;
+  color: rgba(255,250,241,.88);
+  font-size: var(--lead);
+  max-width: 60ch;
+}
+.hero__actions{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.hero__meta{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.meta-chip{
   display:inline-flex;
   align-items:center;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 9px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(23,21,19,0.12);
-  background: rgba(255,255,255,0.75);
-  color: rgba(23,21,19,0.78);
-  box-shadow: 0 12px 30px rgba(23,21,19,0.08);
+  border: 1px solid rgba(255,250,241,.20);
+  background: rgba(24,21,17,.24);
+  color: rgba(255,250,241,.88);
+  font-size: .92rem;
 }
-.hero__scroll{
+.meta-chip i{color: rgba(176,138,59,.92)}
+
+/* Hero gallery cards */
+.hero__gallery{
+  position:relative;
+  z-index:1;
+  display:grid;
+  gap: 12px;
+  width:min(var(--container), 100% - (var(--pad) * 2));
+  margin: 14px auto 26px;
+  grid-template-columns: 1fr 1fr;
+}
+.hero-card{
+  margin:0;
+  border-radius: var(--r16);
+  overflow:hidden;
+  border: 1px solid rgba(255,250,241,.20);
+  background: rgba(255,250,241,.06);
+  box-shadow: var(--sh2);
+  position:relative;
+}
+.hero-card img{
+  aspect-ratio: 4/3;
+  object-fit:cover;
+  filter: saturate(.98) contrast(1.02);
+}
+.hero-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, transparent, rgba(24,21,17,.46));
+}
+.hero-card figcaption{
   position:absolute;
-  left: 50%;
-  bottom: 16px;
-  transform: translateX(-50%);
-  display:inline-flex;
-  align-items:center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(23,21,19,0.12);
-  background: rgba(255,255,255,0.78);
-  color: rgba(23,21,19,0.78);
-  box-shadow: var(--shadow-2);
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  color: rgba(255,250,241,.95);
+  display:flex;
+  flex-direction:column;
+  gap: 2px;
 }
-.hero__scroll:hover{ background: rgba(255,255,255,0.92); }
-.hero__scroll-text{
-  font-size: 0.86rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.hero-card__title{
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  letter-spacing: .02em;
+}
+.hero-card__sub{
+  color: rgba(255,250,241,.82);
+  font-size: .92rem;
 }
 
-/* ---------------------------
-   Meta chips (used in Experience + Reservations)
---------------------------- */
-.meta-chip{
+@media (min-width: 980px){
+  .hero__content{
+    padding: 66px 0 18px;
+  }
+  .hero__gallery{
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 20px;
+  }
+  .hero-card img{aspect-ratio: 3/4}
+}
+
+/* ---------- Motto Strip ---------- */
+.motto{
+  background: linear-gradient(180deg, var(--bg2), var(--bg));
+  border-bottom: 1px solid var(--line);
+}
+.motto__inner{
   display:flex;
   align-items:center;
+  justify-content:center;
   gap: 10px;
-  padding: 10px 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.78);
-  color: rgba(23,21,19,0.78);
-  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+  flex-wrap: wrap;
+  padding: 14px 0;
+  color: var(--muted2);
 }
+.motto__item{
+  display:inline-flex; align-items:center; gap: 8px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  font-size: .78rem;
+}
+.motto__item i{color: var(--gold2)}
+.motto__sep{opacity:.55}
 
-/* ---------------------------
-   Experience
---------------------------- */
-.experience__aside{ display:grid; gap: 10px; }
+/* ---------- Experience ---------- */
+.experience{
+  padding: 34px 0 12px;
+}
 .experience__grid{
   display:grid;
-  gap: 12px;
+  gap: var(--gap3);
+}
+.experience__copy{
+  background: rgba(255,250,241,.62);
+  border: 1px solid var(--line);
+  border-radius: var(--r22);
+  padding: 18px;
+  box-shadow: var(--sh1);
+}
+.pillars{
   margin-top: 18px;
-}
-.card.card--feature{
-  background: rgba(255,255,255,0.80);
-  border: 1px solid rgba(23,21,19,0.10);
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: var(--shadow-2);
-  position: relative;
-  overflow:hidden;
-}
-.card.card--feature::before{
-  content:"";
-  position:absolute; inset:-1px;
-  background: radial-gradient(420px 220px at 15% 0%, rgba(176,138,75,0.18), transparent 70%);
-  pointer-events:none;
-}
-.card__icon{
-  width: 48px; height: 48px;
-  border-radius: 18px;
-  display:grid; place-items:center;
-  background: rgba(176,138,75,0.14);
-  border: 1px solid rgba(176,138,75,0.22);
-  box-shadow: var(--glow);
-  color: rgba(23,21,19,0.88);
-}
-.card__title{
-  margin-top: 12px;
-  font-size: var(--h3);
-  font-weight: 900;
-  letter-spacing: -0.01em;
-}
-.card__text{
-  margin-top: 8px;
-  color: rgba(23,21,19,0.66);
-  line-height: 1.7;
-  font-size: var(--p);
-}
-
-.experience__media{
   display:grid;
   gap: 12px;
-  margin-top: 18px;
 }
-.media{
-  border-radius: 22px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.84);
-  overflow:hidden;
-  box-shadow: var(--shadow-2);
+.pillar{
+  border: 1px solid var(--line);
+  border-radius: var(--r16);
+  background: var(--paper);
+  padding: 14px;
+  box-shadow: 0 10px 24px rgba(24,21,17,.08);
 }
-.media img{
-  width:100%;
-  height: 220px;
-  object-fit: cover;
-  filter: saturate(1.02) contrast(1.02);
+.pillar__icon{
+  width: 42px; height: 42px;
+  border-radius: 999px;
+  display:grid; place-items:center;
+  background: linear-gradient(180deg, rgba(176,138,59,.15), rgba(176,138,59,.07));
+  border: 1px solid rgba(176,138,59,.28);
+  margin-bottom: 10px;
 }
-.media figcaption{
-  padding: 12px 14px;
-  color: rgba(23,21,19,0.62);
-  line-height: 1.55;
-  border-top: 1px solid rgba(23,21,19,0.08);
-  background: rgba(255,255,255,0.70);
+.pillar__icon i{color: var(--gold2)}
+.pillar__title{
+  margin:0;
+  font-family: var(--serif);
+  font-size: var(--h3);
+  line-height:1.2;
+}
+.pillar__text{
+  margin: 6px 0 0;
+  color: var(--muted);
 }
 .experience__cta{
-  margin-top: 16px;
   display:flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-@media (min-width: 760px){
-  .experience__grid{ grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .experience__media{ grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .media img{ height: 240px; }
-}
-
-/* ---------------------------
-   Menu Preview (6 cards)
---------------------------- */
-.menu-preview__actions{
-  display:flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.menu-preview__grid{
-  display:grid;
-  grid-template-columns: 1fr;
   gap: 12px;
+  flex-wrap: wrap;
   margin-top: 16px;
+}
+.experience__notes{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.note-chip{
+  display:inline-flex; align-items:center; gap: 9px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,250,241,.75);
+  color: var(--muted);
+  font-size: .92rem;
+}
+.note-chip i{color: var(--wine)}
+
+/* Collage */
+.experience__collage{
+  display:grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+.collage__item{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.collage__item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  aspect-ratio: 4/3;
+  filter: saturate(.98) contrast(1.03);
+}
+.collage__item--tall{grid-row: span 2}
+.collage__item--tall img{aspect-ratio: 4/6}
+.collage__item--wide{grid-column: 1 / -1}
+.collage__item--wide img{aspect-ratio: 16/9}
+
+@media (min-width: 980px){
+  .experience{padding: 52px 0 18px}
+  .experience__grid{
+    grid-template-columns: 1.05fr .95fr;
+    align-items:start;
+  }
+  .experience__copy{padding: 22px}
+  .pillars{grid-template-columns: 1fr 1fr 1fr}
+  .experience__collage{
+    grid-template-columns: 1fr 1fr;
+    align-content:start;
+  }
+}
+
+/* ---------- Menu Preview ---------- */
+.menu-preview{
+  padding: 28px 0 18px;
+}
+.menu-preview .section-lead{max-width: 62ch}
+.menu-grid{
+  margin-top: 16px;
+  display:grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
 }
 .menu-card{
-  border-radius: 22px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.86);
-  box-shadow: var(--shadow-2);
-  padding: 16px;
-  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--r22);
   overflow:hidden;
+  background: var(--paper);
+  box-shadow: var(--sh1);
+  display:flex;
+  flex-direction:column;
 }
-.menu-card::before{
-  content:"";
-  position:absolute; inset:-1px;
-  background: radial-gradient(480px 220px at 15% 0%, rgba(123,42,47,0.10), transparent 70%);
-  pointer-events:none;
+.menu-card__media{
+  position:relative;
+}
+.menu-card__media img{
+  aspect-ratio: 16/10;
+  object-fit:cover;
 }
 .menu-card__tag{
+  position:absolute;
+  left: 12px;
+  bottom: 12px;
   display:inline-flex;
   align-items:center;
   gap: 8px;
-  padding: 7px 10px;
+  padding: 8px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(176,138,75,0.20);
-  background: rgba(176,138,75,0.10);
-  color: rgba(23,21,19,0.78);
-  font-weight: 800;
-  font-size: 0.86rem;
+  background: rgba(24,21,17,.62);
+  border: 1px solid rgba(255,250,241,.24);
+  color: rgba(255,250,241,.95);
+  font-size: .86rem;
 }
-.menu-card__name{
-  margin-top: 12px;
-  font-size: 1.15rem;
-  font-weight: 950;
-  letter-spacing: -0.01em;
+.menu-card__tag i{color: rgba(176,138,59,.95)}
+.menu-card__body{
+  padding: 14px;
+  display:grid;
+  gap: 6px;
+}
+.menu-card__title{
+  margin:0;
+  font-family: var(--serif);
+  font-size: 1.18rem;
+  line-height:1.15;
 }
 .menu-card__desc{
-  margin-top: 8px;
-  color: rgba(23,21,19,0.66);
-  line-height: 1.7;
-}
-.menu-card__meta{
-  margin-top: 12px;
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  color: rgba(23,21,19,0.68);
+  margin:0;
+  color: var(--muted);
 }
 .menu-card__price{
-  font-weight: 950;
-  color: rgba(23,21,19,0.88);
-  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--ink);
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
 }
-.menu-card__dot{ opacity: 0.6; }
-.menu-card__note{ font-weight: 750; color: rgba(123,42,47,0.80); }
+.menu-card__price::before{
+  content:"";
+  width: 14px;
+  height: 1px;
+  background: rgba(176,138,59,.55);
+  display:inline-block;
+}
+.menu-preview__fine{
+  margin-top: 12px;
+  color: var(--muted2);
+  font-size: .95rem;
+}
+.menu-preview__fine i{color: var(--gold2); margin-right: 8px}
 
-.menu-preview__bottom{
-  margin-top: 16px;
-  display:flex;
+@media (min-width: 720px){
+  .menu-grid{grid-template-columns: 1fr 1fr}
+}
+@media (min-width: 1020px){
+  .menu-grid{grid-template-columns: 1fr 1fr 1fr}
+}
+
+/* ---------- Spirits ---------- */
+.spirits{
+  padding: 32px 0 18px;
+}
+.spirits__grid{
+  display:grid;
+  gap: var(--gap3);
+  align-items:center;
+}
+.spirits__media{
+  position:relative;
+  display:grid;
+  gap: 12px;
+}
+.spirits__img{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.spirits__img img{aspect-ratio: 16/10; object-fit:cover}
+.spirits__img--main img{aspect-ratio: 16/12}
+.spirits__copy{
+  background: rgba(255,250,241,.62);
+  border: 1px solid var(--line);
+  border-radius: var(--r22);
+  padding: 18px;
+  box-shadow: var(--sh1);
+}
+.spirits__facts{
+  margin-top: 14px;
+  display:grid;
   gap: 10px;
+}
+.fact{
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.fact i{color: var(--gold2); margin-top: 2px}
+.fact strong{display:block; font-family: var(--serif)}
+.fact span{color: var(--muted)}
+.spirits__actions{
+  margin-top: 14px;
+  display:flex;
+  gap: 12px;
   flex-wrap: wrap;
 }
-
-@media (min-width: 640px){
-  .menu-preview__grid{ grid-template-columns: repeat(2, 1fr); }
-}
 @media (min-width: 980px){
-  .menu-preview__grid{ grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .spirits__grid{
+    grid-template-columns: 1fr 1fr;
+  }
+  .spirits__copy{padding: 22px}
+  .spirits__media{
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+  }
+  .spirits__img--main{
+    grid-column: 1 / -1;
+  }
 }
 
-/* ---------------------------
-   Sunshine Room teaser
---------------------------- */
-.sunshine__actions{ display:flex; gap: 10px; flex-wrap: wrap; }
+/* ---------- Sunshine Room ---------- */
+.sunshine{
+  padding: 34px 0 18px;
+}
 .sunshine__grid{
   display:grid;
-  gap: 12px;
-  margin-top: 16px;
+  gap: var(--gap3);
+  align-items:center;
 }
-.sunshine__image{
-  border-radius: 24px;
-  overflow:hidden;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.84);
-  box-shadow: var(--shadow-2);
+.sunshine__copy{
+  background: rgba(255,250,241,.62);
+  border: 1px solid var(--line);
+  border-radius: var(--r22);
+  padding: 18px;
+  box-shadow: var(--sh1);
 }
-.sunshine__image img{
-  width:100%;
-  height: 260px;
-  object-fit: cover;
-  filter: saturate(1.02) contrast(1.02);
+.sunshine__bullets{
+  margin: 14px 0 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap: 10px;
 }
-.sunshine__image figcaption{
-  padding: 12px 14px;
-  color: rgba(23,21,19,0.62);
-  border-top: 1px solid rgba(23,21,19,0.08);
-  background: rgba(255,255,255,0.70);
-}
-.sunshine__panel{
-  border-radius: 24px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.86);
-  box-shadow: var(--shadow-2);
-  padding: 16px;
-  position: relative;
-  overflow:hidden;
-}
-.sunshine__panel::before{
-  content:"";
-  position:absolute; inset:-1px;
-  background: radial-gradient(520px 240px at 15% 0%, rgba(176,138,75,0.18), transparent 70%);
-  pointer-events:none;
-}
-.sunshine__pillars{ display:grid; gap: 12px; }
-.pillar{
+.sunshine__bullets li{
   display:flex;
-  gap: 12px;
+  gap: 10px;
   align-items:flex-start;
-  padding: 12px;
-  border-radius: 18px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.72);
-}
-.pillar i{
-  width: 42px; height: 42px;
-  display:grid; place-items:center;
+  padding: 10px 12px;
   border-radius: 16px;
-  background: rgba(123,42,47,0.10);
-  border: 1px solid rgba(123,42,47,0.18);
-  color: rgba(23,21,19,0.82);
-  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--muted);
 }
-.pillar h3{ font-weight: 950; letter-spacing: -0.01em; }
-.pillar p{ margin-top: 6px; color: rgba(23,21,19,0.66); line-height: 1.65; }
-
-.sunshine__cta{ margin-top: 12px; display:grid; gap: 10px; }
-.sunshine__fineprint{
-  color: rgba(23,21,19,0.62);
-  line-height: 1.6;
-}
-.sunshine__fineprint a{
-  text-decoration: underline;
-  text-decoration-color: rgba(176,138,75,0.45);
-  text-underline-offset: 3px;
-}
-
-@media (min-width: 980px){
-  .sunshine__grid{ grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
-  .sunshine__image img{ height: 360px; }
-}
-
-/* ---------------------------
-   Reservations block (panel + holiday)
---------------------------- */
-.reserve__panel{
-  border-radius: 28px;
-  border: 1px solid rgba(176,138,75,0.22);
-  background:
-    radial-gradient(900px 320px at 15% 0%, rgba(176,138,75,0.18), transparent 70%),
-    rgba(255,255,255,0.88);
-  box-shadow: var(--shadow);
-  padding: 16px;
-  display:grid;
-  gap: 14px;
-}
-.reserve__notes{ display:grid; gap: 10px; margin-top: 14px; }
-.reserve__cta{ display:grid; gap: 10px; }
-.reserve__fine{
-  margin-top: 4px;
-  border-radius: 20px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.72);
-  padding: 12px;
-}
-.fine-row{
-  display:flex;
-  gap: 10px;
-  align-items:flex-start;
-  color: rgba(23,21,19,0.68);
-  line-height: 1.6;
-}
-.fine-row + .fine-row{ margin-top: 8px; }
-
-/* Holiday chip list */
-.holiday{
+.sunshine__bullets i{color: var(--gold2); margin-top: 2px}
+.sunshine__actions{
   margin-top: 14px;
-  border-radius: 24px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.82);
-  box-shadow: var(--shadow-2);
-  padding: 16px;
-}
-.holiday__title{
   display:flex;
-  align-items:center;
-  gap: 10px;
-  font-weight: 950;
-  letter-spacing: -0.01em;
-}
-.holiday__list{
-  margin-top: 12px;
-  display:flex;
+  gap: 12px;
   flex-wrap: wrap;
+}
+.sunshine__media{
+  display:grid;
+  gap: 12px;
+}
+.sunshine__photo{
+  margin:0;
+  border-radius: var(--r28);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh2);
+  background: var(--paper);
+}
+.sunshine__photo img{aspect-ratio: 16/11; object-fit:cover}
+.sunshine__mini{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.sunshine__mini-card{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.sunshine__mini-card img{aspect-ratio: 16/12; object-fit:cover}
+@media (min-width: 980px){
+  .sunshine__grid{grid-template-columns: 1fr 1fr}
+  .sunshine__copy{padding: 22px}
+}
+
+/* ---------- Gallery Strip ---------- */
+.gallery-strip{
+  padding: 34px 0 18px;
+}
+.strip{
+  margin-top: 14px;
+  display:flex;
+  gap: 12px;
+  overflow:auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 6px;
+}
+.strip::-webkit-scrollbar{height:10px}
+.strip::-webkit-scrollbar-thumb{
+  background: rgba(24,21,17,.12);
+  border-radius: 999px;
+}
+.strip__item{
+  margin:0;
+  flex: 0 0 78%;
+  max-width: 78%;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+  scroll-snap-align: start;
+}
+.strip__item img{aspect-ratio: 16/10; object-fit:cover}
+@media (min-width: 720px){
+  .strip__item{flex-basis: 42%; max-width: 42%}
+}
+@media (min-width: 1100px){
+  .strip__item{flex-basis: 28%; max-width: 28%}
+}
+
+/* ---------- Reserve Block ---------- */
+.reserve-block{
+  padding: 34px 0 18px;
+}
+.reserve-block__grid{
+  display:grid;
+  gap: var(--gap3);
+  align-items:center;
+}
+.reserve-block__copy{
+  background: linear-gradient(180deg, rgba(255,250,241,.70), rgba(245,239,228,.62));
+  border: 1px solid var(--line);
+  border-radius: var(--r28);
+  padding: 18px;
+  box-shadow: var(--sh2);
+}
+.reserve-block__actions{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.reserve-block__notes{
+  margin-top: 14px;
+  display:grid;
   gap: 10px;
 }
-.holiday__item{
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(176,138,75,0.08);
-  color: rgba(23,21,19,0.74);
-  font-weight: 750;
+.note{
+  display:flex;
+  gap: 10px;
+  align-items:flex-start;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,250,241,.75);
+  color: var(--muted);
 }
-
-@media (min-width: 980px){
-  .reserve__panel{
-    grid-template-columns: 1.15fr 0.85fr;
-    align-items:center;
-    padding: 20px;
-  }
-}
-
-/* ---------------------------
-   Location strip (no big map)
---------------------------- */
-.location__strip{
-  border-radius: 28px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.86);
-  box-shadow: var(--shadow);
-  padding: 16px;
+.note i{color: var(--gold2); margin-top: 2px}
+.reserve-block__media{
   display:grid;
-  gap: 14px;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
 }
-.location__rows{ margin-top: 14px; }
-.contact-row{
+.reserve-photo{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.reserve-photo img{aspect-ratio: 4/5; object-fit:cover}
+.reserve-photo--top{grid-column: 1 / -1}
+.reserve-photo--top img{aspect-ratio: 16/10}
+@media (min-width: 980px){
+  .reserve-block__grid{grid-template-columns: 1fr 1fr}
+  .reserve-block__copy{padding: 22px}
+}
+
+/* ---------- Giftcards ---------- */
+.giftcards{
+  padding: 34px 0 18px;
+}
+.giftcards__grid{
+  display:grid;
+  gap: var(--gap3);
+  align-items:center;
+}
+.giftcards__copy{
+  background: rgba(255,250,241,.62);
+  border: 1px solid var(--line);
+  border-radius: var(--r22);
+  padding: 18px;
+  box-shadow: var(--sh1);
+}
+.giftcards__actions{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.giftcards__media{
+  display:grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+.giftcards__img{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.giftcards__img img{aspect-ratio: 4/5; object-fit:cover}
+.giftcards__img--small img{aspect-ratio: 16/12}
+@media (min-width: 980px){
+  .giftcards__grid{grid-template-columns: 1fr 1fr}
+  .giftcards__copy{padding: 22px}
+  .giftcards__media{grid-template-columns: 1fr 1fr}
+}
+
+/* ---------- Visit ---------- */
+.visit{
+  padding: 34px 0 18px;
+}
+.visit__grid{
+  display:grid;
+  gap: var(--gap3);
+  align-items:start;
+}
+.visit__copy{
+  background: rgba(255,250,241,.62);
+  border: 1px solid var(--line);
+  border-radius: var(--r22);
+  padding: 18px;
+  box-shadow: var(--sh1);
+}
+.visit__cards{
+  margin-top: 14px;
+  display:grid;
+  gap: 10px;
+}
+.visit-card{
   display:flex;
   gap: 12px;
   align-items:flex-start;
-  padding: 12px 0;
-  border-top: 1px solid rgba(23,21,19,0.08);
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
 }
-.contact-row:first-of-type{ border-top: 0; }
-.contact-row i{
-  color: rgba(176,138,75,0.90);
-  margin-top: 4px;
-}
-.contact-row__label{
-  font-size: 0.82rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(23,21,19,0.55);
-}
-.contact-row__value{
-  margin-top: 6px;
-  color: rgba(23,21,19,0.78);
-  line-height: 1.65;
-}
-.contact-row__value a{
-  text-decoration: underline;
-  text-decoration-color: rgba(176,138,75,0.45);
-  text-underline-offset: 3px;
-}
+.visit-card i{color: var(--gold2); margin-top: 2px}
+.visit-card strong{display:block; font-family: var(--serif)}
+.visit-card span, .visit-card a{color: var(--muted)}
+.visit-card a{text-decoration: underline; text-underline-offset: 3px}
 
-.mini-map{
-  border-radius: 24px;
+.holiday{
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r16);
+  background: rgba(255,250,241,.75);
   overflow:hidden;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(176,138,75,0.08);
-  box-shadow: var(--shadow-2);
 }
-.mini-map img{
-  width:100%;
-  height: 200px;
-  object-fit: cover;
-  filter: contrast(1.02) saturate(1.0);
-}
-.location__buttons{ display:grid; gap: 10px; margin-top: 10px; }
-.location__nearby{
-  margin-top: 6px;
-  display:grid;
-  gap: 10px;
-}
-.nearby{
-  display:flex;
-  gap: 10px;
-  align-items:center;
-  padding: 10px 12px;
-  border-radius: 18px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.72);
-  color: rgba(23,21,19,0.74);
-  font-weight: 750;
-}
-
-@media (min-width: 980px){
-  .location__strip{
-    grid-template-columns: 1.05fr 0.95fr;
-    align-items: start;
-    gap: 16px;
-    padding: 20px;
-  }
-  .mini-map img{ height: 260px; }
-}
-
-/* ---------------------------
-   Footer
---------------------------- */
-.footer.footer--light{
-  padding: 46px 0 28px;
-  border-top: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.55);
-}
-.footer__inner{
-  width: min(var(--container), 100%);
-  margin: 0 auto;
-  padding: 0 var(--pad);
-  display:grid;
-  gap: 18px;
-}
-.footer__brand{
-  display:flex;
-  gap: 12px;
-  align-items:center;
-}
-.footer__logo{
-  width: 46px; height: 46px;
-  border-radius: 18px;
-  display:grid; place-items:center;
-  background: rgba(176,138,75,0.14);
-  border: 1px solid rgba(176,138,75,0.22);
-  box-shadow: var(--glow);
-  color: rgba(23,21,19,0.86);
-}
-.footer__name{
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
-}
-.footer__tagline{
-  margin-top: 4px;
-  color: rgba(23,21,19,0.58);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-size: 0.82rem;
-}
-.footer__cols{
-  display:grid;
-  gap: 14px;
-}
-.footer__col{
-  border-radius: 24px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(255,255,255,0.84);
-  box-shadow: var(--shadow-2);
-  padding: 16px;
-}
-.footer__title{
-  font-weight: 950;
-  letter-spacing: -0.01em;
-  margin-bottom: 10px;
-}
-.footer__line{
-  color: rgba(23,21,19,0.68);
-  line-height: 1.65;
-}
-.footer__links{ display:grid; gap: 10px; }
-.footer__links a,
-.footer__link-btn{
-  display:inline-flex;
-  padding: 10px 10px;
-  border-radius: 14px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: rgba(23,21,19,0.72);
-  text-align: left;
-}
-.footer__links a:hover,
-.footer__link-btn:hover{
-  background: rgba(176,138,75,0.10);
-  border-color: rgba(176,138,75,0.18);
+.holiday summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex; align-items:center; gap: 10px;
+  padding: 12px;
   color: var(--ink);
 }
-.footer__link-btn{
-  width: fit-content;
-  cursor: pointer;
+.holiday summary::-webkit-details-marker{display:none}
+.holiday summary i{color: var(--wine)}
+.holiday__list{
+  margin:0;
+  padding: 0 14px 14px 40px;
+  color: var(--muted);
+}
+.visit__actions{
+  margin-top: 14px;
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
+.visit__media{
+  display:grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+.visit__img{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.visit__img img{aspect-ratio: 16/12; object-fit:cover}
+.visit__img:first-child{
+  grid-column: 1 / -1;
+}
+.visit__img:first-child img{aspect-ratio: 16/9}
+@media (min-width: 980px){
+  .visit__grid{grid-template-columns: 1fr 1fr}
+  .visit__copy{padding: 22px}
+}
+
+/* ---------- Careers Teaser ---------- */
+.careers-teaser{
+  padding: 34px 0 48px;
+}
+.careers-teaser__grid{
+  display:grid;
+  gap: var(--gap3);
+  align-items:start;
+}
+.careers-teaser__copy{
+  background: linear-gradient(180deg, rgba(255,250,241,.72), rgba(245,239,228,.62));
+  border: 1px solid var(--line);
+  border-radius: var(--r28);
+  padding: 18px;
+  box-shadow: var(--sh2);
+}
+.form-grid{
+  margin-top: 14px;
+  display:grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+.field{
+  display:grid;
+  gap: 8px;
+}
+.field__label{
+  color: var(--muted2);
+  font-size: .86rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.field__input{
+  border-radius: 16px;
+  border: 1px solid rgba(24,21,17,.16);
+  background: rgba(255,250,241,.86);
+  padding: 12px 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+}
+.field__input:focus-visible{box-shadow: var(--ring)}
+.field__input--area{
+  resize: vertical;
+  min-height: 110px;
+}
+.field__help{
+  color: var(--wine);
+  font-size: .92rem;
+}
+.form-actions{
+  margin-top: 14px;
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.form-note{
+  margin-top: 8px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,250,241,.75);
+  color: var(--muted);
+}
+.form-note[data-kind="error"]{
+  border-color: rgba(107,31,42,.25);
+  background: rgba(107,31,42,.06);
+  color: var(--wine2);
+}
+.form-note[data-kind="success"]{
+  border-color: rgba(176,138,59,.30);
+  background: rgba(176,138,59,.07);
+  color: var(--ink);
+}
+
+.careers-teaser__media{
+  display:grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+.careers-photo{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh1);
+  background: var(--paper);
+}
+.careers-photo img{aspect-ratio: 4/5; object-fit:cover}
+.careers-photo--main{
+  grid-column: 1 / -1;
+}
+.careers-photo--main img{aspect-ratio: 16/10}
+@media (min-width: 980px){
+  .careers-teaser__grid{grid-template-columns: 1.05fr .95fr}
+  .careers-teaser__copy{padding: 22px}
+  .form-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+  .field--full{grid-column: 1 / -1}
+}
+
+/* ---------- Footer ---------- */
+.footer{
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(245,239,228,.92), rgba(251,246,238,.98));
+  padding: 28px 0 18px;
+  position:relative;
+  z-index:1;
+}
+.footer__grid{
+  display:grid;
+  gap: var(--gap3);
+}
+.brand--footer .brand__mark{width: 46px; height: 46px}
+.footer__desc{
+  margin: 10px 0 0;
+  color: var(--muted);
+  max-width: 54ch;
+}
+.footer__badges{
+  margin-top: 14px;
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.footer__title{
+  margin:0 0 10px;
+  font-family: var(--serif);
+  font-size: 1.18rem;
+}
+.footer__list, .footer__links{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap: 10px;
+  color: var(--muted);
+}
+.footer__list i{color: var(--gold2); margin-right: 10px}
+.footer__links a{
+  display:inline-block;
+  padding: 6px 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: var(--muted);
+}
+.footer__small{color: var(--muted); margin:0 0 10px}
+.newsletter__row{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+}
+.newsletter__row .field__input{
+  flex:1;
+}
 .footer__social{
   margin-top: 12px;
   display:flex;
   gap: 10px;
-  flex-wrap: wrap;
-}
-.social{
-  width: 44px; height: 44px;
-  border-radius: 18px;
-  display:grid; place-items:center;
-  border: 1px solid rgba(23,21,19,0.12);
-  background: rgba(255,255,255,0.78);
-  color: rgba(23,21,19,0.82);
-  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
-}
-.social:hover{
-  background: rgba(255,255,255,0.95);
-  border-color: rgba(176,138,75,0.22);
 }
 .footer__bottom{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
   display:flex;
   gap: 10px;
   flex-wrap: wrap;
   align-items:center;
-  justify-content: space-between;
-  color: rgba(23,21,19,0.62);
+  justify-content:space-between;
+  color: var(--muted2);
+  font-size: .94rem;
 }
-.footer__top{
-  display:inline-flex;
-  align-items:center;
-  gap: 8px;
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(23,21,19,0.12);
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+.footer__bottom-actions{
+  display:flex; align-items:center; gap: 10px;
 }
-.footer__top:hover{ background: rgba(255,255,255,0.95); }
-
-@media (min-width: 980px){
-  .footer__cols{ grid-template-columns: 1.1fr 0.9fr 0.9fr; gap: 16px; }
-}
-
-/* ---------------------------
-   Floating Reserve button (mobile)
---------------------------- */
-.float-reserve{
-  position: fixed;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  z-index: 3000;
-  display:inline-flex;
-  align-items:center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(176,138,75,0.40);
-  background: linear-gradient(135deg, var(--gold-2), var(--gold));
-  color: #1c160f;
-  box-shadow: 0 18px 50px rgba(23,21,19,0.18);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease, transform .2s ease;
-}
-.float-reserve.is-visible{
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+.footer__bottom-link{
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--muted2);
 }
 @media (min-width: 980px){
-  .float-reserve{ left:auto; right: 18px; transform:none; }
-  .float-reserve.is-visible{ transform:none; }
+  .footer__grid{
+    grid-template-columns: 1.15fr .9fr .7fr .85fr;
+    align-items:start;
+  }
 }
 
-/* ---------------------------
-   Reservation Modal (lux)
---------------------------- */
-.lux-modal{
-  position: fixed;
-  inset: 0;
+/* ---------- Modal ---------- */
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:140;
   display:none;
-  z-index: 7000;
+  padding: 14px;
+  background: rgba(24,21,17,.54);
 }
-.lux-modal.is-open{ display:block; }
-.lux-modal__backdrop{
-  position:absolute; inset:0;
-  background: rgba(23,21,19,0.45);
-  backdrop-filter: blur(10px);
-}
-.lux-modal__panel{
-  position:absolute;
-  left: 10px; right: 10px;
-  top: 10svh;
-  max-width: 640px;
-  margin: 0 auto;
-  border-radius: 28px;
-  border: 1px solid rgba(176,138,75,0.24);
-  background: rgba(255,255,255,0.94);
-  box-shadow: var(--shadow);
+.modal.is-open{display:grid; place-items:center}
+.modal__dialog{
+  width: min(980px, 100%);
+  border-radius: var(--r28);
+  border: 1px solid rgba(255,250,241,.18);
+  background:
+    linear-gradient(180deg, rgba(255,250,241,.94), rgba(245,239,228,.92));
+  box-shadow: var(--sh3);
   overflow:hidden;
 }
-.lux-modal__head{
+.modal__head{
   display:flex;
-  justify-content: space-between;
-  align-items:center;
-  padding: 14px 14px;
-  border-bottom: 1px solid rgba(23,21,19,0.10);
-  background:
-    radial-gradient(600px 240px at 15% 0%, rgba(176,138,75,0.16), transparent 70%),
-    rgba(255,255,255,0.80);
+  gap: 12px;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
 }
-.lux-modal__icon{
-  width: 46px; height: 46px;
-  border-radius: 18px;
-  display:grid; place-items:center;
-  background: rgba(176,138,75,0.14);
-  border: 1px solid rgba(176,138,75,0.22);
-  box-shadow: var(--glow);
-  color: rgba(23,21,19,0.86);
+.modal__title-wrap{min-width:0}
+.modal__eyebrow{
+  margin:0 0 6px;
+  color: var(--muted2);
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: .78rem;
+  display:flex; align-items:center; gap: 10px;
 }
-.lux-modal__close{
-  width: 46px; height: 46px;
-  border-radius: 18px;
-  border: 1px solid rgba(23,21,19,0.14);
-  background: rgba(255,255,255,0.78);
-  color: rgba(23,21,19,0.86);
-}
-.lux-modal__close:hover{ background: rgba(255,255,255,0.95); }
-.lux-modal__body{ padding: 16px; }
-.lux-modal__title{
+.modal__eyebrow i{color: var(--gold2)}
+.modal__title{
+  margin:0;
   font-family: var(--serif);
-  font-size: 1.55rem;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  line-height:1.1;
 }
-.lux-modal__text{ margin-top: 10px; color: rgba(23,21,19,0.66); line-height: 1.7; }
+.modal__subtitle{
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+.modal__body{
+  display:grid;
+  gap: 16px;
+  padding: 16px;
+}
+.reserve-form .form-grid{margin-top: 0}
+.form-footnote{
+  margin-top: 12px;
+  color: var(--muted2);
+  font-size: .95rem;
+}
+.form-footnote i{color: var(--gold2); margin-right: 8px}
 
-.reserve-form{ margin-top: 14px; }
-.reserve-form__grid{ display:grid; gap: 12px; }
-.field label{
-  display:block;
-  margin-bottom: 8px;
-  font-size: 0.92rem;
-  color: rgba(23,21,19,0.70);
-  letter-spacing: 0.02em;
+.modal__aside{
+  display:none;
+  gap: 12px;
 }
-.field__control{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  padding: 12px 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(23,21,19,0.14);
-  background: rgba(255,255,255,0.82);
-  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+.aside-photo{
+  margin:0;
+  border-radius: var(--r22);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: var(--sh1);
 }
-.field__control i{ color: rgba(176,138,75,0.95); }
-.field__control input,
-.field__control select,
-.field__control textarea{
-  width:100%;
-  border:0;
-  outline:none;
+.aside-photo img{aspect-ratio: 16/12; object-fit:cover}
+.modal__backdrop{
+  position:absolute; inset:0;
   background: transparent;
-  color: rgba(23,21,19,0.88);
 }
-.field__control textarea{ resize: vertical; min-height: 110px; }
-.field--full{ grid-column: 1 / -1; }
-
-.reserve-form__actions{ margin-top: 12px; display:grid; gap: 10px; }
-.reserve-form__fineprint{
-  border-radius: 20px;
-  border: 1px solid rgba(23,21,19,0.10);
-  background: rgba(176,138,75,0.08);
-  padding: 12px;
+@media (min-width: 980px){
+  .modal__body{
+    grid-template-columns: 1.05fr .95fr;
+    align-items:start;
+  }
+  .modal__aside{display:grid}
 }
 
-/* invalid (JS toggles .is-invalid on .field__control) */
-.field__control.is-invalid{
-  border-color: rgba(123,42,47,0.40);
-  box-shadow: 0 0 0 1px rgba(123,42,47,0.18), 0 12px 26px rgba(23,21,19,0.08);
+/* ---------- Floating Reserve (mobile) ---------- */
+.float-reserve{
+  position:fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index:90;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,59,.35);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,250,241,.9), rgba(255,250,241,.0) 60%),
+    linear-gradient(180deg, rgba(176,138,59,.22), rgba(176,138,59,.10));
+  box-shadow: var(--sh2);
+  display:grid;
+  place-items:center;
+}
+.float-reserve i{
+  color: var(--gold2);
+  font-size: 1.1rem;
+}
+@media (min-width: 980px){
+  .float-reserve{display:none}
 }
 
-@media (min-width: 820px){
-  .reserve-form__grid{ grid-template-columns: repeat(2, 1fr); }
+/* ---------- Responsive polish (phones) ---------- */
+@media (max-width: 420px){
+  :root{--pad: 14px}
+  .hero__actions .btn{width: 100%}
+  .section-head--split .section-head__actions{width: 100%}
+  .section-head__actions .btn{width: 100%}
+  .topbar__right .topbar__btn span{display:none}
+  .topbar__right .topbar__btn{padding: 7px 10px}
 }
 
-/* ---------------------------
-   Small-screen refinements
---------------------------- */
-@media (max-width: 360px){
-  :root{ --pad: 14px; }
-  .pill{ width: 100%; justify-content:center; }
-  .hero__title{ max-width: 16ch; }
-  .topbar__note{ display:none; } /* keep topbar clean on tiny screens */
+/* ---------- Small UX details ---------- */
+.btn, .icon-btn, .menu-card, .pillar, .collage__item,
+.visit-card, .fact, .note, .sunshine__bullets li{
+  -webkit-tap-highlight-color: transparent;
 }
-
-/* ---------------------------
-   Focus-visible (global)
---------------------------- */
-:focus-visible{
-  box-shadow: var(--glow);
-  border-radius: 14px;
-}
-
+.btn:active{transform: translateY(0)}
+.icon-btn:active{transform: translateY(0)}
 </style>
+
 </head>
-  <body class="theme-lux theme-light">
+<body class="oaklawn">
   <!-- Skip Link -->
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Top Announcement Bar -->
-  <div class="topbar" role="region" aria-label="Important information">
-    <div class="topbar__inner">
+  <!-- Top Notice / Utility Bar -->
+  <div class="topbar" role="region" aria-label="Site notice">
+    <div class="container topbar__inner">
       <div class="topbar__left">
-        <span class="topbar__badge">
-          <i class="fa-solid fa-star"></i>
-          Urban Elegant Dining
-        </span>
-        <span class="topbar__sep" aria-hidden="true">•</span>
-        <span class="topbar__note">
-          Reservations highly recommended — required for groups over 6
-        </span>
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        <span>1008 E. Wood Street, Paris, TN</span>
+        <span class="dot" aria-hidden="true">•</span>
+        <i class="fa-solid fa-car-side" aria-hidden="true"></i>
+        <span>Complimentary valet parking</span>
       </div>
 
       <div class="topbar__right">
-        <a class="topbar__link" href="tel:17314074262" aria-label="Call Oaklawn Southern Dining">
-          <i class="fa-solid fa-phone"></i>
+        <a class="topbar__link" href="tel:17314074262">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
           <span>731-407-4262</span>
         </a>
-        <span class="topbar__sep" aria-hidden="true">•</span>
-        <a class="topbar__link" href="contact.html" aria-label="View location">
-          <i class="fa-solid fa-location-dot"></i>
-          <span>1008 E. Wood St, Paris TN</span>
-        </a>
+        <span class="dot" aria-hidden="true">•</span>
+        <button class="topbar__btn" type="button" data-open-reserve>
+          <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+          <span>Reserve</span>
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Header -->
-  <header class="header header--light" id="top">
-    <div class="header__inner">
-      <!-- Brand -->
-      <a class="brand" href="index.html" aria-label="Oaklawn Southern Dining Home">
+  <header class="header" role="banner">
+    <div class="container header__inner">
+      <a class="brand" href="/home" aria-label="Oaklawn Southern Dining — Home">
         <span class="brand__mark" aria-hidden="true">
-          <i class="fa-solid fa-o"></i>
+          <i class="fa-solid fa-oak-leaf"></i>
         </span>
-        <span class="brand__type">
+        <span class="brand__text">
           <span class="brand__name">Oaklawn</span>
           <span class="brand__sub">Southern Dining</span>
         </span>
       </a>
 
-      <!-- Primary Navigation -->
       <nav class="nav" aria-label="Primary">
-        <button class="nav__toggle" type="button" aria-label="Open menu" aria-controls="navDrawer" aria-expanded="false">
-          <i class="fa-solid fa-bars"></i>
+        <a class="nav__link" href="/menu">Menu</a>
+        <a class="nav__link" href="/events">Private Dining</a>
+        <a class="nav__link" href="/gallery">Gallery</a>
+        <a class="nav__link" href="/contact">Visit</a>
+        <a class="nav__link nav__link--gift" href="/gift-cards">
+          <i class="fa-solid fa-gift" aria-hidden="true"></i>
+          <span>Gift Cards</span>
+        </a>
+        <button class="nav__cta" type="button" data-open-reserve>
+          <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+          <span>Reserve</span>
         </button>
-
-        <ul class="nav__list" id="navList">
-          <li class="nav__item"><a class="nav__link" href="#experience">Experience</a></li>
-          <li class="nav__item"><a class="nav__link" href="#menu-preview">Menu Preview</a></li>
-          <li class="nav__item"><a class="nav__link" href="#sunshine">Sunshine Room</a></li>
-          <li class="nav__item"><a class="nav__link" href="#reserve">Reservations</a></li>
-          <li class="nav__item"><a class="nav__link" href="#location">Location</a></li>
-          <li class="nav__item"><a class="nav__link" href="menu.html">Full Menu</a></li>
-          <li class="nav__item"><a class="nav__link" href="contact.html">Contact</a></li>
-        </ul>
       </nav>
 
-      <!-- Header Actions -->
       <div class="header__actions">
-        <a class="icon-btn" href="menu.html" aria-label="View full menu">
-          <i class="fa-solid fa-book-open"></i>
+        <a class="icon-btn" href="/menu" aria-label="View menu">
+          <i class="fa-solid fa-utensils" aria-hidden="true"></i>
         </a>
-        <a class="icon-btn" href="events.html" aria-label="Private events">
-          <i class="fa-solid fa-champagne-glasses"></i>
-        </a>
-        <a class="icon-btn" href="gallery.html" aria-label="View gallery">
-          <i class="fa-regular fa-images"></i>
-        </a>
-        <button class="btn btn--primary" type="button" data-open-reservation-modal aria-label="Reserve a table">
-          <i class="fa-solid fa-utensils"></i>
-          <span>Reserve</span>
+        <button class="icon-btn" type="button" data-open-reserve aria-label="Open reservations">
+          <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+        </button>
+        <button class="icon-btn icon-btn--menu" type="button" data-open-mobile-nav aria-label="Open navigation menu">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Drawer (structure only) -->
-    <div class="drawer" id="navDrawer" aria-hidden="true">
-      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
-        <div class="drawer__header">
-          <span class="drawer__title">Oaklawn</span>
-          <button class="drawer__close" type="button" aria-label="Close menu">
-            <i class="fa-solid fa-xmark"></i>
+    <!-- Mobile Nav Drawer (structure only; JS later) -->
+    <div class="drawer" id="mobileNav" aria-hidden="true">
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+        <div class="drawer__head">
+          <span class="drawer__title">Explore</span>
+          <button class="icon-btn" type="button" data-close-mobile-nav aria-label="Close navigation menu">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
           </button>
         </div>
 
-        <div class="drawer__body">
-          <a class="drawer__link" href="#experience"><i class="fa-solid fa-sparkles"></i> Experience</a>
-          <a class="drawer__link" href="#menu-preview"><i class="fa-solid fa-book-open"></i> Menu Preview</a>
-          <a class="drawer__link" href="#sunshine"><i class="fa-solid fa-champagne-glasses"></i> Sunshine Room</a>
-          <a class="drawer__link" href="#reserve"><i class="fa-regular fa-calendar-days"></i> Reservations</a>
-          <a class="drawer__link" href="#location"><i class="fa-solid fa-location-dot"></i> Location</a>
+        <div class="drawer__links">
+          <a class="drawer__link" href="/menu">
+            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+            <span>Menu</span>
+          </a>
+          <a class="drawer__link" href="/events">
+            <i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i>
+            <span>Private Dining</span>
+          </a>
+          <a class="drawer__link" href="/gallery">
+            <i class="fa-solid fa-images" aria-hidden="true"></i>
+            <span>Gallery</span>
+          </a>
+          <a class="drawer__link" href="/contact">
+            <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+            <span>Visit</span>
+          </a>
+          <a class="drawer__link" href="/careers">
+            <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+            <span>Careers</span>
+          </a>
+          <a class="drawer__link" href="/gift-cards">
+            <i class="fa-solid fa-gift" aria-hidden="true"></i>
+            <span>Gift Cards</span>
+          </a>
+        </div>
 
-          <div class="drawer__divider" role="separator" aria-hidden="true"></div>
+        <div class="drawer__cta">
+          <button class="btn btn--primary" type="button" data-open-reserve>
+            <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+            <span>Reserve a Table</span>
+          </button>
+          <a class="btn btn--ghost" href="tel:17314074262">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <span>Call 731-407-4262</span>
+          </a>
+        </div>
 
-          <a class="drawer__link" href="menu.html"><i class="fa-solid fa-scroll"></i> Full Dinner Menu</a>
-          <a class="drawer__link" href="menu.html#bar"><i class="fa-solid fa-whiskey-glass"></i> Bourbon & Wine</a>
-          <a class="drawer__link" href="events.html"><i class="fa-solid fa-people-roof"></i> Private Events</a>
-          <a class="drawer__link" href="gallery.html"><i class="fa-regular fa-images"></i> Gallery</a>
-          <a class="drawer__link" href="careers.html"><i class="fa-solid fa-briefcase"></i> Join Our Team</a>
-          <a class="drawer__link" href="contact.html"><i class="fa-solid fa-phone"></i> Contact</a>
-
-          <div class="drawer__cta">
-            <button class="btn btn--primary btn--full" type="button" data-open-reservation-modal>
-              <i class="fa-regular fa-calendar-check"></i>
-              <span>Reserve a Table</span>
-            </button>
-            <a class="btn btn--secondary btn--full" href="menu.html">
-              <i class="fa-solid fa-book-open"></i>
-              <span>View Full Menu</span>
-            </a>
-          </div>
-
-          <div class="drawer__meta" aria-label="Hours">
-            <div class="meta-row">
-              <i class="fa-regular fa-clock"></i>
-              <span>Mon–Sat: Bar 4:00 PM • Dining 4:30 PM</span>
-            </div>
-            <div class="meta-row">
-              <i class="fa-solid fa-car"></i>
-              <span>Complimentary valet parking</span>
-            </div>
-          </div>
+        <div class="drawer__fineprint">
+          <p>Bourbon & Wine Bar: 4:00 PM • Dining: 4:30 PM • Monday–Saturday</p>
         </div>
       </div>
-      <div class="drawer__backdrop" aria-hidden="true"></div>
+      <button class="drawer__backdrop" type="button" data-close-mobile-nav aria-label="Close navigation menu"></button>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero hero--light" aria-label="Oaklawn Southern Dining hero">
-    <div class="hero__media" aria-hidden="true">
-      <!-- Light-mode cinematic: brighter video + softer overlay -->
-      <video class="hero__video" autoplay muted loop playsinline poster="hero.jpg">
-        <source src="video.mov" type="video/mov" />
-      </video>
-      <div class="hero__overlay hero__overlay--light"></div>
-    </div>
+  <!-- Main -->
+  <main id="main" class="main" role="main">
 
-    <div class="hero__content">
-      <div class="hero__kicker">
-        <i class="fa-solid fa-star"></i>
-        <span>Chef-inspired • Urban Elegant • Intimate</span>
+    <!-- Hero (Video) -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero__media" aria-hidden="true">
+        <video class="hero__video" autoplay muted loop playsinline preload="metadata">
+          <source src="video.mov" type="video/mp4" />
+        </video>
+        <!-- decorative overlays handled in CSS later -->
       </div>
 
-      <h1 class="hero__title">
-        Southern dining, elevated<br />
-        in a reimagined 1954 home.
-      </h1>
-
-      <p class="hero__subtitle">
-        Prime steaks, exceptional seafood, Paris-inspired cocktails, and a bourbon selection curated for the moment—
-        minutes from Paris Landing State Park and Land Between the Lakes.
-      </p>
-
-      <div class="hero__cta">
-        <button class="btn btn--primary" type="button" data-open-reservation-modal>
-          <i class="fa-regular fa-calendar-check"></i>
-          <span>Reserve a Table</span>
-        </button>
-        <a class="btn btn--secondary" href="menu.html">
-          <i class="fa-solid fa-book-open"></i>
-          <span>View Full Menu</span>
-        </a>
-      </div>
-
-      <div class="hero__highlights" aria-label="Key notes">
-        <div class="pill">
-          <i class="fa-solid fa-car-side"></i>
-          <span>Complimentary valet parking</span>
-        </div>
-        <div class="pill">
-          <i class="fa-solid fa-people-group"></i>
-          <span>Parties 1–20</span>
-        </div>
-        <div class="pill">
-          <i class="fa-solid fa-champagne-glasses"></i>
-          <span>Sunshine Room private events</span>
-        </div>
-      </div>
-    </div>
-
-    <a class="hero__scroll" href="#experience" aria-label="Scroll to experience section">
-      <span class="hero__scroll-text">Scroll</span>
-      <i class="fa-solid fa-chevron-down"></i>
-    </a>
-  </section>
-
-  <main id="main">
-    <!-- Experience -->
-    <section class="section experience" id="experience" aria-label="The Oaklawn Experience">
-      <div class="section__inner">
-        <header class="section__header section__header--split">
-          <div>
-            <p class="section__eyebrow">The Experience</p>
-            <h2 class="section__title">Intentional dining. Thoughtful hospitality.</h2>
-            <p class="section__lead">
-              Oaklawn Southern Dining offers chef-inspired dishes in a unique urban elegant atmosphere.
-              Set inside a 1954 home remade for dining, the focus is simple: a refined evening built around flavor,
-              warmth, and service that feels personal.
-            </p>
-          </div>
-
-          <div class="experience__aside" aria-label="Experience notes">
-            <div class="meta-chip">
-              <i class="fa-solid fa-location-dot"></i>
-              <span>Near Paris Landing State Park</span>
-            </div>
-            <div class="meta-chip">
-              <i class="fa-solid fa-water"></i>
-              <span>Minutes from Land Between the Lakes</span>
-            </div>
-            <div class="meta-chip">
-              <i class="fa-solid fa-wine-glass"></i>
-              <span>Wine & champagne selections</span>
-            </div>
-          </div>
-        </header>
-
-        <div class="experience__grid">
-          <article class="card card--feature">
-            <div class="card__icon" aria-hidden="true">
-              <i class="fa-solid fa-fire-flame-curved"></i>
-            </div>
-            <h3 class="card__title">Prime Steaks</h3>
-            <p class="card__text">
-              Cooked to order, finished with refined touches—crafted for a table that wants the best cut, done right.
-            </p>
-          </article>
-
-          <article class="card card--feature">
-            <div class="card__icon" aria-hidden="true">
-              <i class="fa-solid fa-fish-fins"></i>
-            </div>
-            <h3 class="card__title">Prime Seafood</h3>
-            <p class="card__text">
-              Selected for freshness and prepared with confident balance. Availability is seasonal—and worth it.
-            </p>
-          </article>
-
-          <article class="card card--feature">
-            <div class="card__icon" aria-hidden="true">
-              <i class="fa-solid fa-martini-glass-citrus"></i>
-            </div>
-            <h3 class="card__title">Bourbon & Paris-inspired cocktails</h3>
-            <p class="card__text">
-              Signature cocktails, curated pours, and flight boards—paired with a wine and champagne list made for celebrations.
-            </p>
-          </article>
+      <div class="container hero__content">
+        <div class="hero__kicker">
+          <span class="kicker">
+            <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
+            <span>Reimagined 1954 Oaklawn Home</span>
+          </span>
+          <span class="kicker">
+            <i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>
+            <span>Minutes from Paris Landing & Land Between the Lakes</span>
+          </span>
         </div>
 
-        <div class="experience__media">
-          <figure class="media media--left">
-            <img src="steak.jpg" alt="Prime steak plated with refined presentation at Oaklawn" />
-            <figcaption>Prime steaks, cooked to order and finished with intention.</figcaption>
-          </figure>
+        <h1 class="hero__title">
+          Chef-inspired dining in an <span class="accent">urban-elegant</span> atmosphere.
+        </h1>
 
-          <figure class="media media--mid">
-            <img src="seafood.jpg" alt="Prime seafood entrée plated with risotto and asparagus" />
-            <figcaption>Prime seafood, prepared with balance and seasonality.</figcaption>
-          </figure>
+        <p class="hero__lead">
+          Prime steaks. Prime seafood. A deep bourbon selection and Paris-inspired crafted cocktails—
+          all curated for an intentional evening of hospitality.
+        </p>
 
-          <figure class="media media--right">
-            <img src="cocktail.jpg" alt="Paris-inspired cocktail on a bar with citrus garnish" />
-            <figcaption>Paris-inspired crafted cocktails and a bourbon selection curated for the evening.</figcaption>
-          </figure>
-        </div>
-
-        <div class="experience__cta">
-          <a class="btn btn--secondary" href="menu.html#bar">
-            <i class="fa-solid fa-whiskey-glass"></i>
-            <span>Explore Bourbon & Wine</span>
-          </a>
-          <button class="btn btn--primary" type="button" data-open-reservation-modal>
-            <i class="fa-regular fa-calendar-check"></i>
+        <div class="hero__actions">
+          <button class="btn btn--primary btn--xl" type="button" data-open-reserve>
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
             <span>Reserve</span>
           </button>
+          <a class="btn btn--ghost btn--xl" href="/menu">
+            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+            <span>Explore Menu</span>
+          </a>
+        </div>
+
+        <div class="hero__meta" aria-label="Service notes">
+          <div class="meta-chip">
+            <i class="fa-solid fa-car-side" aria-hidden="true"></i>
+            <span>Complimentary valet parking</span>
+          </div>
+          <div class="meta-chip">
+            <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+            <span>Groups over 6 require reservations</span>
+          </div>
+          <div class="meta-chip">
+            <i class="fa-solid fa-clock" aria-hidden="true"></i>
+            <span>Bar 4:00 PM • Dining 4:30 PM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Side Gallery (lots of images) -->
+      <div class="hero__gallery" aria-label="Highlights">
+        <figure class="hero-card">
+          <img src="steak.jpg" alt="Prime steak plated with herb butter and seasonal garnish." loading="lazy">
+          <figcaption>
+            <span class="hero-card__title">Prime Steaks</span>
+            <span class="hero-card__sub">Cooked to order</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hero-card">
+          <img src="seafoods.jpg" alt="Fresh oysters served with mignonette and cocktail sauce." loading="lazy">
+          <figcaption>
+            <span class="hero-card__title">Fresh Oysters</span>
+            <span class="hero-card__sub">Market availability</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hero-card">
+          <img src="cocktail1.jpg" alt="Craft cocktail in a coupe glass with citrus garnish." loading="lazy">
+          <figcaption>
+            <span class="hero-card__title">Craft Cocktails</span>
+            <span class="hero-card__sub">Paris-inspired</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hero-card">
+          <img src="hero.jpg" alt="Intimate dining room with warm lighting inside a vintage home." loading="lazy">
+          <figcaption>
+            <span class="hero-card__title">The Oaklawn Home</span>
+            <span class="hero-card__sub">Remade for hospitality</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Vintage Marquee / Motto Strip -->
+    <section class="motto" aria-label="Motto">
+      <div class="container">
+        <div class="motto__inner" role="presentation">
+          <span class="motto__item"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Prime Steaks</span>
+          <span class="motto__sep" aria-hidden="true">•</span>
+          <span class="motto__item"><i class="fa-solid fa-fish-fins" aria-hidden="true"></i> Prime Seafood</span>
+          <span class="motto__sep" aria-hidden="true">•</span>
+          <span class="motto__item"><i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i> Bourbon & Paris Cocktails</span>
+          <span class="motto__sep" aria-hidden="true">•</span>
+          <span class="motto__item"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i> Wine & Champagne</span>
+          <span class="motto__sep" aria-hidden="true">•</span>
+          <span class="motto__item"><i class="fa-solid fa-car-side" aria-hidden="true"></i> Complimentary Valet</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="experience" aria-label="The Oaklawn Experience">
+      <div class="container experience__grid">
+        <div class="experience__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-feather-pointed" aria-hidden="true"></i>
+              Urban Elegant • Cozy Home
+            </p>
+            <h2 class="section-title">An intentional evening, crafted inside a 1954 home.</h2>
+            <p class="section-lead">
+              Oaklawn Southern Dining offers chef-inspired dishes in a unique urban-elegant atmosphere—minutes from
+              Paris Landing State Park and Land Between the Lakes.
+              You will love the view from the old Oaklawn home built in 1954, remade with dining and hospitality in mind.
+            </p>
+          </header>
+
+          <div class="pillars" aria-label="Signature pillars">
+            <article class="pillar">
+              <div class="pillar__icon" aria-hidden="true"><i class="fa-solid fa-crown"></i></div>
+              <h3 class="pillar__title">Prime Steaks</h3>
+              <p class="pillar__text">Hand-selected cuts, cooked to order, finished with elegant sauces and classic sides.</p>
+            </article>
+
+            <article class="pillar">
+              <div class="pillar__icon" aria-hidden="true"><i class="fa-solid fa-water"></i></div>
+              <h3 class="pillar__title">Prime Seafood</h3>
+              <p class="pillar__text">Market-driven seafood, prepared with bold Southern technique and refined presentation.</p>
+            </article>
+
+            <article class="pillar">
+              <div class="pillar__icon" aria-hidden="true"><i class="fa-solid fa-whiskey-glass"></i></div>
+              <h3 class="pillar__title">Bourbon & Paris-Inspired Cocktails</h3>
+              <p class="pillar__text">A deep bourbon list, signature cocktails, and a curated wine & champagne selection.</p>
+            </article>
+          </div>
+
+          <div class="experience__cta">
+            <button class="btn btn--primary" type="button" data-open-reserve>
+              <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+              <span>Reserve Tonight</span>
+            </button>
+            <a class="btn btn--ghost" href="/gallery">
+              <i class="fa-solid fa-images" aria-hidden="true"></i>
+              <span>See the Atmosphere</span>
+            </a>
+          </div>
+
+          <div class="experience__notes" aria-label="Occasions">
+            <div class="note-chip">
+              <i class="fa-solid fa-heart" aria-hidden="true"></i>
+              <span>Date night</span>
+            </div>
+            <div class="note-chip">
+              <i class="fa-solid fa-ring" aria-hidden="true"></i>
+              <span>Anniversary</span>
+            </div>
+            <div class="note-chip">
+              <i class="fa-solid fa-martini-glass-citrus" aria-hidden="true"></i>
+              <span>Girls’ night out</span>
+            </div>
+            <div class="note-chip">
+              <i class="fa-solid fa-golf-ball-tee" aria-hidden="true"></i>
+              <span>Golf outing</span>
+            </div>
+            <div class="note-chip">
+              <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
+              <span>Business dinner</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image collage (heavy imagery) -->
+        <div class="experience__collage" aria-label="Experience gallery">
+          <figure class="collage__item collage__item--tall">
+            <img src="exterior.jpg" alt="Exterior of the Oaklawn home at dusk with warm lights." loading="lazy">
+          </figure>
+          <figure class="collage__item">
+            <img src="plate.jpg" alt="Chef plating a dish with careful garnish." loading="lazy">
+          </figure>
+          <figure class="collage__item">
+            <img src="whiskey" alt="Bourbon and wine bar with bottles and warm lighting." loading="lazy">
+          </figure>
+          <figure class="collage__item">
+            <img src="download.jpg" alt="Dining room with vintage decor and intimate seating." loading="lazy">
+          </figure>
+          <figure class="collage__item collage__item--wide">
+            <img src="sig.jpg" alt="Signature cocktails arranged on a dark wood bar." loading="lazy">
+          </figure>
         </div>
       </div>
     </section>
 
     <!-- Menu Preview -->
-    <section class="section menu-preview" id="menu-preview" aria-label="Menu preview">
-      <div class="section__inner">
-        <header class="section__header section__header--split">
+    <section class="menu-preview" aria-label="Menu preview">
+      <div class="container">
+        <header class="section-head section-head--split">
           <div>
-            <p class="section__eyebrow">Menu Preview</p>
-            <h2 class="section__title">A few signatures—enough to tempt the evening.</h2>
-            <p class="section__lead">
-              Six highlights across the menu. View the full dinner menu and bourbon/wine list for the complete experience.
+            <p class="eyebrow">
+              <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+              Menu Preview
+            </p>
+            <h2 class="section-title">Six signature moments to begin your evening.</h2>
+            <p class="section-lead">
+              A curated preview from our dinner menu—crafted for an elevated, intentional experience.
             </p>
           </div>
 
-          <div class="menu-preview__actions">
-            <a class="btn btn--primary" href="menu.html">
-              <i class="fa-solid fa-book-open"></i>
+          <div class="section-head__actions">
+            <a class="btn btn--primary" href="/menu">
+              <i class="fa-solid fa-utensils" aria-hidden="true"></i>
               <span>View Full Menu</span>
-            </a>
-            <a class="btn btn--secondary" href="menu.html#bar">
-              <i class="fa-solid fa-whiskey-glass"></i>
-              <span>Bourbon & Wine</span>
             </a>
           </div>
         </header>
 
-        <div class="menu-preview__grid" aria-label="Six featured items">
+        <div class="menu-grid" role="list">
           <!-- Starter -->
-          <article class="menu-card">
-            <div class="menu-card__tag">
-              <i class="fa-solid fa-plate-wheat"></i>
-              <span>Starter</span>
+          <article class="menu-card" role="listitem">
+            <div class="menu-card__media">
+              <img src=shrimp.jpg" alt="Angel Eggs with blackened shrimp and candied bacon." loading="lazy">
+              <span class="menu-card__tag">
+                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                Starter
+              </span>
             </div>
-            <h3 class="menu-card__name">Fried Green Tomatoes</h3>
-            <p class="menu-card__desc">
-              Gently breaded and deep fried, crab meat, Cajun aioli, feta cheese, celery, tomatoes.
-            </p>
-            <div class="menu-card__meta">
-              <span class="menu-card__price">21</span>
-              <span class="menu-card__dot" aria-hidden="true">•</span>
-              <span class="menu-card__note">House favorite</span>
+            <div class="menu-card__body">
+              <h3 class="menu-card__title">Angel Eggs</h3>
+              <p class="menu-card__desc">Blackened shrimp, pure maple candied bacon.</p>
+              <div class="menu-card__price">$19</div>
             </div>
           </article>
 
           <!-- Salad -->
-          <article class="menu-card">
-            <div class="menu-card__tag">
-              <i class="fa-solid fa-seedling"></i>
-              <span>Salad</span>
+          <article class="menu-card" role="listitem">
+            <div class="menu-card__media">
+              <img src="salad.jpg" alt="Oaklawn Chopped salad with seasonal fruit and mixed nuts." loading="lazy">
+              <span class="menu-card__tag">
+                <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+                Salad
+              </span>
             </div>
-            <h3 class="menu-card__name">Oaklawn Chopped</h3>
-            <p class="menu-card__desc">
-              Mixed greens, tomatoes, red onions, bacon, mixed nuts, seasonal fruit, blackberry vinaigrette.
-            </p>
-            <div class="menu-card__meta">
-              <span class="menu-card__price">14</span>
-              <span class="menu-card__dot" aria-hidden="true">•</span>
-              <span class="menu-card__note">Fresh & balanced</span>
+            <div class="menu-card__body">
+              <h3 class="menu-card__title">Oaklawn Chopped</h3>
+              <p class="menu-card__desc">Mixed greens, bacon, mixed nuts, seasonal fruit, blackberry vinaigrette.</p>
+              <div class="menu-card__price">$14</div>
             </div>
           </article>
 
           <!-- Farm -->
-          <article class="menu-card">
-            <div class="menu-card__tag">
-              <i class="fa-solid fa-drumstick-bite"></i>
-              <span>From the Farm</span>
+          <article class="menu-card" role="listitem">
+            <div class="menu-card__media">
+              <img src="farm.jpg" alt="Bertha’s Fried Chicken with garlic smashed potatoes and green beans." loading="lazy">
+              <span class="menu-card__tag">
+                <i class="fa-solid fa-wheat-awn" aria-hidden="true"></i>
+                Farm
+              </span>
             </div>
-            <h3 class="menu-card__name">Bertha’s Fried Chicken</h3>
-            <p class="menu-card__desc">
-              Breaded and fried tenders, garlic smashed potatoes, sautéed bacon green beans.
-            </p>
-            <div class="menu-card__meta">
-              <span class="menu-card__price">39</span>
-              <span class="menu-card__dot" aria-hidden="true">•</span>
-              <span class="menu-card__note">Legendary</span>
+            <div class="menu-card__body">
+              <h3 class="menu-card__title">Bertha’s Fried Chicken</h3>
+              <p class="menu-card__desc">Breaded tenders, garlic smashed potatoes, sautéed bacon green beans.</p>
+              <div class="menu-card__price">$39</div>
             </div>
           </article>
 
           <!-- Steak -->
-          <article class="menu-card">
-            <div class="menu-card__tag">
-              <i class="fa-solid fa-cow"></i>
-              <span>Steak</span>
+          <article class="menu-card" role="listitem">
+            <div class="menu-card__media">
+              <img src="stake1.jpg" alt="Signature Filet served with creamed spinach." loading="lazy">
+              <span class="menu-card__tag">
+                <i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i>
+                Steak
+              </span>
             </div>
-            <h3 class="menu-card__name">The Ribeye</h3>
-            <p class="menu-card__desc">
-              16 oz. highly marbled beef, whipped herb tallow, bourbon maple bacon Brussels.
-            </p>
-            <div class="menu-card__meta">
-              <span class="menu-card__price">67</span>
-              <span class="menu-card__dot" aria-hidden="true">•</span>
-              <span class="menu-card__note">Cooked to order</span>
+            <div class="menu-card__body">
+              <h3 class="menu-card__title">Signature Filet</h3>
+              <p class="menu-card__desc">8 oz. beef tenderloin, creamed spinach.</p>
+              <div class="menu-card__price">$63</div>
             </div>
           </article>
 
           <!-- Seafood -->
-          <article class="menu-card">
-            <div class="menu-card__tag">
-              <i class="fa-solid fa-fish"></i>
-              <span>Seafood</span>
+          <article class="menu-card" role="listitem">
+            <div class="menu-card__media">
+              <img src="seafood.jpg" alt="Chilean seabass with lemon beurre blanc, risotto and asparagus." loading="lazy">
+              <span class="menu-card__tag">
+                <i class="fa-solid fa-fish" aria-hidden="true"></i>
+                Seafood
+              </span>
             </div>
-            <h3 class="menu-card__name">Chilean Seabass</h3>
-            <p class="menu-card__desc">
-              Sherry seared, lemon beurre blanc, parmesan risotto, asparagus.
-            </p>
-            <div class="menu-card__meta">
-              <span class="menu-card__price">53</span>
-              <span class="menu-card__dot" aria-hidden="true">•</span>
-              <span class="menu-card__note">Subject to availability</span>
+            <div class="menu-card__body">
+              <h3 class="menu-card__title">Chilean Seabass</h3>
+              <p class="menu-card__desc">Sherry seared, lemon beurre blanc, parmesan risotto, asparagus.</p>
+              <div class="menu-card__price">$53</div>
             </div>
           </article>
 
           <!-- Cocktail -->
-          <article class="menu-card">
-            <div class="menu-card__tag">
-              <i class="fa-solid fa-martini-glass-citrus"></i>
-              <span>Cocktail</span>
+          <article class="menu-card" role="listitem">
+            <div class="menu-card__media">
+              <img src="cocktail1.jpg" alt="Paris Landing cocktail with champagne and strawberry garnish." loading="lazy">
+              <span class="menu-card__tag">
+                <i class="fa-solid fa-martini-glass-citrus" aria-hidden="true"></i>
+                Cocktail
+              </span>
             </div>
-            <h3 class="menu-card__name">Paris Landing</h3>
-            <p class="menu-card__desc">
-              Gin, lemon juice, simple syrup, champagne, strawberry. French 75-inspired.
-            </p>
-            <div class="menu-card__meta">
-              <span class="menu-card__price">17</span>
-              <span class="menu-card__dot" aria-hidden="true">•</span>
-              <span class="menu-card__note">Celebration-ready</span>
+            <div class="menu-card__body">
+              <h3 class="menu-card__title">Paris Landing</h3>
+              <p class="menu-card__desc">Gin, lemon, simple syrup, champagne, strawberry.</p>
+              <div class="menu-card__price">$17</div>
             </div>
           </article>
         </div>
 
-        <div class="menu-preview__bottom">
-          <a class="btn btn--primary" href="menu.html">
-            <i class="fa-solid fa-book-open"></i>
-            <span>View Full Dinner Menu</span>
-          </a>
-          <a class="btn btn--secondary" href="menu.html#bar">
-            <i class="fa-solid fa-whiskey-glass"></i>
-            <span>View Bourbon & Wine</span>
-          </a>
+        <div class="menu-preview__fine">
+          <p>
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            Dietary needs are welcome—please let us know when reserving.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Sunshine Room teaser -->
-    <section class="section sunshine" id="sunshine" aria-label="Sunshine Room private events">
-      <div class="section__inner">
-        <header class="section__header section__header--split">
-          <div>
-            <p class="section__eyebrow">Private Events</p>
-            <h2 class="section__title">The Sunshine Room</h2>
-            <p class="section__lead">
-              For anniversaries, corporate outings, intimate celebrations, and evenings designed around your occasion.
+    <!-- Bourbon + Wine Feature (Luxury split with many images) -->
+    <section class="spirits" aria-label="Bourbon and wine">
+      <div class="container spirits__grid">
+        <div class="spirits__media">
+          <figure class="spirits__img spirits__img--main">
+            <img src="drink1.jpg" alt="A bourbon pour into a glass over a dark oak bar." loading="lazy">
+          </figure>
+          <figure class="spirits__img spirits__img--top">
+            <img src="wine.jpg" alt="Red wine being poured into a glass." loading="lazy">
+          </figure>
+          <figure class="spirits__img spirits__img--bottom">
+            <img src="blacklit.jpg" alt="Backlit bourbon bottles arranged on shelves." loading="lazy">
+          </figure>
+        </div>
+
+        <div class="spirits__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i>
+              Bourbon & Wine Bar
             </p>
+            <h2 class="section-title">A deep bourbon list—served with intention.</h2>
+            <p class="section-lead">
+              Explore bourbons and whiskeys by the pour, request reduced pours, or build a flight board of four.
+              Pair your evening with a curated selection of wine and champagne.
+            </p>
+          </header>
+
+          <div class="spirits__facts" aria-label="Bar details">
+            <div class="fact">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              <div>
+                <strong>Bourbon & Wine Bar</strong>
+                <span>Opens at 4:00 PM</span>
+              </div>
+            </div>
+            <div class="fact">
+              <i class="fa-solid fa-wine-glass" aria-hidden="true"></i>
+              <div>
+                <strong>Wine & Champagne</strong>
+                <span>Curated bottles and by-the-glass options</span>
+              </div>
+            </div>
+            <div class="fact">
+              <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+              <div>
+                <strong>Flights Available</strong>
+                <span>¼ oz pours • boards of 4 on request</span>
+              </div>
+            </div>
           </div>
+
+          <div class="spirits__actions">
+            <a class="btn btn--primary" href="/menu#bourbon">
+              <i class="fa-solid fa-list" aria-hidden="true"></i>
+              <span>Explore Bourbon List</span>
+            </a>
+            <button class="btn btn--ghost" type="button" data-open-reserve>
+              <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+              <span>Reserve for Cocktails</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sunshine Room Teaser -->
+    <section class="sunshine" aria-label="Sunshine Room private dining">
+      <div class="container sunshine__grid">
+        <div class="sunshine__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i>
+              Private Events
+            </p>
+            <h2 class="section-title">The Sunshine Room</h2>
+            <p class="section-lead">
+              An intimate space for anniversaries, celebrations, and corporate evenings—paired with Oaklawn hospitality.
+            </p>
+          </header>
+
+          <ul class="sunshine__bullets" aria-label="Private dining highlights">
+            <li>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <span>Curated menus for memorable occasions</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <span>Perfect for business dinners, birthdays, and milestone celebrations</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <span>Warm, vintage-inspired atmosphere inside a reimagined home</span>
+            </li>
+          </ul>
+
           <div class="sunshine__actions">
-            <a class="btn btn--primary" href="events.html">
-              <i class="fa-solid fa-champagne-glasses"></i>
+            <a class="btn btn--primary" href="/events">
+              <i class="fa-solid fa-door-open" aria-hidden="true"></i>
               <span>Inquire</span>
             </a>
-            <a class="btn btn--secondary" href="gallery.html">
-              <i class="fa-regular fa-images"></i>
-              <span>View Gallery</span>
+            <a class="btn btn--ghost" href="/gallery#sunshine-room">
+              <i class="fa-solid fa-images" aria-hidden="true"></i>
+              <span>View Photos</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sunshine__media">
+          <figure class="sunshine__photo">
+            <img src="interior.jpg" alt="The Sunshine Room set for an intimate private dining experience." loading="lazy">
+          </figure>
+
+          <div class="sunshine__mini" aria-label="Additional images">
+            <figure class="sunshine__mini-card">
+              <img src="sunshine.jpg" alt="A beautifully set table with candlelight and glassware." loading="lazy">
+            </figure>
+            <figure class="sunshine__mini-card">
+              <img src="cl.jpg" alt="Champagne glasses raised for a toast." loading="lazy">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Strip (lots of images) -->
+    <section class="gallery-strip" aria-label="Atmosphere gallery">
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow">
+              <i class="fa-solid fa-camera-retro" aria-hidden="true"></i>
+              Atmosphere
+            </p>
+            <h2 class="section-title">Vintage warmth. Modern craft.</h2>
+            <p class="section-lead">A glimpse into the oak bar, candlelit tables, and chef-inspired presentation.</p>
+          </div>
+          <div class="section-head__actions">
+            <a class="btn btn--ghost" href="/gallery">
+              <i class="fa-solid fa-images" aria-hidden="true"></i>
+              <span>View Full Gallery</span>
             </a>
           </div>
         </header>
 
-        <div class="sunshine__grid">
-          <figure class="sunshine__image">
-            <img src="sunshine.jpg" alt="The Sunshine Room private dining space with elegant lighting" />
-            <figcaption>Private dining in the Sunshine Room.</figcaption>
+        <div class="strip" role="list" aria-label="Gallery images">
+          <figure class="strip__item" role="listitem">
+            <img src="gallery1.jpg" alt="Candlelit table setting with vintage glassware." loading="lazy">
           </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery2.jpg" alt="Close-up of a steak sliced and plated with sauce." loading="lazy">
+          </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery3.jpg" alt="Oysters on ice with lemon and mignonette." loading="lazy">
+          </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery4.jpg" alt="Bourbon bottles displayed on a bar shelf." loading="lazy">
+          </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery5.jpg" alt="Cocktail being garnished with citrus twist." loading="lazy">
+          </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery6.jpg" alt="Dining room with warm lighting and intimate seating." loading="lazy">
+          </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery7.jpg" alt="Chef plating seafood with herbs and butter sauce." loading="lazy">
+          </figure>
+          <figure class="strip__item" role="listitem">
+            <img src="gallery8.jpg" alt="Champagne bottle and glasses on a dark wood table." loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
 
-          <div class="sunshine__panel">
-            <div class="sunshine__pillars">
-              <div class="pillar">
-                <i class="fa-solid fa-heart"></i>
-                <div>
-                  <h3>Celebrations</h3>
-                  <p>Anniversaries, birthdays, milestones—crafted with warmth and elegance.</p>
-                </div>
-              </div>
+    <!-- Reservations Block -->
+    <section class="reserve-block" aria-label="Reservations">
+      <div class="container reserve-block__grid">
+        <div class="reserve-block__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+              Reservations
+            </p>
+            <h2 class="section-title">Reserve your table for an intentional evening.</h2>
+            <p class="section-lead">
+              Reservations are highly recommended. We welcome parties from 1 to 20 guests.
+              Reservations are required for groups over 6.
+            </p>
+          </header>
 
-              <div class="pillar">
-                <i class="fa-solid fa-user-tie"></i>
-                <div>
-                  <h3>Corporate Outings</h3>
-                  <p>A polished space with attentive service and curated options.</p>
-                </div>
-              </div>
+          <div class="reserve-block__actions">
+            <button class="btn btn--primary btn--xl" type="button" data-open-reserve>
+              <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+              <span>Reserve</span>
+            </button>
+            <a class="btn btn--ghost btn--xl" href="tel:17314074262">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i>
+              <span>Call to Reserve</span>
+            </a>
+          </div>
 
-              <div class="pillar">
-                <i class="fa-solid fa-champagne-glasses"></i>
-                <div>
-                  <h3>Toasts & Moments</h3>
-                  <p>Wine, champagne, and signature cocktails for the perfect finish.</p>
-                </div>
-              </div>
+          <div class="reserve-block__notes" aria-label="Notes">
+            <div class="note">
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+              <span>Please share dietary needs or celebration details when booking.</span>
             </div>
-
-            <div class="sunshine__cta">
-              <a class="btn btn--primary btn--full" href="events.html">
-                <i class="fa-solid fa-paper-plane"></i>
-                <span>Send an Inquiry</span>
-              </a>
-              <p class="sunshine__fineprint">
-                Prefer to speak with us? Call <a href="tel:17314074262">731-407-4262</a>.
-              </p>
+            <div class="note">
+              <i class="fa-solid fa-car-side" aria-hidden="true"></i>
+              <span>Complimentary valet parking available.</span>
             </div>
+          </div>
+        </div>
+
+        <div class="reserve-block__media" aria-hidden="true">
+          <figure class="reserve-photo reserve-photo--top">
+            <img src="reserve.jpg" alt="Candlelit table with menus and glassware." loading="lazy">
+          </figure>
+          <figure class="reserve-photo reserve-photo--bottom">
+            <img src="reserve2.jpg" alt="Entrance of the Oaklawn home with warm lighting." loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gift Cards -->
+    <section class="giftcards" aria-label="Gift cards">
+      <div class="container giftcards__grid">
+        <div class="giftcards__media" aria-hidden="true">
+          <figure class="giftcards__img">
+            <img src="gitf.jpg" alt="Gift card presentation on a dark wood surface with ribbon." loading="lazy">
+          </figure>
+          <figure class="giftcards__img giftcards__img--small">
+            <img src="gitf2.jpg" alt="Cocktail toast over a table setting." loading="lazy">
+          </figure>
+        </div>
+
+        <div class="giftcards__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-gift" aria-hidden="true"></i>
+              Gift Cards
+            </p>
+            <h2 class="section-title">Give the Oaklawn experience.</h2>
+            <p class="section-lead">
+              Gift cards can be purchased online—perfect for anniversaries, birthdays, and meaningful evenings.
+            </p>
+          </header>
+
+          <div class="giftcards__actions">
+            <a class="btn btn--primary" href="/gift-cards">
+              <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+              <span>Purchase Gift Cards</span>
+            </a>
+            <a class="btn btn--ghost" href="/contact">
+              <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+              <span>Questions? Contact Us</span>
+            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Reservations Block (CTA opens modal) -->
-    <section class="section reserve" id="reserve" aria-label="Reservations">
-      <div class="section__inner">
-        <div class="reserve__panel">
-          <div class="reserve__text">
-            <p class="section__eyebrow">Reservations</p>
-            <h2 class="section__title">Reserve your table—beautifully.</h2>
-            <p class="section__lead">
-              Reservations are highly recommended and required for groups over 6. Parties of 1 to 20 are welcome.
+    <!-- Visit -->
+    <section class="visit" aria-label="Visit Oaklawn">
+      <div class="container visit__grid">
+        <div class="visit__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+              Visit
             </p>
+            <h2 class="section-title">Find us in Paris, Tennessee.</h2>
+            <p class="section-lead">
+              Located minutes from Paris Landing State Park and Land Between the Lakes, Oaklawn welcomes you
+              into a warm, refined home setting—crafted for hospitality.
+            </p>
+          </header>
 
-            <div class="reserve__notes" aria-label="Business hours and valet">
-              <div class="meta-chip">
-                <i class="fa-regular fa-clock"></i>
-                <span>Mon–Sat • Bar 4:00 PM • Dining 4:30 PM</span>
+          <div class="visit__cards" aria-label="Visit details">
+            <div class="visit-card">
+              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              <div>
+                <strong>Address</strong>
+                <span>1008 E. Wood Street, Paris, TN</span>
               </div>
-              <div class="meta-chip">
-                <i class="fa-solid fa-car"></i>
+            </div>
+            <div class="visit-card">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i>
+              <div>
+                <strong>Phone</strong>
+                <a href="tel:17314074262">731-407-4262</a>
+              </div>
+            </div>
+            <div class="visit-card">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              <div>
+                <strong>Hours (Mon–Sat)</strong>
+                <span>Bar 4:00 PM • Dining 4:30 PM</span>
+              </div>
+            </div>
+            <div class="visit-card">
+              <i class="fa-solid fa-car-side" aria-hidden="true"></i>
+              <div>
+                <strong>Parking</strong>
                 <span>Complimentary valet parking</span>
               </div>
             </div>
           </div>
 
-          <div class="reserve__cta">
-            <button class="btn btn--primary btn--full" type="button" data-open-reservation-modal>
-              <i class="fa-regular fa-calendar-check"></i>
-              <span>Reserve Now</span>
-            </button>
+          <details class="holiday" aria-label="Holiday closings">
+            <summary>
+              <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
+              <span>Holiday Closings</span>
+            </summary>
+            <ul class="holiday__list">
+              <li>January 1st–7th</li>
+              <li>Memorial Day</li>
+              <li>Independence Day</li>
+              <li>Labor Day</li>
+              <li>Thanksgiving Eve & Day</li>
+              <li>Christmas Eve & Day</li>
+            </ul>
+          </details>
 
-            <a class="btn btn--secondary btn--full" href="tel:17314074262" aria-label="Call Oaklawn">
-              <i class="fa-solid fa-phone"></i>
-              <span>Call 731-407-4262</span>
+          <div class="visit__actions">
+            <a class="btn btn--primary" href="/contact">
+              <i class="fa-solid fa-diamond-turn-right" aria-hidden="true"></i>
+              <span>Get Directions</span>
             </a>
-
-            <div class="reserve__fine">
-              <div class="fine-row">
-                <i class="fa-solid fa-circle-info"></i>
-                <span>Please let us know if you have any specific dietary needs.</span>
-              </div>
-              <div class="fine-row">
-                <i class="fa-solid fa-people-group"></i>
-                <span>Groups over 6 require a reservation.</span>
-              </div>
-            </div>
+            <button class="btn btn--ghost" type="button" data-open-reserve>
+              <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+              <span>Reserve</span>
+            </button>
           </div>
         </div>
 
-        <!-- Holiday closings (compact) -->
-        <div class="holiday" aria-label="Holiday closings">
-          <div class="holiday__title">
-            <i class="fa-regular fa-calendar-xmark"></i>
-            <span>Holiday Closings</span>
-          </div>
-          <div class="holiday__list">
-            <span class="holiday__item">January 1st–7th</span>
-            <span class="holiday__item">Memorial Day</span>
-            <span class="holiday__item">Independence Day</span>
-            <span class="holiday__item">Labor Day</span>
-            <span class="holiday__item">Thanksgiving Eve & Day</span>
-            <span class="holiday__item">Christmas Eve & Day</span>
-          </div>
+        <div class="visit__media">
+          <figure class="visit__img">
+            <img src="images/visit-map.jpg" alt="Map preview image showing Oaklawn Southern Dining location." loading="lazy">
+          </figure>
+          <figure class="visit__img visit__img--small">
+            <img src="images/visit-park.jpg" alt="Scenic view near Paris Landing State Park." loading="lazy">
+          </figure>
+          <figure class="visit__img visit__img--small">
+            <img src="images/visit-lbl.jpg" alt="Landscape scene at Land Between the Lakes." loading="lazy">
+          </figure>
         </div>
       </div>
     </section>
 
-    <!-- Location strip -->
-    <section class="section location" id="location" aria-label="Location">
-      <div class="section__inner">
-        <div class="location__strip">
-          <div class="location__left">
-            <p class="section__eyebrow">Location</p>
-            <h2 class="section__title">Find us in Paris, Tennessee.</h2>
+    <!-- Careers teaser -->
+    <section class="careers-teaser" aria-label="Careers">
+      <div class="container careers-teaser__grid">
+        <div class="careers-teaser__copy">
+          <header class="section-head">
+            <p class="eyebrow">
+              <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+              Careers
+            </p>
+            <h2 class="section-title">Become part of the Oaklawn team.</h2>
+            <p class="section-lead">
+              If you are interested in becoming a part of our team, please begin the application process by leaving
+              us your name and contact information.
+            </p>
+          </header>
 
-            <div class="location__rows">
-              <div class="contact-row">
-                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                <div>
-                  <p class="contact-row__label">Address</p>
-                  <p class="contact-row__value">1008 E. Wood Street, Paris TN</p>
-                </div>
-              </div>
+          <form class="careers-form" action="#" method="post">
+            <div class="form-grid">
+              <label class="field">
+                <span class="field__label">Full Name</span>
+                <input class="field__input" type="text" name="name" autocomplete="name" required>
+              </label>
 
-              <div class="contact-row">
-                <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                <div>
-                  <p class="contact-row__label">Phone</p>
-                  <p class="contact-row__value"><a href="tel:17314074262">731-407-4262</a></p>
-                </div>
-              </div>
+              <label class="field">
+                <span class="field__label">Phone</span>
+                <input class="field__input" type="tel" name="phone" autocomplete="tel" required>
+              </label>
 
-              <div class="contact-row">
-                <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                <div>
-                  <p class="contact-row__label">Hours</p>
-                  <p class="contact-row__value">
-                    Monday through Saturday<br />
-                    Bourbon & Wine Bar: 4:00 PM<br />
-                    Dining & Reservations: 4:30 PM
-                  </p>
-                </div>
-              </div>
+              <label class="field field--full">
+                <span class="field__label">Email</span>
+                <input class="field__input" type="email" name="email" autocomplete="email" required>
+              </label>
 
-              <div class="contact-row">
-                <i class="fa-solid fa-car" aria-hidden="true"></i>
-                <div>
-                  <p class="contact-row__label">Parking</p>
-                  <p class="contact-row__value">Complimentary valet parking available.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="location__right" aria-label="Map actions">
-            <!-- Small map preview + button -->
-            <div class="mini-map" aria-hidden="true">
-              <img src="assets/map-preview.jpg" alt="" />
+              <label class="field field--full">
+                <span class="field__label">Message (optional)</span>
+                <textarea class="field__input field__input--area" name="message" rows="4" placeholder="Tell us what role you're interested in."></textarea>
+              </label>
             </div>
 
-            <div class="location__buttons">
-              <a class="btn btn--primary btn--full" href="https://www.google.com/maps/dir/?api=1&destination=1008%20E.%20Wood%20Street%2C%20Paris%20TN" target="_blank" rel="noopener">
-                <i class="fa-solid fa-diamond-turn-right"></i>
-                <span>Get Directions</span>
+            <div class="form-actions">
+              <button class="btn btn--primary" type="submit">
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                <span>Submit</span>
+              </button>
+              <a class="btn btn--ghost" href="/careers">
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                <span>Careers Page</span>
               </a>
-              <a class="btn btn--secondary btn--full" href="contact.html">
-                <i class="fa-solid fa-map-location-dot"></i>
-                <span>Contact Page</span>
-              </a>
-
-              <div class="location__nearby">
-                <div class="nearby">
-                  <i class="fa-solid fa-tree"></i>
-                  <span>Near Paris Landing State Park</span>
-                </div>
-                <div class="nearby">
-                  <i class="fa-solid fa-water"></i>
-                  <span>Land Between the Lakes</span>
-                </div>
-              </div>
             </div>
-          </div>
+          </form>
+        </div>
+
+        <div class="careers-teaser__media" aria-hidden="true">
+          <figure class="careers-photo careers-photo--main">
+            <img src="c.jpg" alt="Restaurant team in a warm, elegant dining environment." loading="lazy">
+          </figure>
+          <figure class="careers-photo careers-photo--mini">
+            <img src="c2.jpg" alt="Chef preparing a dish in the kitchen." loading="lazy">
+          </figure>
         </div>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="footer footer--light" aria-label="Footer">
-    <div class="footer__inner">
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__grid">
       <div class="footer__brand">
-        <div class="footer__logo" aria-hidden="true">
-          <i class="fa-solid fa-utensils"></i>
-        </div>
-        <div class="footer__brand-text">
-          <p class="footer__name">Oaklawn Southern Dining</p>
-          <p class="footer__tagline">Chef-inspired • Urban Elegant • Intimate</p>
-        </div>
-      </div>
-
-      <div class="footer__cols">
-        <div class="footer__col">
-          <h3 class="footer__title">Visit</h3>
-          <p class="footer__line">1008 E. Wood Street, Paris TN</p>
-          <p class="footer__line"><a href="tel:17314074262">731-407-4262</a></p>
-          <p class="footer__line">Mon–Sat • Bar 4:00 PM • Dining 4:30 PM</p>
-          <p class="footer__line">Complimentary valet parking</p>
-        </div>
-
-        <div class="footer__col">
-          <h3 class="footer__title">Explore</h3>
-          <ul class="footer__links">
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="menu.html">Full Dinner Menu</a></li>
-            <li><a href="menu.html#bar">Bourbon & Wine</a></li>
-            <li><a href="events.html">Private Events</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <h3 class="footer__title">Connect</h3>
-          <ul class="footer__links">
-            <li><button class="footer__link-btn" type="button" data-open-reservation-modal>Reserve</button></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="careers.html">Join Our Team</a></li>
-            <li><a href="menu.html">Menus</a></li>
-          </ul>
-
-          <div class="footer__social" aria-label="Social links">
-            <a class="social" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a class="social" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a class="social" href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer__bottom">
-        <p class="footer__copyright">© 2026 Oaklawn Southern Dining. All Rights Reserved.</p>
-        <a class="footer__top" href="#top" aria-label="Back to top">
-          <i class="fa-solid fa-chevron-up"></i>
-          <span>Top</span>
+        <a class="brand brand--footer" href="/home" aria-label="Oaklawn Southern Dining — Home">
+          <span class="brand__mark" aria-hidden="true">
+            <i class="fa-solid fa-oak-leaf"></i>
+          </span>
+          <span class="brand__text">
+            <span class="brand__name">Oaklawn</span>
+            <span class="brand__sub">Southern Dining</span>
+          </span>
         </a>
+
+        <p class="footer__desc">
+          Chef-inspired dishes in a unique urban-elegant atmosphere—inside a remade 1954 home, minutes from
+          Paris Landing State Park and Land Between the Lakes.
+        </p>
+
+        <div class="footer__badges" aria-label="Quick actions">
+          <button class="btn btn--primary" type="button" data-open-reserve>
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+            <span>Reserve</span>
+          </button>
+          <a class="btn btn--ghost" href="/gift-cards">
+            <i class="fa-solid fa-gift" aria-hidden="true"></i>
+            <span>Gift Cards</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h3 class="footer__title">Visit</h3>
+        <ul class="footer__list">
+          <li>
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <span>1008 E. Wood Street, Paris, TN</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <a href="tel:17314074262">731-407-4262</a>
+          </li>
+          <li>
+            <i class="fa-solid fa-clock" aria-hidden="true"></i>
+            <span>Bar 4:00 PM • Dining 4:30 PM</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-car-side" aria-hidden="true"></i>
+            <span>Complimentary valet parking</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h3 class="footer__title">Explore</h3>
+        <ul class="footer__links">
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="/events">Private Dining</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/contact">Visit & Contact</a></li>
+          <li><a href="/careers">Careers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h3 class="footer__title">Stay in Touch</h3>
+        <p class="footer__small">
+          Seasonal features, special evenings, and private dining updates.
+        </p>
+
+        <form class="newsletter" action="#" method="post">
+          <label class="field">
+            <span class="field__label">Email</span>
+            <div class="newsletter__row">
+              <input class="field__input" type="email" name="newsletter_email" autocomplete="email" placeholder="you@example.com" required>
+              <button class="btn btn--primary" type="submit" aria-label="Join newsletter">
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </label>
+        </form>
+
+        <div class="footer__social" aria-label="Social links">
+          <a class="icon-btn" href="#" aria-label="Instagram">
+            <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+          </a>
+          <a class="icon-btn" href="#" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+          </a>
+          <a class="icon-btn" href="#" aria-label="Google">
+            <i class="fa-brands fa-google" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer__bottom">
+      <p class="footer__legal">All Rights Reserved | Copyright © 2026</p>
+      <div class="footer__bottom-actions">
+        <a class="footer__bottom-link" href="/contact">Contact</a>
+        <span class="dot" aria-hidden="true">•</span>
+        <a class="footer__bottom-link" href="/privacy">Privacy</a>
       </div>
     </div>
   </footer>
 
-  <!-- Floating Reserve Button (Mobile) -->
-  <button class="float-reserve" type="button" data-open-reservation-modal aria-label="Reserve a table">
-    <i class="fa-regular fa-calendar-check"></i>
-    <span>Reserve</span>
-  </button>
-
-  <!-- Reservation Modal (structure only — script will open/close) -->
-  <div class="lux-modal" id="reservationModal" aria-hidden="true">
-    <div class="lux-modal__backdrop" data-close-reservation-modal="true" aria-hidden="true"></div>
-
-    <div class="lux-modal__panel" role="dialog" aria-modal="true" aria-label="Reserve a table">
-      <div class="lux-modal__head">
-        <div class="lux-modal__icon" aria-hidden="true">
-          <i class="fa-regular fa-calendar-check"></i>
+  <!-- Reservations Modal (structure only; JS later) -->
+  <div class="modal" id="reserveModal" aria-hidden="true">
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-label="Reservations">
+      <div class="modal__head">
+        <div class="modal__title-wrap">
+          <p class="modal__eyebrow">
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+            Reservations
+          </p>
+          <h2 class="modal__title">Reserve a table</h2>
+          <p class="modal__subtitle">
+            Reservations are highly recommended. Parties of 1–20 are welcome.
+            Reservations are required for groups over 6.
+          </p>
         </div>
-        <button class="lux-modal__close" type="button" aria-label="Close reservation form" data-close-reservation-modal="true">
-          <i class="fa-solid fa-xmark"></i>
+
+        <button class="icon-btn" type="button" data-close-reserve aria-label="Close reservation modal">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
       </div>
 
-      <div class="lux-modal__body">
-        <h3 class="lux-modal__title">Reserve a Table</h3>
-        <p class="lux-modal__text">
-          Reservations are highly recommended and required for groups over 6. Parties 1–20 are welcome.
-        </p>
+      <div class="modal__body">
+        <form class="reserve-form" action="#" method="post">
+          <div class="form-grid">
+            <label class="field">
+              <span class="field__label">Full Name</span>
+              <input class="field__input" type="text" name="guest_name" autocomplete="name" required>
+            </label>
 
-        <form class="reserve-form" action="#" method="post" aria-label="Reservation form">
-          <div class="reserve-form__grid">
-            <div class="field">
-              <label for="partySize">Party size</label>
-              <div class="field__control">
-                <i class="fa-solid fa-people-group" aria-hidden="true"></i>
-                <select id="partySize" name="partySize" required>
-                  <option value="" selected disabled>Select size</option>
-                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
-                  <option>7</option><option>8</option><option>9</option><option>10</option>
-                  <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
-                  <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
-                </select>
-              </div>
-            </div>
+            <label class="field">
+              <span class="field__label">Phone</span>
+              <input class="field__input" type="tel" name="guest_phone" autocomplete="tel" required>
+            </label>
 
-            <div class="field">
-              <label for="resDate">Date</label>
-              <div class="field__control">
-                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                <input id="resDate" name="resDate" type="date" required />
-              </div>
-            </div>
+            <label class="field">
+              <span class="field__label">Email</span>
+              <input class="field__input" type="email" name="guest_email" autocomplete="email" required>
+            </label>
 
-            <div class="field">
-              <label for="resTime">Time</label>
-              <div class="field__control">
-                <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                <select id="resTime" name="resTime" required>
-                  <option value="" selected disabled>Select a time</option>
-                  <option>4:30 PM</option>
-                  <option>5:00 PM</option>
-                  <option>5:30 PM</option>
-                  <option>6:00 PM</option>
-                  <option>6:30 PM</option>
-                  <option>7:00 PM</option>
-                  <option>7:30 PM</option>
-                  <option>8:00 PM</option>
-                  <option>8:30 PM</option>
-                  <option>9:00 PM</option>
-                </select>
-              </div>
-            </div>
+            <label class="field">
+              <span class="field__label">Party Size</span>
+              <select class="field__input" name="party_size" required>
+                <option value="" selected disabled>Select</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+                <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+              </select>
+            </label>
 
-            <div class="field">
-              <label for="fullName">Full name</label>
-              <div class="field__control">
-                <i class="fa-regular fa-user" aria-hidden="true"></i>
-                <input id="fullName" name="fullName" type="text" placeholder="Your name" autocomplete="name" required />
-              </div>
-            </div>
+            <label class="field">
+              <span class="field__label">Date</span>
+              <input class="field__input" type="date" name="date" required>
+            </label>
 
-            <div class="field">
-              <label for="phone">Phone</label>
-              <div class="field__control">
-                <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                <input id="phone" name="phone" type="tel" placeholder="(731) 407-4262" autocomplete="tel" required />
-              </div>
-            </div>
+            <label class="field">
+              <span class="field__label">Time</span>
+              <select class="field__input" name="time" required>
+                <option value="" selected disabled>Select</option>
+                <option>4:30 PM</option>
+                <option>5:00 PM</option>
+                <option>5:30 PM</option>
+                <option>6:00 PM</option>
+                <option>6:30 PM</option>
+                <option>7:00 PM</option>
+                <option>7:30 PM</option>
+                <option>8:00 PM</option>
+                <option>8:30 PM</option>
+                <option>9:00 PM</option>
+              </select>
+            </label>
 
-            <div class="field">
-              <label for="email">Email</label>
-              <div class="field__control">
-                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
-              </div>
-            </div>
+            <label class="field field--full">
+              <span class="field__label">Occasion (optional)</span>
+              <input class="field__input" type="text" name="occasion" placeholder="Anniversary, date night, birthday...">
+            </label>
 
-            <div class="field field--full">
-              <label for="notes">Notes (optional)</label>
-              <div class="field__control">
-                <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
-                <textarea id="notes" name="notes" rows="4" placeholder="Anniversary, dietary needs, seating preferences..."></textarea>
-              </div>
-            </div>
+            <label class="field field--full">
+              <span class="field__label">Notes (dietary needs, seating requests, celebrations)</span>
+              <textarea class="field__input field__input--area" name="notes" rows="4" placeholder="Tell us what would make your evening perfect."></textarea>
+            </label>
           </div>
 
-          <div class="reserve-form__actions">
-            <button class="btn btn--primary btn--full" type="submit">
-              <i class="fa-solid fa-paper-plane"></i>
+          <div class="form-actions">
+            <button class="btn btn--primary btn--xl" type="submit">
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
               <span>Request Reservation</span>
             </button>
+            <a class="btn btn--ghost btn--xl" href="tel:17314074262">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i>
+              <span>Prefer to Call?</span>
+            </a>
+          </div>
 
-            <div class="reserve-form__fineprint">
-              <div class="fine-row">
-                <i class="fa-solid fa-car"></i>
-                <span>Complimentary valet parking available.</span>
-              </div>
-              <div class="fine-row">
-                <i class="fa-solid fa-circle-info"></i>
-                <span>Please let us know if you have any specific dietary needs.</span>
-              </div>
-            </div>
+          <div class="form-footnote" aria-label="Reservation note">
+            <p>
+              <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+              For parties over 6, reservations are required. If you need a private event, explore the Sunshine Room.
+            </p>
           </div>
         </form>
+
+        <aside class="modal__aside" aria-label="Reservation imagery">
+          <figure class="aside-photo">
+            <img src="images/modal-steak.jpg" alt="Signature steak plated with sauce and herbs." loading="lazy">
+          </figure>
+          <figure class="aside-photo">
+            <img src="images/modal-cocktail.jpg" alt="Cocktail with citrus garnish on a dark wood bar." loading="lazy">
+          </figure>
+          <figure class="aside-photo">
+            <img src="images/modal-room.jpg" alt="Warm dining room atmosphere with vintage decor." loading="lazy">
+          </figure>
+        </aside>
       </div>
     </div>
+    <button class="modal__backdrop" type="button" data-close-reserve aria-label="Close reservation modal"></button>
   </div>
-    <script>
-/* =========================================================
-   Oaklawn (Light Home) — Vanilla JS
-   Works with the provided homepage body structure:
-   - Mobile drawer open/close (focus trap, ESC, outside click)
-   - Sticky header shadow (.is-scrolled)
-   - Smooth scroll for internal anchors + close drawer on navigate
-   - Active nav highlight (scroll spy)
-   - Reservation modal open/close (buttons, backdrop, ESC)
-   - Reservation form validation + success modal message
-   - Floating reserve button visibility on scroll
-   - Footer year safety (keeps © current year if you later change it)
-   ========================================================= */
+
+  <!-- Floating Reserve Button (mobile-first; styled later) -->
+  <button class="float-reserve" type="button" data-open-reserve aria-label="Reserve a table">
+    <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+  </button>
+  <script>
+/* Oaklawn — Home
+   Script responsibilities (no CSS here):
+   - Mobile nav drawer: open/close + focus trap + ESC + backdrop click
+   - Reserve modal: open/close + focus trap + ESC + backdrop click
+   - Smooth scroll for same-page anchors
+   - Simple forms: prevent default + basic validation + UX messaging (no backend)
+   - Party size rule messaging (over 6 requires reservation: informational)
+   - Accessibility: restore focus to opener, lock body scroll when overlays open
+*/
 
 (() => {
   "use strict";
 
-  /* ---------------------------
+  /* ------------------------------
      Helpers
-  --------------------------- */
+  ------------------------------ */
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-  const prefersReducedMotion = () =>
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const debounce = (fn, wait = 100) => {
-    let t;
-    return (...args) => {
-      clearTimeout(t);
-      t = setTimeout(() => fn(...args), wait);
-    };
+  const isVisible = (el) => !!(el && (el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+  const getFocusable = (root) => {
+    if (!root) return [];
+    const focusables = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(',');
+    return $$(focusables, root).filter(el => isVisible(el));
   };
 
-  function setAriaExpanded(btn, expanded) {
-    if (!btn) return;
-    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
-  }
+  const lockScroll = () => {
+    const body = document.body;
+    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (!body.dataset.scrollLocked) {
+      body.dataset.scrollLocked = "true";
+      body.dataset.prevOverflow = body.style.overflow || "";
+      body.dataset.prevPaddingRight = body.style.paddingRight || "";
+      body.style.overflow = "hidden";
+      if (scrollBarWidth > 0) body.style.paddingRight = scrollBarWidth + "px";
+    }
+  };
 
-  function lockScroll(lock) {
-    document.documentElement.classList.toggle("is-locked", !!lock);
-    document.body.classList.toggle("is-locked", !!lock);
-  }
+  const unlockScroll = () => {
+    const body = document.body;
+    if (body.dataset.scrollLocked) {
+      body.style.overflow = body.dataset.prevOverflow || "";
+      body.style.paddingRight = body.dataset.prevPaddingRight || "";
+      delete body.dataset.scrollLocked;
+      delete body.dataset.prevOverflow;
+      delete body.dataset.prevPaddingRight;
+    }
+  };
 
-  function trapFocus(container, onClose) {
-    if (!container) return () => {};
+  // Set aria-hidden + inert (where supported)
+  const setHidden = (el, hidden) => {
+    if (!el) return;
+    el.setAttribute("aria-hidden", hidden ? "true" : "false");
+    // inert is supported in modern browsers; safe to set/remove
+    if ("inert" in el) el.inert = hidden;
+  };
 
-    const focusables = $$(
-      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
-      container
-    ).filter(el => el.offsetParent !== null);
+  /* ------------------------------
+     Overlay Manager (focus trap, ESC, restore focus)
+  ------------------------------ */
+  const Overlay = (() => {
+    const stack = []; // {type, root, panel, close, opener}
 
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
+    const onKeyDown = (e) => {
+      if (!stack.length) return;
 
-    function onKeydown(e) {
+      const top = stack[stack.length - 1];
+      if (!top) return;
+
       if (e.key === "Escape") {
         e.preventDefault();
-        onClose?.();
+        top.close();
         return;
       }
-      if (e.key !== "Tab" || focusables.length === 0) return;
 
-      if (e.shiftKey && document.activeElement === first) {
+      if (e.key !== "Tab") return;
+
+      const focusables = getFocusable(top.panel);
+      if (!focusables.length) {
         e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+        top.panel && top.panel.focus && top.panel.focus();
+        return;
       }
-    }
 
-    container.addEventListener("keydown", onKeydown);
-    setTimeout(() => first?.focus(), 0);
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
 
-    return () => container.removeEventListener("keydown", onKeydown);
-  }
+      if (e.shiftKey) {
+        if (active === first || active === top.panel) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
 
-  function smoothScrollTo(target) {
-    if (!target) return;
-    const header = $(".header");
-    const headerH = header ? header.getBoundingClientRect().height : 0;
-    const top = window.pageYOffset + target.getBoundingClientRect().top - headerH - 10;
+    const activate = (entry) => {
+      stack.push(entry);
+      document.addEventListener("keydown", onKeyDown, true);
+      lockScroll();
 
-    window.scrollTo({
-      top,
-      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      // Focus first focusable
+      const focusables = getFocusable(entry.panel);
+      (focusables[0] || entry.panel).focus?.();
+    };
+
+    const deactivate = (type) => {
+      // Remove last matching type (normally top)
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (!type || stack[i].type === type) {
+          const [entry] = stack.splice(i, 1);
+          if (!stack.length) {
+            document.removeEventListener("keydown", onKeyDown, true);
+            unlockScroll();
+          }
+          // Restore focus to opener (if still exists)
+          if (entry && entry.opener && document.contains(entry.opener)) {
+            entry.opener.focus?.();
+          }
+          break;
+        }
+      }
+    };
+
+    const isOpen = (type) => stack.some(s => s.type === type);
+
+    return { activate, deactivate, isOpen };
+  })();
+
+  /* ------------------------------
+     Mobile Nav Drawer
+  ------------------------------ */
+  const mobileNav = $("#mobileNav");
+  const mobilePanel = mobileNav ? $(".drawer__panel", mobileNav) : null;
+
+  const openMobileNav = (opener) => {
+    if (!mobileNav || !mobilePanel) return;
+    if (Overlay.isOpen("nav")) return;
+
+    setHidden(mobileNav, false);
+    mobileNav.classList.add("is-open");
+    mobileNav.dataset.open = "true";
+
+    Overlay.activate({
+      type: "nav",
+      root: mobileNav,
+      panel: mobilePanel,
+      opener,
+      close: () => closeMobileNav()
     });
-  }
-
-  function normalize(s) {
-    return String(s || "")
-      .toLowerCase()
-      .trim();
-  }
-
-  /* ---------------------------
-     Header shadow on scroll
-  --------------------------- */
-  const header = $(".header");
-  const onScrollHeader = () => {
-    if (!header) return;
-    header.classList.toggle("is-scrolled", (window.scrollY || 0) > 10);
   };
-  window.addEventListener("scroll", debounce(onScrollHeader, 10), { passive: true });
-  onScrollHeader();
 
-  /* ---------------------------
-     Drawer (mobile nav)
-  --------------------------- */
-  const navToggle = $(".nav__toggle");
-  const drawer = $("#navDrawer");
-  const drawerPanel = drawer ? $(".drawer__panel", drawer) : null;
-  const drawerBackdrop = drawer ? $(".drawer__backdrop", drawer) : null;
-  const drawerCloseBtn = drawer ? $(".drawer__close", drawer) : null;
+  const closeMobileNav = () => {
+    if (!mobileNav || !mobilePanel) return;
+    mobileNav.classList.remove("is-open");
+    mobileNav.dataset.open = "false";
+    setHidden(mobileNav, true);
+    Overlay.deactivate("nav");
+  };
 
-  let drawerReleaseTrap = null;
-  let drawerLastFocus = null;
-
-  function openDrawer() {
-    if (!drawer || !drawerPanel) return;
-    drawerLastFocus = document.activeElement;
-
-    drawer.classList.add("is-open");
-    drawer.setAttribute("aria-hidden", "false");
-    setAriaExpanded(navToggle, true);
-    lockScroll(true);
-
-    drawerReleaseTrap = trapFocus(drawerPanel, closeDrawer);
-  }
-
-  function closeDrawer() {
-    if (!drawer || !drawerPanel) return;
-
-    drawer.classList.remove("is-open");
-    drawer.setAttribute("aria-hidden", "true");
-    setAriaExpanded(navToggle, false);
-
-    if (drawerReleaseTrap) {
-      drawerReleaseTrap();
-      drawerReleaseTrap = null;
-    }
-    lockScroll(false);
-
-    if (drawerLastFocus && typeof drawerLastFocus.focus === "function") {
-      drawerLastFocus.focus();
-    }
-  }
-
-  if (navToggle && drawer) {
-    navToggle.addEventListener("click", () => {
-      const expanded = navToggle.getAttribute("aria-expanded") === "true";
-      expanded ? closeDrawer() : openDrawer();
-    });
-  }
-  drawerCloseBtn?.addEventListener("click", closeDrawer);
-  drawerBackdrop?.addEventListener("click", closeDrawer);
-
-  // Close drawer when clicking drawer links
-  $$(".drawer__link", drawer || document).forEach(a => {
-    a.addEventListener("click", () => closeDrawer());
+  // Bind mobile nav triggers
+  $$("[data-open-mobile-nav]").forEach(btn => {
+    btn.addEventListener("click", () => openMobileNav(btn));
+  });
+  $$("[data-close-mobile-nav]").forEach(btn => {
+    btn.addEventListener("click", () => closeMobileNav());
   });
 
-  // Close on resize (desktop)
-  window.addEventListener(
-    "resize",
-    debounce(() => {
-      if (drawer?.classList.contains("is-open")) closeDrawer();
-    }, 150)
-  );
-
-  /* ---------------------------
-     Smooth scrolling + close drawer
-  --------------------------- */
-  $$('a[href^="#"]:not([href="#"])').forEach(a => {
-    a.addEventListener("click", (e) => {
-      const href = a.getAttribute("href");
-      if (!href) return;
-      const id = href.slice(1);
-      const target = document.getElementById(id);
-      if (!target) return;
-
-      e.preventDefault();
-      if (drawer?.classList.contains("is-open")) closeDrawer();
-      smoothScrollTo(target);
-      history.pushState(null, "", `#${id}`);
+  // Close drawer when clicking any drawer link
+  if (mobileNav) {
+    $$(".drawer__link", mobileNav).forEach(a => {
+      a.addEventListener("click", () => closeMobileNav());
     });
+  }
+
+  /* ------------------------------
+     Reserve Modal
+  ------------------------------ */
+  const reserveModal = $("#reserveModal");
+  const reserveDialog = reserveModal ? $(".modal__dialog", reserveModal) : null;
+
+  const openReserve = (opener) => {
+    if (!reserveModal || !reserveDialog) return;
+    if (Overlay.isOpen("reserve")) return;
+
+    setHidden(reserveModal, false);
+    reserveModal.classList.add("is-open");
+    reserveModal.dataset.open = "true";
+
+    Overlay.activate({
+      type: "reserve",
+      root: reserveModal,
+      panel: reserveDialog,
+      opener,
+      close: () => closeReserve()
+    });
+  };
+
+  const closeReserve = () => {
+    if (!reserveModal || !reserveDialog) return;
+    reserveModal.classList.remove("is-open");
+    reserveModal.dataset.open = "false";
+    setHidden(reserveModal, true);
+    Overlay.deactivate("reserve");
+  };
+
+  $$("[data-open-reserve]").forEach(btn => {
+    btn.addEventListener("click", () => openReserve(btn));
+  });
+  $$("[data-close-reserve]").forEach(btn => {
+    btn.addEventListener("click", () => closeReserve());
   });
 
-  // Prevent dead # links from jumping
-  $$('a[href="#"]').forEach(a => a.addEventListener("click", (e) => e.preventDefault()));
-
-  /* ---------------------------
-     Scroll Spy: highlight current section
-  --------------------------- */
-  const spyLinks = $$('nav.nav a.nav__link[href^="#"]').filter(a => a.getAttribute("href") !== "#");
-  const spyTargets = spyLinks
-    .map(a => document.getElementById(a.getAttribute("href").slice(1)))
-    .filter(Boolean);
-
-  function setActiveNav(id) {
-    spyLinks.forEach(a => {
-      const active = a.getAttribute("href") === `#${id}`;
-      a.classList.toggle("is-active", active);
-      if (active) a.setAttribute("aria-current", "page");
-      else a.removeAttribute("aria-current");
+  // If user clicks on backdrop for modal/drawer, close (already bound via data-close buttons)
+  // But ensure clicking outside the dialog/panel closes for safety:
+  if (reserveModal) {
+    reserveModal.addEventListener("mousedown", (e) => {
+      const inside = reserveDialog && reserveDialog.contains(e.target);
+      if (!inside && e.target === reserveModal) closeReserve();
     });
-
-    const drawerLinks = $$(".drawer__link", drawer || document);
-    drawerLinks.forEach(a => {
-      const active = a.getAttribute("href") === `#${id}`;
-      a.classList.toggle("is-active", active);
+  }
+  if (mobileNav) {
+    mobileNav.addEventListener("mousedown", (e) => {
+      const inside = mobilePanel && mobilePanel.contains(e.target);
+      if (!inside && e.target === mobileNav) closeMobileNav();
     });
   }
 
-  if ("IntersectionObserver" in window && spyTargets.length) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  /* ------------------------------
+     Smooth scroll for in-page anchors
+  ------------------------------ */
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const href = a.getAttribute("href");
+    if (!href || href === "#") return;
 
-        if (visible?.target?.id) setActiveNav(visible.target.id);
-      },
-      { threshold: [0.25, 0.4, 0.6], rootMargin: "-18% 0px -58% 0px" }
-    );
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
 
-    spyTargets.forEach(t => io.observe(t));
-  }
-
-  /* ---------------------------
-     Generic Luxury Message Modal (auto-created)
-     Used after reservation form submit
-  --------------------------- */
-  function ensureMessageModal() {
-    let modal = $("#luxModal");
-    if (modal) return modal;
-
-    modal = document.createElement("div");
-    modal.id = "luxModal";
-    modal.className = "lux-modal";
-    modal.setAttribute("aria-hidden", "true");
-    modal.innerHTML = `
-      <div class="lux-modal__backdrop" data-lux-close="true" aria-hidden="true"></div>
-      <div class="lux-modal__panel" role="dialog" aria-modal="true" aria-label="Message">
-        <div class="lux-modal__head">
-          <div class="lux-modal__icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></div>
-          <button class="lux-modal__close" type="button" aria-label="Close message" data-lux-close="true">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="lux-modal__body">
-          <h3 class="lux-modal__title" id="luxModalTitle">Message</h3>
-          <p class="lux-modal__text" id="luxModalText"></p>
-        </div>
-        <div class="lux-modal__actions">
-          <button class="btn btn--primary btn--full" type="button" data-lux-close="true">
-            <i class="fa-solid fa-check"></i><span>Close</span>
-          </button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    return modal;
-  }
-
-  let msgReleaseTrap = null;
-  let msgLastFocus = null;
-
-  function openMessage({ title = "Message", text = "", icon = "fa-circle-check" } = {}) {
-    const modal = ensureMessageModal();
-    const panel = $(".lux-modal__panel", modal);
-    const titleEl = $("#luxModalTitle");
-    const textEl = $("#luxModalText");
-    const iconEl = $(".lux-modal__icon i", modal);
-
-    msgLastFocus = document.activeElement;
-
-    titleEl.textContent = title;
-    textEl.textContent = text;
-    if (iconEl) iconEl.className = `fa-solid ${icon}`;
-
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    lockScroll(true);
-
-    msgReleaseTrap = trapFocus(panel, closeMessage);
-
-    $$("[data-lux-close='true']", modal).forEach(btn => {
-      btn.addEventListener("click", closeMessage, { once: true });
-    });
-  }
-
-  function closeMessage() {
-    const modal = $("#luxModal");
-    if (!modal) return;
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-
-    if (msgReleaseTrap) {
-      msgReleaseTrap();
-      msgReleaseTrap = null;
-    }
-    lockScroll(false);
-
-    if (msgLastFocus && typeof msgLastFocus.focus === "function") {
-      msgLastFocus.focus();
-    }
-  }
-
-  /* ---------------------------
-     Reservation Modal open/close
-  --------------------------- */
-  const reservationModal = $("#reservationModal");
-  const reservationPanel = reservationModal ? $(".lux-modal__panel", reservationModal) : null;
-  const openReservationBtns = $$("[data-open-reservation-modal]");
-  const closeReservationTargets = reservationModal
-    ? $$("[data-close-reservation-modal='true']", reservationModal)
-    : [];
-
-  let resReleaseTrap = null;
-  let resLastFocus = null;
-
-  function openReservationModal() {
-    if (!reservationModal || !reservationPanel) return;
-    resLastFocus = document.activeElement;
-
-    reservationModal.classList.add("is-open");
-    reservationModal.setAttribute("aria-hidden", "false");
-    lockScroll(true);
-
-    resReleaseTrap = trapFocus(reservationPanel, closeReservationModal);
-  }
-
-  function closeReservationModal() {
-    if (!reservationModal || !reservationPanel) return;
-
-    reservationModal.classList.remove("is-open");
-    reservationModal.setAttribute("aria-hidden", "true");
-
-    if (resReleaseTrap) {
-      resReleaseTrap();
-      resReleaseTrap = null;
-    }
-    lockScroll(false);
-
-    if (resLastFocus && typeof resLastFocus.focus === "function") {
-      resLastFocus.focus();
-    }
-  }
-
-  openReservationBtns.forEach(btn => btn.addEventListener("click", openReservationModal));
-  closeReservationTargets.forEach(el => el.addEventListener("click", closeReservationModal));
-
-  // Close on ESC even if focus isn't inside panel (safety)
-  window.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    if (reservationModal?.classList.contains("is-open")) closeReservationModal();
-    if (drawer?.classList.contains("is-open")) closeDrawer();
-    if ($("#luxModal")?.classList.contains("is-open")) closeMessage();
+    e.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    closeMobileNav();
   });
 
-  /* ---------------------------
-     Reservation Form: validation + success
-  --------------------------- */
-  const reserveForm = $(".reserve-form");
+  /* ------------------------------
+     Forms: Reservation + Careers + Newsletter
+     (Front-end UX only; replace action with backend later.)
+  ------------------------------ */
+
+  // Utility for inline feedback (no HTML changes required)
+  const ensureInlineNote = (form, id) => {
+    let note = form.querySelector(`[data-note="${id}"]`);
+    if (!note) {
+      note = document.createElement("div");
+      note.className = "form-note";
+      note.setAttribute("data-note", id);
+      note.setAttribute("role", "status");
+      note.setAttribute("aria-live", "polite");
+      form.prepend(note);
+    }
+    return note;
+  };
+
+  const setFormNote = (form, id, msg, kind = "info") => {
+    const note = ensureInlineNote(form, id);
+    note.textContent = msg || "";
+    note.dataset.kind = kind; // style later in CSS (success/error/info)
+    note.hidden = !msg;
+  };
+
+  const markInvalid = (field, msg) => {
+    if (!field) return;
+    field.setAttribute("aria-invalid", "true");
+    // Find its wrapper label.field to attach message (optional)
+    const wrap = field.closest(".field");
+    if (wrap) {
+      let help = wrap.querySelector(".field__help");
+      if (!help) {
+        help = document.createElement("div");
+        help.className = "field__help";
+        wrap.appendChild(help);
+      }
+      help.textContent = msg || "Please check this field.";
+    }
+  };
+
+  const clearInvalid = (form) => {
+    if (!form) return;
+    $$('[aria-invalid="true"]', form).forEach(el => el.removeAttribute("aria-invalid"));
+    $$(".field__help", form).forEach(el => el.remove());
+  };
+
+  // RESERVATION FORM LOGIC
+  const reserveForm = reserveModal ? $(".reserve-form", reserveModal) : null;
+  const partySelect = reserveForm ? $('select[name="party_size"]', reserveForm) : null;
+  const dateInput = reserveForm ? $('input[name="date"]', reserveForm) : null;
+  const timeSelect = reserveForm ? $('select[name="time"]', reserveForm) : null;
+
+  // Set min date to today (local)
+  const todayISO = (() => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  })();
+
+  if (dateInput) {
+    dateInput.min = todayISO;
+  }
+
+  // Party size rule messaging (informational)
+  const updatePartyNote = () => {
+    if (!reserveForm || !partySelect) return;
+    const val = parseInt(partySelect.value, 10);
+    if (!Number.isFinite(val)) {
+      setFormNote(reserveForm, "party", "", "info");
+      return;
+    }
+    if (val > 6) {
+      setFormNote(
+        reserveForm,
+        "party",
+        "For groups over 6, reservations are required. If you'd like a private setting, consider the Sunshine Room.",
+        "info"
+      );
+    } else {
+      setFormNote(reserveForm, "party", "Reservations are highly recommended.", "info");
+    }
+  };
+
+  if (partySelect) {
+    partySelect.addEventListener("change", updatePartyNote);
+  }
+
+  // Basic time filtering (optional): prevent bar-only time before 4:30 PM
+  // The options already start at 4:30 PM, but keep a guard:
+  const isTimeValid = (timeStr) => {
+    if (!timeStr) return false;
+    // Accept anything provided in dropdown
+    return true;
+  };
+
+  const validateReserve = () => {
+    if (!reserveForm) return false;
+    clearInvalid(reserveForm);
+
+    const name = $('input[name="guest_name"]', reserveForm);
+    const phone = $('input[name="guest_phone"]', reserveForm);
+    const email = $('input[name="guest_email"]', reserveForm);
+
+    const issues = [];
+
+    if (!name.value.trim()) {
+      issues.push("Please enter your name.");
+      markInvalid(name, "Full name is required.");
+    }
+
+    // Simple phone check
+    const p = phone.value.replace(/[^\d+]/g, "");
+    if (p.length < 7) {
+      issues.push("Please enter a valid phone number.");
+      markInvalid(phone, "Enter a valid phone number.");
+    }
+
+    // Simple email check
+    const ev = email.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev)) {
+      issues.push("Please enter a valid email address.");
+      markInvalid(email, "Enter a valid email address.");
+    }
+
+    const ps = partySelect ? parseInt(partySelect.value, 10) : NaN;
+    if (!Number.isFinite(ps) || ps < 1 || ps > 20) {
+      issues.push("Please select a party size (1–20).");
+      if (partySelect) markInvalid(partySelect, "Select a party size.");
+    }
+
+    if (!dateInput || !dateInput.value) {
+      issues.push("Please choose a date.");
+      if (dateInput) markInvalid(dateInput, "Select a date.");
+    } else if (dateInput.value < todayISO) {
+      issues.push("Please choose a valid date.");
+      markInvalid(dateInput, "Date must be today or later.");
+    }
+
+    if (!timeSelect || !timeSelect.value || !isTimeValid(timeSelect.value)) {
+      issues.push("Please choose a time.");
+      if (timeSelect) markInvalid(timeSelect, "Select a time.");
+    }
+
+    if (issues.length) {
+      setFormNote(reserveForm, "status", issues[0], "error");
+      return false;
+    }
+
+    setFormNote(reserveForm, "status", "", "info");
+    return true;
+  };
+
   if (reserveForm) {
-    // Set min date to today if type=date
-    const dateInput = $("#resDate", reserveForm);
-    if (dateInput && dateInput.type === "date") {
-      const d = new Date();
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const dd = String(d.getDate()).padStart(2, "0");
-      dateInput.min = `${yyyy}-${mm}-${dd}`;
-    }
-
-    const fields = $$("input, select, textarea", reserveForm);
-
-    function setInvalid(el, msg) {
-      el.setAttribute("aria-invalid", "true");
-      // if your CSS targets .is-invalid, add it to the closest control wrapper too
-      el.closest(".field__control")?.classList.add("is-invalid");
-      if (msg) el.setCustomValidity(msg);
-    }
-
-    function clearInvalid(el) {
-      el.removeAttribute("aria-invalid");
-      el.closest(".field__control")?.classList.remove("is-invalid");
-      el.setCustomValidity("");
-    }
-
-    function validate() {
-      let firstBad = null;
-
-      fields.forEach(el => {
-        clearInvalid(el);
-
-        // Phone basic check (US 10+ digits)
-        if (el.type === "tel" && el.value.trim()) {
-          const digits = el.value.replace(/[^\d]/g, "");
-          if (digits.length < 10) setInvalid(el, "Please enter a valid phone number.");
-        }
-
-        if (!el.checkValidity()) {
-          setInvalid(el, el.validationMessage || "Please check this field.");
-          if (!firstBad) firstBad = el;
-        }
-      });
-
-      return { ok: !firstBad, firstBad };
-    }
-
-    // Inline clean-up
-    fields.forEach(el => {
-      el.addEventListener("input", () => clearInvalid(el));
-      el.addEventListener("change", () => clearInvalid(el));
-      el.addEventListener("blur", () => {
-        if (!el.checkValidity()) {
-          el.setAttribute("aria-invalid", "true");
-          el.closest(".field__control")?.classList.add("is-invalid");
-        }
-      });
-    });
-
-    function serialize(form) {
-      const fd = new FormData(form);
-      const obj = {};
-      for (const [k, v] of fd.entries()) obj[k] = String(v).trim();
-      return obj;
-    }
-
     reserveForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const { ok, firstBad } = validate();
-      if (!ok) {
-        firstBad?.focus();
-        openMessage({
-          title: "Please review your details",
-          text: "A few fields need attention before we can send your reservation request.",
-          icon: "fa-circle-exclamation",
-        });
-        return;
+      if (!validateReserve()) return;
+
+      // Simulate a successful "request" (replace with backend later)
+      const formData = new FormData(reserveForm);
+      const name = String(formData.get("guest_name") || "").trim();
+      const party = String(formData.get("party_size") || "").trim();
+      const date = String(formData.get("date") || "").trim();
+      const time = String(formData.get("time") || "").trim();
+
+      // Disable button briefly for UX
+      const submitBtn = reserveForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.dataset.prevText = submitBtn.textContent;
       }
 
-      const d = serialize(reserveForm);
+      setFormNote(
+        reserveForm,
+        "status",
+        `Thank you, ${name}. Your reservation request for party of ${party} on ${date} at ${time} has been received. If you prefer, call 731-407-4262.`,
+        "success"
+      );
 
-      // Close reservation modal & show success message
-      closeReservationModal();
-      reserveForm.reset();
+      // Reset form after a moment, keep the success message visible
+      window.setTimeout(() => {
+        reserveForm.reset();
+        updatePartyNote();
+        clearInvalid(reserveForm);
+        if (submitBtn) submitBtn.disabled = false;
+      }, 800);
 
-      const party = d.partySize || "—";
-      const date = d.resDate || "—";
-      const time = d.resTime || "—";
-      const name = d.fullName || "Guest";
-
-      openMessage({
-        title: "Reservation request received",
-        text: `Thank you, ${name}. We’ve received your request for ${party} on ${date} at ${time}. We’ll confirm shortly.`,
-        icon: "fa-circle-check",
-      });
-
-      // NOTE: Later you can send this to your backend / email / OpenTable.
-      // Example hook: window.dispatchEvent(new CustomEvent("oaklawn:reserve", { detail: d }));
+      // Optional: close modal after a short delay (feel premium)
+      window.setTimeout(() => {
+        closeReserve();
+      }, 1600);
     });
   }
 
-  /* ---------------------------
-     Floating Reserve Button visibility (mobile)
-  --------------------------- */
-  const floatReserve = $(".float-reserve");
-  if (floatReserve) {
-    const toggle = () => {
-      const y = window.scrollY || 0;
-      floatReserve.classList.toggle("is-visible", y > 420);
-    };
-    window.addEventListener("scroll", debounce(toggle, 25), { passive: true });
-    toggle();
+  // CAREERS FORM (homepage teaser)
+  const careersForm = $(".careers-form");
+  if (careersForm) {
+    careersForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearInvalid(careersForm);
+
+      const name = $('input[name="name"]', careersForm);
+      const phone = $('input[name="phone"]', careersForm);
+      const email = $('input[name="email"]', careersForm);
+
+      let ok = true;
+
+      if (!name.value.trim()) {
+        ok = false;
+        markInvalid(name, "Full name is required.");
+      }
+
+      const p = phone.value.replace(/[^\d+]/g, "");
+      if (p.length < 7) {
+        ok = false;
+        markInvalid(phone, "Enter a valid phone number.");
+      }
+
+      const ev = email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev)) {
+        ok = false;
+        markInvalid(email, "Enter a valid email address.");
+      }
+
+      if (!ok) {
+        setFormNote(careersForm, "status", "Please complete the required fields.", "error");
+        return;
+      }
+
+      setFormNote(
+        careersForm,
+        "status",
+        "Thank you. We’ve received your information and will reach out if there’s a fit.",
+        "success"
+      );
+
+      const submitBtn = careersForm.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      window.setTimeout(() => {
+        careersForm.reset();
+        clearInvalid(careersForm);
+        if (submitBtn) submitBtn.disabled = false;
+      }, 900);
+    });
   }
 
-  /* ---------------------------
-     Footer Year (optional safety)
-  --------------------------- */
-  const copyright = $(".footer__copyright");
-  if (copyright) {
-    // If you later remove 2026 in HTML, this ensures current year
-    const y = new Date().getFullYear();
-    // Only replace if it contains a year-like pattern or ©
-    if (/\b20\d{2}\b/.test(copyright.textContent) || /©/.test(copyright.textContent)) {
-      copyright.textContent = `© ${y} Oaklawn Southern Dining. All Rights Reserved.`;
-    }
+  // NEWSLETTER FORM (footer)
+  const newsletterForm = $(".newsletter");
+  if (newsletterForm) {
+    newsletterForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearInvalid(newsletterForm);
+
+      const email = $('input[name="newsletter_email"]', newsletterForm);
+      const ev = (email?.value || "").trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev)) {
+        markInvalid(email, "Enter a valid email address.");
+        setFormNote(newsletterForm, "status", "Please enter a valid email.", "error");
+        return;
+      }
+
+      setFormNote(newsletterForm, "status", "You’re on the list. Welcome.", "success");
+
+      const btn = newsletterForm.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+
+      window.setTimeout(() => {
+        newsletterForm.reset();
+        clearInvalid(newsletterForm);
+        if (btn) btn.disabled = false;
+      }, 900);
+    });
   }
 
-  /* ---------------------------
-     Button in footer list is <button> (not <a>) — keep consistent
-  --------------------------- */
-  $$("button.footer__link-btn[data-open-reservation-modal]").forEach(btn => {
-    btn.addEventListener("click", openReservationModal);
+  /* ------------------------------
+     UX: Close open overlays on route change (if needed)
+  ------------------------------ */
+  window.addEventListener("hashchange", () => {
+    closeMobileNav();
+    closeReserve();
   });
+
+  /* ------------------------------
+     Initialize hidden states
+  ------------------------------ */
+  // Ensure overlays are hidden on load for a11y
+  setHidden(mobileNav, true);
+  setHidden(reserveModal, true);
+
+  // Ensure dialogs are focusable
+  if (mobilePanel && !mobilePanel.hasAttribute("tabindex")) mobilePanel.setAttribute("tabindex", "-1");
+  if (reserveDialog && !reserveDialog.hasAttribute("tabindex")) reserveDialog.setAttribute("tabindex", "-1");
+
+  // Prime party note default
+  updatePartyNote();
 })();
 </script>
 
 </body>
 </html>
-
-
-  
