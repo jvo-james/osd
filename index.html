@@ -1,0 +1,1686 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> April Blossoms</title>
+
+  <!-- Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p8fXwXg6X0wq2b1vKxQk3y2p9CwqQxZl3s2s8xYQ7Kqg0q2QY2KxqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Paystack & jsPDF (for receipt generation) -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Google Fonts: Raleway & Open Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+/* ==========================================================================
+   Oaklawn — Light Mode Luxury + Vintage Theme (Mobile-first)
+   - Mobile-first responsive rules
+   - Luxurious cream background, brass/gold accents, deep wine details
+   - Big tap targets, generous spacing, visible focus states
+   - Styles mapped to your HTML markup (hero, cards, menu, modal, footer, etc.)
+   ========================================================================== */
+
+/* ---------------------------
+   Base theme tokens (mobile-first)
+--------------------------- */
+:root{
+  /* Colors */
+  --bg: #faf7f2;               /* warm cream */
+  --surface: #fff;             /* card surfaces */
+  --muted-surface: #fffaf8;
+  --ink: #1b1b1b;              /* primary text */
+  --muted: #5b5651;            /* secondary text */
+  --accent-wine: #6f2430;      /* deep wine */
+  --accent-gold: #caa15a;      /* brass/gold */
+  --accent-gold-2: #e8c985;
+  --accent-rose: #d48b7a;
+
+  --stroke: rgba(27,27,27,0.07);
+  --shadow-heavy: 0 18px 40px rgba(27,27,27,0.06);
+  --shadow-soft: 0 8px 24px rgba(27,27,27,0.06);
+
+  /* radii & spacing */
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --pad: 18px;
+  --container: 1120px;
+
+  /* type scale (fluid) */
+  --h1: clamp(1.9rem, 6.2vw, 3.2rem);
+  --h2: clamp(1.3rem, 4.1vw, 2.1rem);
+  --h3: clamp(1.05rem, 3.1vw, 1.25rem);
+  --p: clamp(0.98rem, 2.8vw, 1.05rem);
+  --small: 0.92rem;
+
+  /* focus ring */
+  --focus: 0 0 0 4px rgba(202,161,90,0.18), 0 2px 8px rgba(202,161,90,0.08);
+}
+
+/* ---------------------------
+   Global base
+--------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+html,body { height:100%; }
+body.theme-light {
+  background: linear-gradient(180deg, #fffefa 0%, var(--bg) 100%);
+  color: var(--ink);
+  font-family: "Poppins", "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  margin:0;
+  -webkit-text-size-adjust:100%;
+  text-rendering:optimizeLegibility;
+  line-height:1.48;
+  letter-spacing: 0.005em;
+}
+
+/* Better defaults */
+img, video { display:block; max-width:100%; height:auto; }
+a { color: inherit; text-decoration: none; }
+ul, ol { padding:0; margin:0; list-style:none; }
+
+/* containers */
+.section{ padding: 28px var(--pad); }
+.section__inner{ width: min(100%, var(--container)); margin: 0 auto; padding: 0 var(--pad); }
+
+/* ---------------------------
+   Topbar
+--------------------------- */
+.topbar{
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.85));
+  border-bottom: 1px solid var(--stroke);
+  padding: 8px var(--pad);
+  font-size: var(--small);
+  display:flex;
+  justify-content: center;
+  z-index: 1000;
+}
+.topbar__inner{ width: min(var(--container),100%); display:flex; justify-content:space-between; gap:12px; align-items:center; }
+
+/* Badge */
+.topbar__badge{
+  background: linear-gradient(180deg, rgba(202,161,90,0.12), rgba(202,161,90,0.06));
+  border: 1px solid rgba(202,161,90,0.20);
+  color: var(--accent-wine);
+  padding: 6px 10px;
+  border-radius: 999px;
+  display:inline-flex; gap:8px; align-items:center;
+  font-weight:700;
+}
+
+/* ---------------------------
+   Header
+--------------------------- */
+.header{
+  position: sticky; top:0; z-index: 2200;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+  border-bottom: 1px solid var(--stroke);
+  backdrop-filter: blur(6px);
+}
+.header__inner{
+  display:flex; align-items:center; gap:12px;
+  width: min(var(--container),100%); margin:0 auto; padding: 10px var(--pad);
+}
+.brand{ display:flex; gap:12px; align-items:center; min-width:180px; }
+.brand__mark{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  background: linear-gradient(135deg, var(--accent-gold-2), var(--accent-gold));
+  color: #fff; font-weight:800; box-shadow: 0 8px 18px rgba(202,161,90,0.15);
+}
+.brand__name{ font-family: "Raleway", Georgia, serif; font-size:1.05rem; color:var(--accent-wine); font-weight:700; }
+.brand__sub{ font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; }
+
+/* nav */
+.nav__toggle{
+  border: 1px solid var(--stroke); background: var(--surface); padding:10px; border-radius:12px;
+  display:inline-grid; place-items:center; width:44px; height:44px;
+}
+.nav__list{ display:flex; gap:8px; align-items:center; overflow:auto; padding:4px 0; }
+.nav__link{
+  padding:8px 12px; border-radius:10px; color:var(--muted); font-weight:600; font-size:0.95rem;
+}
+.nav__link:hover{ background: rgba(202,161,90,0.06); color: var(--accent-wine); box-shadow: var(--shadow-soft); }
+.nav__link.is-active{ background: linear-gradient(90deg, rgba(202,161,90,0.10), rgba(202,161,90,0.06)); color: var(--accent-wine); border:1px solid rgba(202,161,90,0.18); }
+
+/* header actions */
+.header__actions{ margin-left:auto; display:flex; gap:8px; align-items:center; }
+.icon-btn{ width:44px; height:44px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--stroke); background:var(--surface); }
+.btn{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:14px; font-weight:700; cursor:pointer; border:1px solid transparent; }
+.btn--primary{ background: linear-gradient(135deg, var(--accent-gold-2), var(--accent-gold)); color:#111; box-shadow: 0 12px 30px rgba(202,161,90,0.12); }
+.btn--secondary{ background: transparent; border:1px solid var(--stroke); color:var(--accent-wine); }
+.btn--ghost{ background: transparent; color:var(--muted); border:1px dashed rgba(27,27,27,0.04); }
+
+/* ---------------------------
+   Hero (mobile-first)
+--------------------------- */
+.hero{
+  position: relative; overflow:hidden; border-bottom: 1px solid var(--stroke);
+  display:grid; grid-template-columns:1fr; align-items:center; gap:14px;
+  padding: 18px var(--pad) 28px;
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(250,247,242,0.9));
+}
+.hero__media{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+.hero__video{ width:100%; height:100%; object-fit:cover; transform: scale(1.04); filter: saturate(.9) contrast(.98) brightness(.96); }
+.hero__overlay{
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(255,249,243,0.5), rgba(255,251,247,0.9));
+  mix-blend-mode: multiply;
+}
+.hero__content{
+  position:relative; z-index:2; width:100%; max-width:960px; margin: 0 auto;
+  display:grid; gap:12px; padding-top:40px; padding-bottom:24px;
+}
+.hero__kicker{ display:inline-flex; gap:10px; align-items:center; background: rgba(202,161,90,0.06); padding:8px 12px; border-radius:999px; color:var(--accent-wine); font-weight:700; border:1px solid rgba(202,161,90,0.12); width:fit-content; }
+.hero__title{ font-family: "Raleway", Georgia, serif; font-size: var(--h1); color:var(--accent-wine); line-height:1.02; margin:0; max-width: 17ch; }
+.hero__subtitle{ color:var(--muted); font-size:var(--p); margin:0; max-width: 62ch; }
+.hero__cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
+.hero__highlights{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:var(--muted-surface); border:1px solid var(--stroke); color:var(--muted); font-weight:600; }
+
+/* scroll hint */
+.hero__scroll{
+  position:absolute; bottom:18px; left:50%; transform:translateX(-50%); z-index:3;
+  background:var(--surface); padding:8px 12px; border-radius:999px; border:1px solid var(--stroke);
+  display:flex; align-items:center; gap:8px; color:var(--muted);
+}
+
+/* ---------------------------
+   Experience grid (3 pillars)
+--------------------------- */
+.experience__grid{
+  display:grid; gap:12px; margin-top:12px;
+  grid-template-columns: 1fr;
+}
+.card{
+  background: var(--surface); border:1px solid var(--stroke); padding:14px; border-radius: 16px;
+  box-shadow: var(--shadow-soft); overflow:hidden;
+}
+.card__icon{ width:46px;height:46px;border-radius:12px; display:grid; place-items:center; background: linear-gradient(180deg, rgba(202,161,90,0.12), rgba(202,161,90,0.06)); color:var(--accent-wine); }
+.card__title{ margin-top:10px; font-size:var(--h3); color:var(--accent-wine); font-weight:800; }
+.card__text{ margin-top:8px; color:var(--muted); font-size:var(--p); }
+
+/* media within cards */
+.media{ margin-top:12px; border-radius:12px; overflow:hidden; border:1px solid var(--stroke); background:var(--muted-surface); }
+.media img{ width:100%; height:190px; object-fit:cover; display:block; }
+
+/* ---------------------------
+   Menu preview (list)
+--------------------------- */
+.menu__grid{ display:grid; gap:12px; margin-top:12px; }
+.menu-item{
+  display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+  padding:12px; border-radius:12px; border:1px solid var(--stroke); background:var(--surface);
+}
+.menu-item__name{ font-weight:800; color:var(--accent-wine); }
+.menu-item__desc{ margin-top:6px; color:var(--muted); font-size:0.97rem; }
+.menu-item__price{ font-weight:800; color:var(--ink); min-width:60px; text-align:right; font-variant-numeric: tabular-nums; }
+
+/* bottom CTAs */
+.menu__bottom-cta{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+
+/* ---------------------------
+   Private events (Sunshine)
+--------------------------- */
+.private-events__grid{ display:grid; gap:12px; margin-top:12px; }
+.private-events__image img{ width:100%; height:220px; object-fit:cover; border-radius:12px; display:block; }
+.detail{ display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:12px; background:var(--surface); border:1px solid var(--stroke); }
+.detail i{ color:var(--accent-gold); font-size:1.15rem; margin-top:6px; }
+
+/* events form */
+.events-form{ margin-top:8px; border-radius:12px; background:var(--surface); padding:12px; border:1px solid var(--stroke); }
+
+/* ---------------------------
+   Reservations block + aside
+--------------------------- */
+.reservations__grid{ display:grid; gap:12px; margin-top:12px; }
+.reserve-card{ padding:12px; border-radius:14px; background:var(--surface); border:1px solid var(--stroke); }
+.reserve-card__top{ padding-bottom:8px; border-bottom:1px solid rgba(27,27,27,0.03); }
+.reserve-card__title{ font-family:"Raleway", serif; font-size:1.15rem; color:var(--accent-wine); }
+.reserve-card__note{ color:var(--muted); margin-top:6px; }
+
+/* form fields (compact) */
+.field{ margin-top:8px; }
+.field label{ display:block; font-size:0.9rem; color:var(--muted); margin-bottom:6px; font-weight:600; }
+.field__control{ display:flex; gap:10px; align-items:center; padding:10px; border-radius:12px; border:1px solid var(--stroke); background:var(--muted-surface); }
+.field__control input, .field__control select, .field__control textarea{ border:0; background:transparent; width:100%; color:var(--ink); font-size:var(--p); outline:none; }
+.field__control textarea{ min-height:110px; resize:vertical; }
+
+/* invalid */
+.is-invalid{ box-shadow: 0 0 0 3px rgba(220,80,80,0.12); border-color: rgba(220,80,80,0.22) !important; }
+
+/* aside list */
+.reserve-aside__panel{ padding:12px; border-radius:12px; background:var(--surface); border:1px solid var(--stroke); }
+.lux-list li{ display:flex; gap:10px; align-items:flex-start; color:var(--muted); }
+
+/* ---------------------------
+   Location strip + map thumb
+--------------------------- */
+.contact__grid{ display:grid; gap:12px; margin-top:12px; }
+.contact-card{ padding:12px; border-radius:12px; background:var(--surface); border:1px solid var(--stroke); }
+.contact-row{ display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(27,27,27,0.03); }
+.contact-row:first-of-type{ border-top:0; }
+.map--thumb{ border-radius:12px; overflow:hidden; border:1px solid var(--stroke); box-shadow:var(--shadow-soft); }
+.map__link{ display:block; position:relative; }
+.map__link img{ display:block; width:100%; height:220px; object-fit:cover; }
+.map__caption{ position:absolute; bottom:10px; left:10px; padding:8px 12px; background: rgba(27,27,27,0.6); color:#fff; border-radius:8px; font-weight:700; }
+
+/* ---------------------------
+   Newsletter CTA
+--------------------------- */
+.newsletter__panel{ display:grid; gap:12px; padding:12px; border-radius:14px; background: linear-gradient(180deg, rgba(202,161,90,0.04), rgba(255,255,255,0.6)); border:1px solid rgba(202,161,90,0.12); }
+.newsletter__title{ font-family:"Raleway", serif; font-size:var(--h2); color:var(--accent-wine); }
+
+/* ---------------------------
+   Footer
+--------------------------- */
+.footer{ padding:28px var(--pad); border-top:1px solid var(--stroke); background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,247,242,0.98)); }
+.footer__inner{ width:min(var(--container),100%); margin:0 auto; display:grid; gap:12px; }
+.footer__brand{ display:flex; gap:12px; align-items:center; }
+.footer__logo{ width:46px;height:46px;border-radius:12px; display:grid; place-items:center; background: linear-gradient(135deg, var(--accent-gold-2), var(--accent-gold)); color:#fff; box-shadow: 0 8px 20px rgba(202,161,90,0.12); }
+.footer__cols{ display:grid; gap:12px; }
+.footer__col{ padding:12px; border-radius:12px; background:var(--surface); border:1px solid var(--stroke); }
+.footer__links a{ display:inline-flex; padding:8px 10px; border-radius:8px; color:var(--muted); }
+
+/* social icons */
+.footer__social a{ display:inline-grid; place-items:center; width:42px; height:42px; border-radius:10px; border:1px solid var(--stroke); background:var(--muted-surface); color:var(--accent-wine); }
+
+/* footer bottom */
+.footer__bottom{ display:flex; gap:12px; align-items:center; justify-content:space-between; color:var(--muted); font-size:0.95rem; }
+
+/* ---------------------------
+   Floating reserve button
+--------------------------- */
+.float-reserve{
+  position: fixed; left:50%; bottom:14px; transform:translateX(-50%); z-index:3000;
+  display:inline-flex; align-items:center; gap:10px; padding:12px 14px; border-radius:999px; background: linear-gradient(135deg,var(--accent-gold-2),var(--accent-gold)); color:#121212; border:1px solid rgba(202,161,90,0.45); box-shadow: 0 22px 50px rgba(27,27,27,0.10);
+  opacity:0; pointer-events:none; transition: opacity .18s ease, transform .18s ease;
+}
+.float-reserve.is-visible{ opacity:1; pointer-events:auto; transform: translateX(-50%) translateY(0); }
+
+/* ---------------------------
+   Modal & lightbox
+--------------------------- */
+.lux-modal{
+  position: fixed; inset:0; display:none; z-index:7000; align-items:center; justify-content:center;
+}
+.lux-modal.is-open{ display:flex; }
+.lux-modal__backdrop{ position:absolute; inset:0; background: rgba(27,27,27,0.45); backdrop-filter: blur(6px); }
+.lux-modal__panel{
+  position:relative; width: min(92%, 640px); border-radius:16px; overflow:hidden; z-index:2; background:var(--surface); border:1px solid var(--stroke);
+  box-shadow: var(--shadow-heavy);
+}
+.lux-modal__head{ display:flex; align-items:center; justify-content:space-between; padding:14px; border-bottom:1px solid rgba(27,27,27,0.03); }
+.lux-modal__body{ padding:14px; }
+.lux-modal__actions{ padding:12px; border-top:1px solid rgba(27,27,27,0.03); }
+
+/* Lightbox */
+.lightbox{ position: fixed; inset:0; display:none; z-index:8000; align-items:center; justify-content:center; }
+.lightbox.is-open{ display:flex; }
+.lightbox__backdrop{ position:absolute; inset:0; background: rgba(27,27,27,0.85); }
+.lightbox__panel{ position:relative; width:min(96%,980px); max-height:92vh; overflow:auto; border-radius:12px; background: #fff; border:1px solid var(--stroke); box-shadow: var(--shadow-heavy); }
+.lightbox__img{ width:100%; height: auto; display:block; object-fit:contain; }
+.lightbox__close{ position:absolute; right:12px; top:12px; background:var(--surface); border-radius:10px; padding:8px; border:1px solid var(--stroke); }
+
+/* ---------------------------
+   Utility helpers
+--------------------------- */
+.sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+.btn:focus, .icon-btn:focus, .nav__toggle:focus, input:focus, select:focus, textarea:focus { box-shadow: var(--focus); outline: none; border-color: rgba(202,161,90,0.28); }
+
+/* ---------------------------
+   Responsive rules (tablet & desktop)
+--------------------------- */
+@media (min-width: 640px){
+  .hero{ padding: 42px var(--pad) 60px; }
+  .hero__content{ padding-top:60px; }
+  .media img{ height:220px; }
+  .experience__grid{ grid-template-columns: repeat(2, 1fr); }
+  .menu__grid{ grid-template-columns: 1fr 1fr; }
+  .private-events__grid{ grid-template-columns: 1fr 1fr; align-items:start; }
+  .reservations__grid{ grid-template-columns: 1fr 0.9fr; align-items:start; }
+  .contact__grid{ grid-template-columns: 1fr 1fr; align-items:stretch; }
+  .footer__cols{ grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 920px){
+  :root{ --pad: 28px; }
+  .hero{ padding: 60px var(--pad) 90px; }
+  .hero__content{ padding-top:86px; padding-bottom:80px; }
+  .hero__title{ font-size: clamp(2.4rem, 5.6vw, 3.6rem); max-width: 28ch; }
+  .experience__grid{ grid-template-columns: repeat(3, 1fr); }
+  .menu__grid{ grid-template-columns: repeat(3, 1fr); }
+  .media img{ height: 260px; }
+  .gallery__grid{ grid-template-columns: repeat(6, 1fr); }
+}
+
+/* ---------------------------
+   Final polishing & micro-interactions
+--------------------------- */
+a:hover { text-decoration: none; }
+.card, .media, .menu-item, .reserve-card, .contact-card, .footer__col { transition: transform .16s ease, box-shadow .18s ease; }
+.card:hover, .media:hover, .menu-item:hover, .reserve-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(27,27,27,0.07); }
+
+/* Ensure form elements readable on iOS */
+input, select, textarea { font-size: 16px; }
+
+/* Ensure heavy contrast for accessibility (links & CTAs) */
+.btn--primary, .brand__mark { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* ---------------------------
+   End of stylesheet
+--------------------------- */
+</style>
+
+</head>
+  <body class="theme-light">
+  <!-- Skip Link -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Top Announcement Bar -->
+  <div class="topbar" role="region" aria-label="Important information">
+    <div class="topbar__inner">
+      <div class="topbar__left">
+        <span class="topbar__badge">
+          <i class="fa-solid fa-star" aria-hidden="true"></i>
+          Urban Elegant Dining
+        </span>
+        <span class="topbar__sep" aria-hidden="true">•</span>
+        <span class="topbar__note">
+          Reservations highly recommended — required for groups over 6
+        </span>
+      </div>
+
+      <div class="topbar__right">
+        <a class="topbar__link" href="tel:17314074262" aria-label="Call Oaklawn Southern Dining">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <span>731-407-4262</span>
+        </a>
+        <span class="topbar__sep" aria-hidden="true">•</span>
+        <a class="topbar__link" href="#location" aria-label="View location">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <span>1008 E. Wood St, Paris TN</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="top" role="banner">
+    <div class="header__inner">
+      <!-- Brand -->
+      <a class="brand" href="#top" aria-label="Oaklawn Southern Dining Home">
+        <span class="brand__mark" aria-hidden="true">
+          <i class="fa-solid fa-o" aria-hidden="true"></i>
+        </span>
+        <span class="brand__type">
+          <span class="brand__name">Oaklawn</span>
+          <span class="brand__sub">Southern Dining</span>
+        </span>
+      </a>
+
+      <!-- Primary Navigation -->
+      <nav class="nav" aria-label="Primary navigation">
+        <button class="nav__toggle" type="button" aria-label="Open menu" aria-controls="navDrawer" aria-expanded="false">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+
+        <ul class="nav__list" id="navList">
+          <li><a class="nav__link" href="#experience">Experience</a></li>
+          <li><a class="nav__link" href="#menu-preview">Menu</a></li>
+          <li><a class="nav__link" href="#sunshine">Sunshine Room</a></li>
+          <li><a class="nav__link" href="#reservations">Reservations</a></li>
+          <li><a class="nav__link" href="#location">Location</a></li>
+          <li><a class="nav__link" href="/menu.html">Full Menu</a></li>
+          <li><a class="nav__link" href="/wine.html">Bourbon & Wine</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header__actions">
+        <a class="icon-btn" href="/menu.html" aria-label="Dinner menu">
+          <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+        </a>
+        <a class="icon-btn" href="/wine.html" aria-label="Bourbon and wine list">
+          <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i>
+        </a>
+        <a class="btn btn--primary" href="#reservations" aria-label="Reserve a table">
+          <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+          <span>Reserve</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer (structure only) -->
+    <div class="drawer" id="navDrawer" aria-hidden="true">
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="drawer__header">
+          <span class="drawer__title">Oaklawn</span>
+          <button class="drawer__close" type="button" aria-label="Close menu">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="drawer__body">
+          <a class="drawer__link" href="#experience"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Experience</a>
+          <a class="drawer__link" href="#menu-preview"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Menu</a>
+          <a class="drawer__link" href="#sunshine"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i> Private Events</a>
+          <a class="drawer__link" href="#gallery"><i class="fa-regular fa-images" aria-hidden="true"></i> Gallery</a>
+          <a class="drawer__link" href="#about"><i class="fa-solid fa-house" aria-hidden="true"></i> About</a>
+          <a class="drawer__link" href="#contact"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Contact</a>
+
+          <div class="drawer__cta">
+            <a class="btn btn--primary btn--full" href="#reservations">
+              <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+              <span>Reserve a Table</span>
+            </a>
+            <a class="btn btn--ghost btn--full" href="/menu.html">
+              <i class="fa-solid fa-gift" aria-hidden="true"></i>
+              <span>View Full Menu</span>
+            </a>
+          </div>
+
+          <div class="drawer__meta" aria-label="Hours">
+            <div class="meta-row">
+              <i class="fa-regular fa-clock" aria-hidden="true"></i>
+              <span>Mon–Sat: Bar 4:00 PM • Dining 4:30 PM</span>
+            </div>
+            <div class="meta-row">
+              <i class="fa-solid fa-car" aria-hidden="true"></i>
+              <span>Complimentary valet parking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="drawer__backdrop" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Oaklawn Southern Dining hero">
+    <div class="hero__media" aria-hidden="true">
+      <!-- Creative choice: use video where available; fallback to poster image.
+           JS will toggle video vs image for light-mode/mobile; we only include markup. -->
+      <video class="hero__video" autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+        <source src="assets/hero-cinematic.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__kicker" aria-hidden="true">
+        <i class="fa-solid fa-star" aria-hidden="true"></i>
+        <span>Chef-Inspired • Urban Elegant • Intimate</span>
+      </div>
+
+      <h1 class="hero__title">
+        A 1954 home, reimagined for a refined evening.
+      </h1>
+
+      <p class="hero__subtitle">
+        Prime steaks, exceptional seafood, Paris-inspired cocktails, and a bourbon collection curated for the moment.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#reservations" role="button" aria-haspopup="dialog" aria-controls="reserveModal">
+          <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+          <span>Reserve a Table</span>
+        </a>
+        <a class="btn btn--secondary" href="/menu.html">
+          <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+          <span>View Full Menu</span>
+        </a>
+      </div>
+
+      <div class="hero__highlights" aria-label="Key notes">
+        <div class="pill"><i class="fa-solid fa-car-side" aria-hidden="true"></i><span>Complimentary valet</span></div>
+        <div class="pill"><i class="fa-solid fa-people-group" aria-hidden="true"></i><span>Parties 1–20</span></div>
+        <div class="pill"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i><span>Sunshine Room events</span></div>
+      </div>
+    </div>
+
+    <a class="hero__scroll" href="#experience" aria-label="Scroll to experience section">
+      <span class="hero__scroll-text">Explore</span>
+      <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+    </a>
+  </section>
+
+  <main id="main" role="main">
+    <!-- EXPERIENCE (short story + 3 pillars) -->
+    <section class="section experience" id="experience" aria-label="The Oaklawn Experience">
+      <div class="section__inner">
+        <header class="section__header">
+          <p class="section__eyebrow">The Experience</p>
+          <h2 class="section__title">Intentional dining. Thoughtful hospitality.</h2>
+          <p class="section__lead">
+            In our remodeled 1954 home we craft evenings that linger — refined plates, warm service, and a bourbon bar that speaks to the moment.
+          </p>
+        </header>
+
+        <div class="experience__grid" role="list" aria-label="Luxury pillars">
+          <!-- Pillar 1: Prime Steaks -->
+          <article class="card" role="listitem" aria-labelledby="p1-title">
+            <div class="card__icon" aria-hidden="true"><i class="fa-solid fa-fire-flame-curved"></i></div>
+            <h3 id="p1-title" class="card__title">Prime Steaks</h3>
+            <p class="card__text">Highly curated cuts, cooked to order and finished with house sauces that enhance the beef — never mask it.</p>
+            <figure class="media" aria-hidden="true">
+              <img src="assets/hero-steak.jpg" alt="" loading="lazy" />
+              <figcaption class="media__cap">Signature Ribeye, whipped herb tallow</figcaption>
+            </figure>
+          </article>
+
+          <!-- Pillar 2: Prime Seafood -->
+          <article class="card" role="listitem" aria-labelledby="p2-title">
+            <div class="card__icon" aria-hidden="true"><i class="fa-solid fa-fish-fins"></i></div>
+            <h3 id="p2-title" class="card__title">Prime Seafood</h3>
+            <p class="card__text">Seasonal selections — from delicate grouper to bold Chilean seabass — prepared simply and with confidence.</p>
+            <figure class="media" aria-hidden="true">
+              <img src="assets/hero-seafood.jpg" alt="" loading="lazy" />
+              <figcaption class="media__cap">Grouper Imperial with smoked gouda grits</figcaption>
+            </figure>
+          </article>
+
+          <!-- Pillar 3: Bourbon & Cocktails -->
+          <article class="card" role="listitem" aria-labelledby="p3-title">
+            <div class="card__icon" aria-hidden="true"><i class="fa-solid fa-whiskey-glass"></i></div>
+            <h3 id="p3-title" class="card__title">Bourbon & Paris-inspired cocktails</h3>
+            <p class="card__text">A selection for every palate — flights, rare bottles, and house-conceived cocktails that nod to classic Paris bars.</p>
+            <figure class="media" aria-hidden="true">
+              <img src="assets/hero-bar.jpg" alt="" loading="lazy" />
+              <figcaption class="media__cap">Paris Landing — our take on the French 75</figcaption>
+            </figure>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU PREVIEW (6 items: Starter / Salad / Farm / Steak / Seafood / Cocktail) -->
+    <section class="section menu-preview" id="menu-preview" aria-label="Menu preview">
+      <div class="section__inner">
+        <header class="section__header">
+          <p class="section__eyebrow">Dinner Menu — Preview</p>
+          <h2 class="section__title">A taste of what's to come</h2>
+          <p class="section__lead">Six signature selections — one from each category. For the full experience, view the complete menu.</p>
+        </header>
+
+        <div class="menu__grid" aria-label="Featured dishes">
+          <!-- Starter -->
+          <article class="menu-item" aria-labelledby="m1-name">
+            <div>
+              <h4 id="m1-name" class="menu-item__name">Angel Eggs</h4>
+              <p class="menu-item__desc">Blackened shrimp, pure maple candied bacon — a savory-sweet, elevated starter.</p>
+            </div>
+            <div class="menu-item__price">19</div>
+          </article>
+
+          <!-- Salad -->
+          <article class="menu-item" aria-labelledby="m2-name">
+            <div>
+              <h4 id="m2-name" class="menu-item__name">Oaklawn Chopped</h4>
+              <p class="menu-item__desc">Mixed greens, seasonal fruit, mixed nuts, blackberry vinaigrette — balanced and bright.</p>
+            </div>
+            <div class="menu-item__price">14</div>
+          </article>
+
+          <!-- From the Farm -->
+          <article class="menu-item" aria-labelledby="m3-name">
+            <div>
+              <h4 id="m3-name" class="menu-item__name">Bertha’s Fried Chicken</h4>
+              <p class="menu-item__desc">Free-range tenders, garlic smashed potatoes, sautéed bacon green beans — a signature favorite.</p>
+            </div>
+            <div class="menu-item__price">39</div>
+          </article>
+
+          <!-- Steak -->
+          <article class="menu-item" aria-labelledby="m4-name">
+            <div>
+              <h4 id="m4-name" class="menu-item__name">The Ribeye</h4>
+              <p class="menu-item__desc">16 oz. highly marbled beef, whipped herb tallow, bourbon maple bacon brussels.</p>
+            </div>
+            <div class="menu-item__price">67</div>
+          </article>
+
+          <!-- Seafood -->
+          <article class="menu-item" aria-labelledby="m5-name">
+            <div>
+              <h4 id="m5-name" class="menu-item__name">Diver Scallops</h4>
+              <p class="menu-item__desc">Brown sherry garlic butter, parmesan risotto, asparagus — restrained and refined.</p>
+            </div>
+            <div class="menu-item__price">53</div>
+          </article>
+
+          <!-- Cocktail -->
+          <article class="menu-item" aria-labelledby="m6-name">
+            <div>
+              <h4 id="m6-name" class="menu-item__name">Paris Landing</h4>
+              <p class="menu-item__desc">Gin, lemon, simple syrup, champagne, strawberry — a bright, celebratory cocktail.</p>
+            </div>
+            <div class="menu-item__price">17</div>
+          </article>
+        </div>
+
+        <div class="menu__bottom-cta" aria-hidden="false">
+          <a class="btn btn--secondary" href="/menu.html">
+            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+            <span>View Full Dinner Menu</span>
+          </a>
+          <a class="btn btn--ghost" href="/wine.html">
+            <i class="fa-solid fa-wine-glass" aria-hidden="true"></i>
+            <span>View Full Bourbon & Wine List</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUNSHINE ROOM TEASER (Private Events) -->
+    <section class="section private-events" id="sunshine" aria-label="Sunshine Room">
+      <div class="section__inner">
+        <header class="section__header section__header--split">
+          <div>
+            <p class="section__eyebrow">Private Events</p>
+            <h2 class="section__title">The Sunshine Room</h2>
+            <p class="section__lead">An intimate private dining room for anniversaries, corporate gatherings, and evenings made to celebrate.</p>
+          </div>
+          <div class="private-events__cta">
+            <a class="btn btn--primary" href="#eventsInquiry" aria-controls="eventsInquiry" role="button">
+              <i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i>
+              <span>Inquire About an Event</span>
+            </a>
+          </div>
+        </header>
+
+        <div class="private-events__grid">
+          <figure class="private-events__image">
+            <img src="assets/sunshine-room-thumb.jpg" alt="Sunshine Room private dining with soft lighting" loading="lazy" />
+            <figcaption>Private dining in the Sunshine Room — capacity and menu tailored to your occasion.</figcaption>
+          </figure>
+
+          <div class="private-events__details">
+            <div class="detail">
+              <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+              <div>
+                <h3>Curated Menus</h3>
+                <p>Custom menus, plated or family-style, and beverage packages to suit your evening.</p>
+              </div>
+            </div>
+
+            <div class="detail">
+              <i class="fa-solid fa-heart" aria-hidden="true"></i>
+              <div>
+                <h3>Thoughtful Service</h3>
+                <p>Dedicated event staff, timing managed, and details handled with discretion.</p>
+              </div>
+            </div>
+
+            <div class="detail">
+              <i class="fa-solid fa-people-roof" aria-hidden="true"></i>
+              <div>
+                <h3>Memorable Moments</h3>
+                <p>From champagne toasts to specialty desserts — we set the stage for celebration.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESERVATIONS BLOCK (opens modal) -->
+    <section class="section reservations" id="reservations" aria-label="Reservations">
+      <div class="section__inner">
+        <header class="section__header">
+          <p class="section__eyebrow">Reservations</p>
+          <h2 class="section__title">Reserve your evening</h2>
+          <p class="section__lead">Reservations recommended. Parties of 6+ require advance notice. Click Reserve to open the booking modal.</p>
+        </header>
+
+        <div class="reservations__grid">
+          <div class="reserve-card" aria-hidden="false">
+            <div class="reserve-card__top">
+              <h3 class="reserve-card__title">Quick Reserve</h3>
+              <p class="reserve-card__note">A compact reservation form opens in a modal for a clean booking flow.</p>
+            </div>
+
+            <div class="reserve-card__fields" aria-hidden="true">
+              <!-- Inline fallback: Show brief info and CTA only on the homepage—actual form in modal -->
+              <p class="card__text">Prefer to call? <a href="tel:17314074262">731-407-4262</a></p>
+              <p class="card__text">Or click Reserve to request a time and party size.</p>
+            </div>
+
+            <div class="reserve-card__actions">
+              <a class="btn btn--primary" href="#reserveModal" role="button" aria-haspopup="dialog" aria-controls="reserveModal">
+                <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+                <span>Reserve</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Aside highlights -->
+          <aside class="reserve-aside" aria-label="Reservation highlights">
+            <div class="reserve-aside__panel">
+              <h3 class="reserve-aside__title">Tonight’s promise</h3>
+              <ul class="lux-list">
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Steaks cooked to order</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Prime seafood selections</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Paris-inspired crafted cocktails</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Complimentary valet parking</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION STRIP (hours + address + call + valet + map button) -->
+    <section class="section location-strip" id="location" aria-label="Location and hours">
+      <div class="section__inner">
+        <div class="contact__grid">
+          <div class="contact-card">
+            <h3 class="contact-card__title">Find us</h3>
+
+            <div class="contact-row">
+              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              <div>
+                <p class="contact-row__label">Address</p>
+                <p class="contact-row__value">1008 E. Wood Street, Paris, TN</p>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <i class="fa-regular fa-clock" aria-hidden="true"></i>
+              <div>
+                <p class="contact-row__label">Hours</p>
+                <p class="contact-row__value">Monday–Saturday — Bar 4:00 PM • Dining 4:30 PM</p>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <i class="fa-solid fa-car" aria-hidden="true"></i>
+              <div>
+                <p class="contact-row__label">Valet</p>
+                <p class="contact-row__value">Complimentary valet parking available.</p>
+              </div>
+            </div>
+
+            <div class="contact-card__actions" aria-hidden="false">
+              <a class="btn btn--secondary" href="tel:17314074262">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <span>Call 731-407-4262</span>
+              </a>
+
+              <!-- Small embedded map button — opens a small map overlay or directions -->
+              <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&destination=1008+E+Wood+Street+Paris+TN" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+                <span>Get Directions</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- small map thumbnail (not full map) -->
+          <div class="map map--thumb" aria-hidden="false">
+            <a class="map__link" href="https://www.google.com/maps/place/1008+E+Wood+Street+Paris+TN" target="_blank" rel="noopener noreferrer" aria-label="Open map in Google Maps">
+              <img src="assets/map-thumb.jpg" alt="Map thumbnail showing Oaklawn's location" loading="lazy" />
+              <div class="map__caption">Open larger map</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER CTA — News / Gift Cards / Social (keeps presence but minimal) -->
+    <section class="section footer-cta" aria-label="Footer call to action">
+      <div class="section__inner">
+        <div class="newsletter__panel" aria-hidden="false">
+          <div class="newsletter__text">
+            <p class="newsletter__eyebrow">Join Updates</p>
+            <h2 class="newsletter__title">Seasonal menus. Special evenings.</h2>
+            <p class="newsletter__lead">Be the first to know about curated events, limited menu nights, and special bottle releases.</p>
+          </div>
+
+          <form class="newsletter__form" action="#" method="post" aria-label="Newsletter sign up" novalidate>
+            <label class="sr-only" for="newsEmailHome">Email address</label>
+            <div class="newsletter__control">
+              <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+              <input id="newsEmailHome" name="email" type="email" placeholder="Email address" autocomplete="email" required />
+            </div>
+            <button class="btn btn--primary" type="submit">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              <span>Join</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RESERVATION MODAL (hidden by default; opened by Reserve CTAs) -->
+  <div id="reserveModal" class="lux-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="reserveModalTitle">
+    <div class="lux-modal__backdrop" data-modal-close="true" aria-hidden="true"></div>
+    <div class="lux-modal__panel">
+      <div class="lux-modal__head">
+        <div class="lux-modal__icon" aria-hidden="true"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i></div>
+        <button class="lux-modal__close" type="button" data-modal-close="true" aria-label="Close reservation dialog">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="lux-modal__body">
+        <h3 id="reserveModalTitle" class="lux-modal__title">Request a Reservation</h3>
+        <p class="lux-modal__text">Complete the form below and we’ll confirm availability. Parties of 6+ require advance notice.</p>
+
+        <form id="reserveFormModal" action="#" method="post" aria-label="Reservation form">
+          <div class="reserve-card__fields">
+            <div class="field">
+              <label for="modalPartySize">Party size</label>
+              <div class="field__control">
+                <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+                <select id="modalPartySize" name="partySize" required>
+                  <option value="" selected disabled>Select size</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                  <option>7</option><option>8</option><option>9</option><option>10</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="modalDate">Date</label>
+              <div class="field__control">
+                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                <input id="modalDate" name="resDate" type="date" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="modalTime">Time</label>
+              <div class="field__control">
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <select id="modalTime" name="resTime" required>
+                  <option value="" selected disabled>Select a time</option>
+                  <option>4:30 PM</option><option>5:00 PM</option><option>5:30 PM</option>
+                  <option>6:00 PM</option><option>6:30 PM</option><option>7:00 PM</option>
+                  <option>7:30 PM</option><option>8:00 PM</option><option>8:30 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="modalName">Full name</label>
+              <div class="field__control">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <input id="modalName" name="fullName" type="text" placeholder="Your name" autocomplete="name" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="modalPhone">Phone</label>
+              <div class="field__control">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <input id="modalPhone" name="phone" type="tel" placeholder="(731) 407-4262" autocomplete="tel" required />
+              </div>
+            </div>
+
+            <div class="field field--full">
+              <label for="modalNotes">Notes (optional)</label>
+              <div class="field__control">
+                <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                <textarea id="modalNotes" name="notes" rows="4" placeholder="Anniversary, seating preferences, dietary needs..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="lux-modal__actions">
+            <button class="btn btn--primary btn--full" type="submit">
+              <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+              <span>Request Reservation</span>
+            </button>
+            <button class="btn btn--secondary btn--full" type="button" data-modal-close="true" aria-label="Cancel">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              <span>Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo" aria-hidden="true">
+          <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+        </div>
+        <div class="footer__brand-text">
+          <p class="footer__name">Oaklawn Southern Dining</p>
+          <p class="footer__tagline">Chef-inspired • Urban Elegant • Intimate</p>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h3 class="footer__title">Visit</h3>
+          <p class="footer__line">1008 E. Wood Street, Paris TN</p>
+          <p class="footer__line"><a href="tel:17314074262">731-407-4262</a></p>
+          <p class="footer__line">Mon–Sat • Bar 4:00 PM • Dining 4:30 PM</p>
+          <p class="footer__line">Complimentary valet parking</p>
+        </div>
+
+        <div class="footer__col">
+          <h3 class="footer__title">Explore</h3>
+          <ul class="footer__links" aria-label="Footer links">
+            <li><a href="/menu.html">Dinner Menu</a></li>
+            <li><a href="/wine.html">Bourbon & Wine</a></li>
+            <li><a href="#sunshine">Private Events</a></li>
+            <li><a href="/gallery.html">Gallery</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h3 class="footer__title">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="#reservations">Reservations</a></li>
+            <li><a href="/careers.html">Join Our Team</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+
+          <div class="footer__social" aria-label="Social links">
+            <a class="social" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+            <a class="social" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+            <a class="social" href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2026 Oaklawn Southern Dining. All Rights Reserved.</p>
+        <a class="footer__top" href="#top" aria-label="Back to top">
+          <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+          <span>Top</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Reserve Button (mobile & desktop) -->
+  <a class="float-reserve" href="#reservations" aria-label="Reserve a table">
+    <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+    <span>Reserve</span>
+  </a>
+    <script>
+/* Oaklawn — Homepage Interaction Script
+   - Mobile drawer (accessible)
+   - Sticky header shadow on scroll
+   - Smooth anchor scrolling (respect reduced motion)
+   - Scroll-spy for primary nav
+   - Hero video / poster swap for mobile & reduced-motion
+   - Reservation modal (focus trap, validation, mock submit + confirmation)
+   - Newsletter sign-up (validation + confirmation)
+   - Floating reserve button visibility
+   - Small map / directions button wiring
+   - Lightbox for featured media (basic)
+   - Defensive checks so missing elements don't throw
+*/
+
+(() => {
+  "use strict";
+
+  /* ---------------------------
+     Helpers
+  --------------------------- */
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from((ctx || document).querySelectorAll(sel));
+  const noop = () => {};
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+  const debounce = (fn, wait = 100) => {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), wait);
+    };
+  };
+  const prefersReducedMotion = () =>
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function setAriaExpanded(btn, val) {
+    if (!btn) return;
+    btn.setAttribute("aria-expanded", val ? "true" : "false");
+  }
+
+  /* Focus trap inside container. Returns release function. */
+  function trapFocus(container, onClose) {
+    if (!container) return noop;
+    const selectors = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    let focusables = Array.from(container.querySelectorAll(selectors)).filter(n => !!(n.offsetWidth || n.offsetHeight || n.getClientRects().length));
+    if (focusables.length === 0) {
+      // put focus on container itself if nothing focusable
+      container.setAttribute("tabindex", "-1");
+      focusables = [container];
+    }
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose?.();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      if (focusables.length === 1) {
+        e.preventDefault();
+        focusables[0].focus();
+        return;
+      }
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    container.addEventListener("keydown", handleKey);
+    // focus first element
+    setTimeout(() => first?.focus?.(), 0);
+
+    return () => {
+      container.removeEventListener("keydown", handleKey);
+      if (container.getAttribute("tabindex") === "-1") container.removeAttribute("tabindex");
+    };
+  }
+
+  /* Smooth scroll to element, accounting for sticky header */
+  function smoothScrollTo(targetEl) {
+    if (!targetEl) return;
+    const header = $(".header");
+    const headerHeight = header ? Math.round(header.getBoundingClientRect().height) : 0;
+    const top = window.pageYOffset + targetEl.getBoundingClientRect().top - headerHeight - 12;
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: prefersReducedMotion() ? "auto" : "smooth"
+    });
+  }
+
+  /* Accessibility: set focus and visible outline then remove after short time */
+  function announceFocus(el) {
+    try {
+      el.focus();
+    } catch (e) {}
+  }
+
+  /* ---------------------------
+     Sticky header shadow
+  --------------------------- */
+  (function headerScroll() {
+    const header = $(".header");
+    if (!header) return;
+    const onScroll = () => {
+      header.classList.toggle("is-scrolled", window.scrollY > 8);
+    };
+    window.addEventListener("scroll", debounce(onScroll, 12), { passive: true });
+    onScroll();
+  })();
+
+  /* ---------------------------
+     Mobile Drawer (nav)
+  --------------------------- */
+  (function drawer() {
+    const navToggle = $(".nav__toggle");
+    const drawer = $("#navDrawer");
+    const drawerPanel = drawer ? $(".drawer__panel", drawer) : null;
+    const drawerBackdrop = drawer ? $(".drawer__backdrop", drawer) : null;
+    const drawerClose = drawer ? $(".drawer__close", drawer) : null;
+    if (!navToggle || !drawer || !drawerPanel) return;
+
+    let releaseTrap = null;
+    let lastActive = null;
+
+    function open() {
+      lastActive = document.activeElement;
+      drawer.classList.add("is-open");
+      drawer.setAttribute("aria-hidden", "false");
+      setAriaExpanded(navToggle, true);
+      document.documentElement.classList.add("is-locked");
+      document.body.classList.add("is-locked");
+      releaseTrap = trapFocus(drawerPanel, close);
+    }
+
+    function close() {
+      drawer.classList.remove("is-open");
+      drawer.setAttribute("aria-hidden", "true");
+      setAriaExpanded(navToggle, false);
+      document.documentElement.classList.remove("is-locked");
+      document.body.classList.remove("is-locked");
+      if (releaseTrap) { releaseTrap(); releaseTrap = null; }
+      try { lastActive?.focus?.(); } catch (e) {}
+    }
+
+    navToggle.addEventListener("click", () => {
+      const expanded = navToggle.getAttribute("aria-expanded") === "true";
+      expanded ? close() : open();
+    });
+
+    if (drawerClose) drawerClose.addEventListener("click", close);
+    if (drawerBackdrop) drawerBackdrop.addEventListener("click", close);
+
+    // Close on ESC
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && drawer.classList.contains("is-open")) close();
+    });
+
+    // Close if link clicked
+    $$("a", drawer).forEach(a => a.addEventListener("click", () => close()));
+
+    // Close when resizing to wide screens
+    window.addEventListener("resize", debounce(() => {
+      if (window.innerWidth >= 1020 && drawer.classList.contains("is-open")) close();
+    }, 180));
+  })();
+
+  /* ---------------------------
+     Smooth anchors (site-wide)
+  --------------------------- */
+  (function anchors() {
+    const anchors = $$('a[href^="#"]:not([href="#"])');
+    anchors.forEach(a => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+        const id = href.slice(1);
+        const target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        // close drawer if open
+        const drawer = $("#navDrawer");
+        if (drawer?.classList.contains("is-open")) {
+          const closeBtn = $(".drawer__close", drawer);
+          closeBtn?.click();
+        }
+        smoothScrollTo(target);
+        // update history without page reload
+        try { history.pushState(null, "", `#${id}`); } catch (e) {}
+      });
+    });
+  })();
+
+  /* ---------------------------
+     Scroll-spy (primary nav)
+  --------------------------- */
+  (function scrollSpy() {
+    const navLinks = $$("nav.nav a.nav__link");
+    if (!navLinks.length || !("IntersectionObserver" in window)) return;
+
+    const targets = navLinks.map(a => {
+      const id = a.getAttribute("href")?.slice(1);
+      return document.getElementById(id);
+    }).filter(Boolean);
+
+    function setActive(id) {
+      navLinks.forEach(a => {
+        const match = a.getAttribute("href") === `#${id}`;
+        a.classList.toggle("is-active", match);
+        if (match) a.setAttribute("aria-current", "page");
+        else a.removeAttribute("aria-current");
+      });
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      // choose top-most intersecting element by ratio
+      const visible = entries.filter(en => en.isIntersecting)
+        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) setActive(visible.target.id);
+    }, {
+      root: null,
+      threshold: [0.25, 0.4, 0.6],
+      rootMargin: "-20% 0px -40% 0px"
+    });
+
+    targets.forEach(t => io.observe(t));
+  })();
+
+  /* ---------------------------
+     Hero: video swap for mobile & reduced-motion
+  --------------------------- */
+  (function heroMedia() {
+    const VIDEO_BREAKPOINT = 760; // px - below this, swap to poster image
+    const mediaWrap = $(".hero__media");
+    if (!mediaWrap) return;
+    const video = $(".hero__video", mediaWrap);
+
+    function showPosterInstead() {
+      if (!video) return;
+      const poster = video.getAttribute("poster") || "";
+      // create an image element and replace the video element
+      const img = document.createElement("img");
+      img.src = poster;
+      img.alt = "Oaklawn dining room";
+      img.loading = "lazy";
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.objectFit = "cover";
+      // if video already removed, skip
+      if (video.parentNode) video.parentNode.replaceChild(img, video);
+    }
+
+    function ensureVideoPlayable() {
+      if (!video) return;
+      // if user prefers reduced motion, remove autoplay and show poster
+      if (prefersReducedMotion()) {
+        try { video.pause(); } catch(e){}
+        showPosterInstead();
+        return;
+      }
+      // only autoplay on wide screens
+      if (window.innerWidth <= VIDEO_BREAKPOINT) {
+        showPosterInstead();
+      } else {
+        // make sure the video is in the DOM and plays
+        // if video has been removed earlier (poster replaced), do nothing
+        // (we assume server-provided markup contains the <video>)
+        try {
+          video.muted = true;
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.then === "function") {
+            playPromise.catch(() => {
+              // playback prevented (autoplay policy) -> keep poster fallback
+              showPosterInstead();
+            });
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      }
+    }
+
+    // run on load and on resize (debounced)
+    window.addEventListener("load", ensureVideoPlayable);
+    window.addEventListener("resize", debounce(ensureVideoPlayable, 150));
+    ensureVideoPlayable();
+  })();
+
+  /* ---------------------------
+     Generic confirmation modal generator (reused)
+  --------------------------- */
+  function ensureConfirmModal() {
+    let m = $("#oaklawnConfirmModal");
+    if (m) return m;
+    m = document.createElement("div");
+    m.id = "oaklawnConfirmModal";
+    m.className = "lux-modal";
+    m.setAttribute("aria-hidden", "true");
+    m.innerHTML = `
+      <div class="lux-modal__backdrop" data-modal-close="true" aria-hidden="true"></div>
+      <div class="lux-modal__panel" role="dialog" aria-modal="true" aria-label="Message">
+        <div class="lux-modal__head">
+          <div class="lux-modal__icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></div>
+          <button class="lux-modal__close" type="button" aria-label="Close message" data-modal-close="true">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="lux-modal__body">
+          <h3 class="lux-modal__title" id="oaklawnConfirmTitle"></h3>
+          <p class="lux-modal__text" id="oaklawnConfirmText"></p>
+        </div>
+        <div class="lux-modal__actions">
+          <button class="btn btn--primary btn--full" type="button" data-modal-close="true">Close</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(m);
+    return m;
+  }
+
+  let confirmRelease = null;
+  let confirmLastActive = null;
+
+  function openConfirm({ title = "Message", text = "" } = {}) {
+    const modal = ensureConfirmModal();
+    const titleEl = $("#oaklawnConfirmTitle", modal);
+    const textEl = $("#oaklawnConfirmText", modal);
+    const panel = $(".lux-modal__panel", modal);
+    titleEl.textContent = title;
+    textEl.textContent = text;
+    confirmLastActive = document.activeElement;
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("is-locked");
+    document.body.classList.add("is-locked");
+
+    confirmRelease = trapFocus(panel, closeConfirm);
+
+    // close handlers
+    $$("[data-modal-close='true']", modal).forEach(el => el.addEventListener("click", closeConfirm, { once: true }));
+  }
+
+  function closeConfirm() {
+    const modal = $("#oaklawnConfirmModal");
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("is-locked");
+    document.body.classList.remove("is-locked");
+
+    if (confirmRelease) { confirmRelease(); confirmRelease = null; }
+    try { confirmLastActive?.focus?.(); } catch(e) {}
+  }
+
+  /* ---------------------------
+     Reservation modal (open/close and validation)
+  --------------------------- */
+  (function reservationModal() {
+    const reserveModal = $("#reserveModal");
+    if (!reserveModal) return;
+    const openButtons = $$('a[href="#reserveModal"], a[href="#reservations"], .btn[href="#reserveModal"], .btn[href="#reservations"]')
+      .filter(el => el.closest("body")); // basic filter
+    const closeEls = $$("[data-modal-close='true']", reserveModal);
+    const panel = $(".lux-modal__panel", reserveModal);
+
+    let releaseTrap = null;
+    let lastActive = null;
+
+    function open() {
+      lastActive = document.activeElement;
+      reserveModal.classList.add("is-open");
+      reserveModal.setAttribute("aria-hidden", "false");
+      document.documentElement.classList.add("is-locked");
+      document.body.classList.add("is-locked");
+      releaseTrap = trapFocus(panel, close);
+    }
+
+    function close() {
+      reserveModal.classList.remove("is-open");
+      reserveModal.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("is-locked");
+      document.body.classList.remove("is-locked");
+      if (releaseTrap) { releaseTrap(); releaseTrap = null; }
+      try { lastActive?.focus?.(); } catch (e) {}
+    }
+
+    openButtons.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        // If the anchor links to a section instead, we still open modal only for explicit reserve modal links.
+        const href = btn.getAttribute("href") || "";
+        if (!href.includes("reserveModal") && href.includes("#reservations") && btn.closest("header") === null) {
+          // If link is within header/nav and meant to scroll, skip. Otherwise open modal.
+        }
+        e.preventDefault();
+        open();
+      });
+    });
+
+    closeEls.forEach(el => el.addEventListener("click", close));
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && reserveModal.classList.contains("is-open")) close();
+    });
+
+    // Simple form validation & mock submission
+    const form = $("#reserveFormModal");
+    if (!form) return;
+
+    // min date to today
+    const dateInput = $("#modalDate", form);
+    if (dateInput && dateInput.type === "date") {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      dateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    function setInvalid(el, msg) {
+      if (!el) return;
+      el.classList.add("is-invalid");
+      el.setAttribute("aria-invalid", "true");
+      if (msg) el.setAttribute("data-error", msg);
+    }
+    function clearInvalid(el) {
+      if (!el) return;
+      el.classList.remove("is-invalid");
+      el.removeAttribute("aria-invalid");
+      el.removeAttribute("data-error");
+    }
+
+    function validate() {
+      const fields = $$("input, select, textarea", form).filter(f => f.required);
+      let firstInvalid = null;
+      fields.forEach(f => {
+        clearInvalid(f);
+        if (f.type === "tel" && f.value) {
+          const digits = f.value.replace(/[^\d]/g, "");
+          if (digits.length < 10) {
+            setInvalid(f, "Please enter a valid phone number.");
+            if (!firstInvalid) firstInvalid = f;
+          }
+        } else if (!f.checkValidity()) {
+          setInvalid(f, f.validationMessage || "Please complete this field.");
+          if (!firstInvalid) firstInvalid = f;
+        }
+      });
+      return firstInvalid;
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const firstInvalid = validate();
+      if (firstInvalid) {
+        try { firstInvalid.focus(); } catch (e) {}
+        openConfirm({
+          title: "Please review your reservation",
+          text: "Some required fields need attention before we can send your request."
+        });
+        return;
+      }
+
+      // Mock submit: serialize and show confirmation
+      const data = new FormData(form);
+      const obj = {};
+      for (const [k,v] of data.entries()) obj[k] = v;
+      form.reset();
+      close();
+      openConfirm({
+        title: "Reservation requested",
+        text: `Thank you${obj.fullName ? ", " + obj.fullName : ""}. We’ve received your request for ${obj.partySize || "a table" } on ${obj.resDate || "your chosen date"} at ${obj.resTime || "your chosen time"}. We’ll confirm shortly.`
+      });
+    });
+  })();
+
+  /* ---------------------------
+     Newsletter form handling
+  --------------------------- */
+  (function newsletter() {
+    const form = $(".newsletter__form");
+    if (!form) return;
+    const input = form.querySelector('input[type="email"]');
+
+    function validEmail(v) {
+      if (!v) return false;
+      // simple regex
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const v = input?.value?.trim?.() || "";
+      if (!validEmail(v)) {
+        input?.focus?.();
+        openConfirm({
+          title: "Invalid email",
+          text: "Please enter a valid email address to join our list."
+        });
+        return;
+      }
+
+      // mock subscribe
+      form.reset();
+      openConfirm({
+        title: "You're on the list",
+        text: `Thanks — we’ll send seasonal updates and special offers to ${v}.`
+      });
+    });
+  })();
+
+  /* ---------------------------
+     Floating Reserve Button visibility
+  --------------------------- */
+  (function floatReserve() {
+    const btn = $(".float-reserve");
+    if (!btn) return;
+    function toggle() {
+      const show = window.scrollY > 300;
+      btn.classList.toggle("is-visible", show);
+    }
+    window.addEventListener("scroll", debounce(toggle, 60), { passive: true });
+    toggle();
+  })();
+
+  /* ---------------------------
+     Directions / map button wiring
+  --------------------------- */
+  (function directions() {
+    const mapLinks = $$('a[href*="google.com/maps"], a.map__link, a[aria-label*="map"]');
+    mapLinks.forEach(a => {
+      // ensure proper target and rel for external map links
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+    });
+
+    const getDir = $('a[aria-label="Get Directions"], a[href*="directions"], .contact-card__actions a[href*="directions"]');
+    if (getDir) {
+      getDir.addEventListener("click", (e) => {
+        // allow default navigation: href already points to google maps directions in markup
+        // but for safety ensure it opens properly
+        const href = getDir.getAttribute("href");
+        if (!href || !href.includes("google.com")) {
+          const addr = encodeURIComponent("1008 E. Wood Street, Paris TN");
+          getDir.href = `https://www.google.com/maps/dir/?api=1&destination=${addr}`;
+          getDir.target = "_blank";
+          getDir.rel = "noopener noreferrer";
+        }
+      });
+    }
+  })();
+
+  /* ---------------------------
+     Lightweight lightbox for media images (.media img, .private-events__image img)
+  --------------------------- */
+  (function lightbox() {
+    const selectors = [".media img", ".private-events__image img", ".gallery__item img"].join(",");
+    const imgs = $$(selectors).filter(Boolean);
+    if (!imgs.length) return;
+
+    function ensureLB() {
+      let lb = $("#oakLightbox");
+      if (lb) return lb;
+      lb = document.createElement("div");
+      lb.id = "oakLightbox";
+      lb.className = "lightbox";
+      lb.setAttribute("aria-hidden", "true");
+      lb.innerHTML = `
+        <div class="lightbox__backdrop" data-lb-close="true" aria-hidden="true"></div>
+        <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="Image">
+          <button class="lightbox__close" type="button" aria-label="Close image" data-lb-close="true"><i class="fa-solid fa-xmark"></i></button>
+          <figure class="lightbox__figure">
+            <img class="lightbox__img" alt="" />
+            <figcaption class="lightbox__cap"></figcaption>
+          </figure>
+        </div>
+      `;
+      document.body.appendChild(lb);
+      return lb;
+    }
+
+    let lbRelease = null;
+    let lastActive = null;
+
+    function openAt(src, alt) {
+      const lb = ensureLB();
+      const panel = $(".lightbox__panel", lb);
+      const img = $(".lightbox__img", lb);
+      const cap = $(".lightbox__cap", lb);
+      lastActive = document.activeElement;
+      img.src = src;
+      img.alt = alt || "";
+      cap.textContent = alt || "";
+      lb.classList.add("is-open");
+      lb.setAttribute("aria-hidden", "false");
+      document.documentElement.classList.add("is-locked");
+      document.body.classList.add("is-locked");
+      lbRelease = trapFocus(panel, closeLB);
+
+      $$("[data-lb-close='true']", lb).forEach(el => el.addEventListener("click", closeLB, { once: true }));
+
+      // esc handler
+      function onKey(e) {
+        if (e.key === "Escape") closeLB();
+      }
+      window.addEventListener("keydown", onKey);
+      lb._cleanup = () => window.removeEventListener("keydown", onKey);
+    }
+
+    function closeLB() {
+      const lb = $("#oakLightbox");
+      if (!lb) return;
+      lb.classList.remove("is-open");
+      lb.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("is-locked");
+      document.body.classList.remove("is-locked");
+      if (lbRelease) { lbRelease(); lbRelease = null; }
+      lb._cleanup?.();
+      try { lastActive?.focus?.(); } catch (e) {}
+    }
+
+    imgs.forEach(img => {
+      img.tabIndex = 0;
+      img.addEventListener("click", () => openAt(img.currentSrc || img.src, img.alt || ""));
+      img.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openAt(img.currentSrc || img.src, img.alt || "");
+        }
+      });
+    });
+
+    // click delegation for nav (none here) and close
+    document.addEventListener("click", (e) => {
+      const lb = $("#oakLightbox");
+      if (!lb || !lb.classList.contains("is-open")) return;
+      if (e.target.closest(".lightbox__close")) closeLB();
+    });
+  })();
+
+  /* ---------------------------
+     Footer copyright year
+  --------------------------- */
+  (function footerYear() {
+    const el = $(".footer__copyright");
+    if (!el) return;
+    const year = new Date().getFullYear();
+    el.textContent = `© ${year} Oaklawn Southern Dining. All Rights Reserved.`;
+  })();
+
+  /* ---------------------------
+     Defensive small-run: prevent default on empty anchors (#)
+  --------------------------- */
+  $$('a[href="#"]').forEach(a => a.addEventListener("click", (e) => e.preventDefault()));
+
+  /* ---------------------------
+     End of script
+  --------------------------- */
+})();
+</script>
+</html>
+</body>
+
+
+  
