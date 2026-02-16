@@ -2854,6 +2854,572 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 :target{
   scroll-margin-top: calc(var(--topbar-h) + var(--header-h) + 18px);
 }
+/* ------------------------------
+   Hero: Dark overlay + readable content (override)
+   Paste this at the END of your existing <style> block
+------------------------------ */
+.menu-hero {
+  /* ensure hero sits tall enough on larger screens */
+  min-height: 420px;
+  position: relative;
+  color: #fff; /* default readable text on image */
+}
+
+/* make the image fully visible (cover) */
+.menu-hero__media,
+.menu-hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.03);
+  filter: saturate(1.02) contrast(1.04);
+  z-index: 0;
+}
+
+/* dark, slightly textured overlay — replaces the yellow/vintage tint */
+.menu-hero::before {
+  /* darker base for contrast; uses !important to override previous radial/yellow layers */
+  background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.48) 45%, rgba(0,0,0,.62) 100%) !important;
+  mix-blend-mode: multiply;
+  opacity: 1 !important;
+  z-index: 1;
+}
+
+/* soft vignette on top of the dark base for depth and legibility */
+.menu-hero::after {
+  background:
+    radial-gradient(900px 520px at 50% 20%, rgba(0,0,0,.22), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,0) 40%, rgba(0,0,0,.42));
+  mix-blend-mode: multiply;
+  opacity: 1 !important;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ensure content floats above overlays and is readable */
+.menu-hero__content {
+  position: relative;
+  z-index: 3;
+  color: #fff;
+}
+
+/* make kicker / crumbs readable with subtle translucent panels */
+.kicker,
+.crumbs {
+  background: rgba(0,0,0,.38) !important;
+  border: 1px solid rgba(255,255,255,.06);
+  color: rgba(255,255,255,.95);
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+.kicker i, .crumbs i { color: rgba(255,255,255,.95); }
+
+/* hero headline / lead — tune contrast and a touch of glow for depth */
+.menu-hero__title {
+  color: #fff !important;
+  text-shadow: 0 12px 30px rgba(0,0,0,.6);
+}
+.menu-hero__lead {
+  color: rgba(255,255,255,.92) !important;
+}
+
+/* hero action buttons: keep primary warm, make ghost buttons light-on-dark */
+.menu-hero__actions .btn--ghost {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.12);
+  color: #fff;
+}
+.menu-hero__actions .btn--ghost:hover {
+  background: rgba(255,255,255,.10);
+}
+.menu-hero__actions .btn--primary {
+  /* preserve gold primary feel but improve contrast on dark bg */
+  box-shadow: 0 18px 46px rgba(176,138,60,.22);
+  color: #130f0a;
+}
+
+/* adjust mini gallery captions for dark background */
+.hero-card__title,
+.hero-card__sub,
+.hero-card figcaption {
+  color: #fff;
+}
+.hero-card figcaption {
+  background: linear-gradient(180deg, rgba(0,0,0,.40), rgba(0,0,0,.55));
+  padding: 12px;
+}
+
+/* small-screen tweaks so text scales nicely on phones */
+@media (max-width: 520px){
+  .menu-hero { min-height: 340px; }
+  .menu-hero__title { font-size: clamp(28px, 7vw, 40px); }
+  .menu-hero__lead { font-size: 14px; }
+  .hero-card figcaption { padding: 10px; }
+}
+/* ------------------------------
+   Task 2: Polish Prime Steaks & From the Sea
+   Paste at the END of your <style> to override earlier rules
+------------------------------ */
+
+/* FEATURE CONTAINER — cleaner surface, subtle contrast against page */
+.menu-feature {
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(250,245,240,.95));
+  border: 1px solid rgba(31,26,20,.08);
+  box-shadow: 0 20px 48px rgba(31,26,20,.06);
+  padding: 0;
+  overflow: visible;
+}
+
+/* tidy up the head: split left text / right photos on wide screens */
+.menu-feature__head {
+  display: grid;
+  grid-template-columns: 1fr minmax(220px, 360px);
+  gap: 18px;
+  align-items: center;
+  padding: 22px 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,243,238,.98));
+  border-bottom: 1px solid rgba(31,26,20,.06);
+}
+
+/* smaller padding when narrow */
+@media (max-width: 980px) {
+  .menu-feature__head { grid-template-columns: 1fr; padding: 18px 16px; gap: 12px; }
+}
+
+/* mini photo row: make photos uniform, add vignette and hover scale */
+.menu-feature__mini {
+  display: flex;
+  gap: 12px;
+  justify-self: end;
+}
+.menu-feature__mini .mini-photo{
+  width: 110px;
+  min-width: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(31,26,20,.08);
+  box-shadow: 0 10px 28px rgba(31,26,20,.06);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+.menu-feature__mini .mini-photo img{
+  width:100%;
+  height: 86px;
+  object-fit: cover;
+  display:block;
+  transform: scale(1.02);
+  transition: transform .36s cubic-bezier(.2,.9,.3,1);
+  filter: saturate(.98) contrast(1.02);
+}
+.menu-feature__mini .mini-photo::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.28));
+  mix-blend-mode: multiply;
+}
+.menu-feature__mini .mini-photo:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(31,26,20,.10); }
+.menu-feature__mini .mini-photo:hover img{ transform: scale(1.08); }
+
+/* ITEMS GRID — responsive: 1 / 2 / 3 columns */
+.items.items--grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  padding: 18px 22px 22px;
+}
+@media (min-width: 900px){
+  .items.items--grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 20px 22px 22px; }
+}
+@media (min-width: 1400px){
+  .items.items--grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+}
+
+/* Individual item card inside feature section */
+.menu-feature .item{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 18px;
+  align-items: start;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,248,244,.96));
+  border: 1px solid rgba(31,26,20,.06);
+  box-shadow: 0 10px 28px rgba(31,26,20,.04);
+  transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s ease;
+  overflow: visible;
+}
+
+/* subtle hover lift */
+.menu-feature .item:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 22px 62px rgba(31,26,20,.08);
+}
+
+/* Featured item accent */
+.menu-feature .item.item--featured{
+  border-left: 6px solid var(--gold);
+  padding-left: 12px;
+  position: relative;
+}
+
+/* Name, note & typographic hierarchy */
+.menu-feature .item__top { display:flex; gap:12px; align-items: baseline; }
+.menu-feature .item__name,
+.menu-feature .item__name .item__note{
+  font-family: var(--serif);
+  color: var(--espresso);
+}
+.menu-feature .item__name{
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.08;
+}
+.menu-feature .item__note{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* price badge aligned right, vertically centered with top content */
+.menu-feature .item__price{
+  justify-self: end;
+  align-self: start;
+  background: rgba(176,138,60,.10);
+  color: var(--oak);
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,60,.22);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 8px 24px rgba(176,138,60,.06);
+}
+
+/* description and subnote */
+.menu-feature .item__desc{
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.menu-feature .item__subnote{
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  color: rgba(22,19,17,.78);
+  font-size: 13px;
+}
+
+/* small visual divider for clarity between item blocks */
+.menu-feature .item + .item{
+  margin-top: 0;
+}
+
+/* ASIDE CARDS — stronger heading and icon, cleaner spacing */
+.menu-feature__aside{
+  padding: 18px;
+  gap: 12px;
+}
+.menu-feature__aside .aside-card{
+  padding: 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(249,246,241,.98));
+  border: 1px solid rgba(31,26,20,.06);
+  box-shadow: 0 12px 30px rgba(31,26,20,.04);
+}
+.aside-card__title{
+  font-size: 16px;
+  display:flex;
+  gap:10px;
+  align-items: center;
+}
+.aside-card__title i{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background: rgba(176,138,60,.14);
+  border:1px solid rgba(176,138,60,.22);
+  color: var(--oak);
+}
+.aside-card__price{
+  margin-left: 10px;
+  color: var(--oak);
+  font-weight: 800;
+}
+
+/* Mobile adjustments */
+@media (max-width: 720px){
+  .menu-feature .item{ padding: 12px; grid-template-columns: 1fr auto; gap: 8px 12px; }
+  .menu-feature__mini .mini-photo{ width: 92px; min-width: 92px; }
+  .menu-feature__aside{ padding: 12px; }
+  .menu-feature__head{ padding: 16px; }
+}
+
+/* Accessibility: ensure sufficient contrast for the names + prices */
+.menu-feature .item__name,
+.menu-feature .item__price { color: rgba(22,19,17,.92); }
+
+/* small polish: reduce image flicker */
+.menu-feature__mini img,
+.menu-feature .mini-photo img { will-change: transform; backface-visibility: hidden; }
+
+  /* ------------------------------
+   Panel layout: small tools column + large content area
+   Paste at END of your <style> to override earlier rules
+------------------------------ */
+
+/* Desktop: two-column panel (narrow left tools, large right content) */
+.panel__sheet {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  align-items: start;
+  width: min(1100px, 96vw);
+  max-height: calc(100vh - 32px);
+}
+
+/* Header remains full width across columns */
+.panel__head { grid-column: 1 / -1; z-index: 4; }
+
+/* Tools area becomes a fixed-narrow column and scrollable if long */
+.panel__tools {
+  grid-column: 1 / 2;
+  padding: 12px 14px;
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,244,238,.96));
+  border-radius: 12px;
+  border: 1px solid rgba(22,19,17,.06);
+  box-shadow: 0 12px 32px rgba(22,19,17,.06);
+}
+
+/* Content area takes remaining width and is internal-scrollable */
+.panel__content {
+  grid-column: 2 / -1;
+  padding: 12px 16px 18px;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  align-self: start;
+}
+
+/* Make the A–Z sections expand nicely inside content */
+.az-sections { display: grid; gap: 12px; }
+
+/* Reduce the visual weight of the tools area elements to emphasize content */
+.panel__tools .search,
+.panel__tools .chips,
+.panel__tools .az,
+.panel__tools .sort {
+  margin-bottom: 12px;
+}
+
+/* Small desktop tweak: allow slightly narrower screens to still show two columns */
+@media (max-width: 1180px) {
+  .panel__sheet { grid-template-columns: 300px 1fr; gap: 12px; }
+  .panel__tools { max-height: calc(100vh - 140px); }
+  .panel__content { max-height: calc(100vh - 110px); }
+}
+
+/* ------------------------------
+   Mobile: full-screen panel + collapsible tools
+------------------------------ */
+@media (max-width: 900px) {
+  /* full bleed panel for best mobile experience */
+  .panel__sheet {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr; /* head, tools (collapsible), content */
+  }
+
+  .panel__head { padding: 14px 12px; position: relative; z-index: 6; }
+  .panel__tools {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    position: relative;
+    top: 0;
+    max-height: none;
+    overflow: visible;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    padding: 8px 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,248,244,.98));
+  }
+  .panel__content {
+    grid-column: 1 / -1;
+    grid-row: 3 / -1;
+    max-height: calc(100vh - 140px);
+    overflow: auto;
+    padding: 12px;
+  }
+
+  /* filter toggle button (appears in header) */
+  .panel__filter-toggle {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    position: absolute;
+    right: 58px;
+    top: 14px;
+    z-index: 10;
+  }
+
+  /* hide tools when collapsed (mobile) */
+  .panel .panel__tools.tools-hidden {
+    display: none;
+  }
+
+  /* Ensure close button and toggle don't overlap */
+  .panel__head .icon-btn[aria-label="Close"]{
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Make A–Z buttons wrap well on small screens */
+  .az { gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+}
+
+/* ------------------------------
+   Small accessibility/visual polish
+------------------------------ */
+.panel__filter-toggle .fa-solid { font-size: 0.95em; }
+.panel__filter-toggle span { font-size: 0.95rem; }
+
+/* if a panel is intentionally collapsed on desktop, slightly shrink the tools column */
+.panel.tools-collapsed .panel__tools { width: 44px; min-width: 44px; padding: 8px; overflow: hidden; }
+.panel.tools-collapsed .panel__tools .chips,
+.panel.tools-collapsed .panel__tools .az,
+.panel.tools-collapsed .panel__tools .search { display: none; }
+
+/* keep downloads visible on mobile in tools area */
+.panel__downloads { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+/* ------------------------------
+   Quick UI for Show More overlays + download button polish
+   Paste at the END of your <style>
+------------------------------ */
+
+/* Quick-panel: independent overlay for "Show More" lists */
+.quick-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  -webkit-overflow-scrolling: touch;
+}
+.quick-panel.is-open { display: flex; }
+
+/* backdrop */
+.quick-panel__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(22,19,17,.48);
+  backdrop-filter: blur(6px);
+}
+
+/* sheet */
+.quick-panel__sheet{
+  position: relative;
+  z-index: 2;
+  width: min(1040px, 96vw);
+  max-height: calc(100vh - 56px);
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(22,19,17,.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,248,244,.98));
+  box-shadow: 0 42px 140px rgba(22,19,17,.36);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* header */
+.quick-panel__head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(22,19,17,.06);
+}
+.quick-panel__head h2{
+  margin:0;
+  font-family: var(--serif);
+  font-size: 20px;
+}
+.quick-panel__head p{ margin:0; color: rgba(22,19,17,.72); font-size: 14px; }
+
+/* content area (scroll inside sheet) */
+.quick-panel__body{
+  overflow: auto;
+  padding: 14px 18px;
+  max-height: calc(100vh - 220px);
+}
+
+/* cloned list visuals */
+.quick-panel .mini-list,
+.quick-panel .az-list,
+.quick-panel .az-item,
+.quick-panel .mini-item {
+  margin: 0;
+}
+.quick-panel .mini-list,
+.quick-panel .az-list{ display: grid; gap: 10px; }
+.quick-panel .mini-item,
+.quick-panel .az-item{
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(22,19,17,.08);
+  background: rgba(255,255,255,.94);
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 10px 26px rgba(22,19,17,.04);
+}
+
+/* footer actions */
+.quick-panel__foot{
+  padding: 12px 18px;
+  display:flex;
+  gap: 12px;
+  align-items:center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(22,19,17,.06);
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,248,244,.98));
+}
+
+/* close button consistent with icon-btn */
+.quick-panel .icon-btn{
+  width: 44px;
+  height: 44px;
+}
+
+/* small screen */
+@media (max-width: 820px){
+  .quick-panel__sheet { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; grid-template-rows: auto 1fr auto; }
+  .quick-panel__body{ max-height: calc(100vh - 160px); padding: 12px; }
+  .quick-panel__head{ padding: 12px; }
+  .quick-panel__foot{ padding: 10px 12px; }
+}
+
+/* small visual nudge for the download anchor in tools */
+a[download] { text-decoration: none; }
+a[download]:hover { text-decoration: underline; }
 
 </style>
 </head>
@@ -5375,5 +5941,363 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 
 })();
 </script>
+<script>
+/* Panel tools toggle helper — paste at end of your existing <script> */
+(function(){
+  "use strict";
+  const qs = (s, root=document) => root.querySelector(s);
+  const qsa = (s, root=document) => Array.from((root||document).querySelectorAll(s));
+
+  // Create filter toggle in every panel header (only once)
+  qsa(".panel").forEach(panel => {
+    const head = qs(".panel__head", panel);
+    if(!head) return;
+
+    // if already present, skip
+    if (qs(".panel__filter-toggle", head)) return;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn btn--ghost panel__filter-toggle";
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-label", "Toggle filters");
+    btn.innerHTML = '<i class="fa-solid fa-filter" aria-hidden="true"></i><span>Filters</span>';
+
+    btn.addEventListener("click", () => {
+      const tools = qs(".panel__tools", panel);
+      if(!tools) return;
+
+      // on narrow view, toggle visibility; on wide view, toggle "collapsed" helper
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        const hidden = tools.classList.toggle("tools-hidden");
+        btn.setAttribute("aria-expanded", String(!hidden));
+      } else {
+        panel.classList.toggle("tools-collapsed");
+        const isCollapsed = panel.classList.contains("tools-collapsed");
+        btn.setAttribute("aria-expanded", String(!isCollapsed));
+      }
+    });
+
+    // insert before the close icon (if present) for nice layout, otherwise append
+    const closeBtn = qs('.icon-btn[aria-label="Close"]', head) || qs('[data-close-panel], .icon-btn', head);
+    if (closeBtn && closeBtn.parentNode) head.insertBefore(btn, closeBtn);
+    else head.appendChild(btn);
+  });
+
+  // When opening panels (buttons that already exist), ensure tools are visible
+  // handle Bourbon open and wine opens
+  const openSelectors = [
+    '[data-open-spirits-panel]',
+    '[data-open-wine-panel]',
+    '[data-open-panel]'
+  ];
+  qsa(openSelectors.join(",")).forEach(openBtn => {
+    openBtn.addEventListener("click", () => {
+      // tiny delay in case existing overlay code manipulates panels
+      setTimeout(() => {
+        // determine panel target
+        const key = openBtn.getAttribute("data-open-spirits-panel") || openBtn.getAttribute("data-open-wine-panel");
+        let panel = null;
+        if (key) panel = document.querySelector(`.panel[data-panel="${key}"]`);
+        else {
+          const sel = openBtn.getAttribute("data-open-panel");
+          panel = sel ? document.querySelector(sel) : document.getElementById("panelBourbon");
+        }
+        if (!panel) panel = document.getElementById("panelBourbon") || document.querySelector(".panel");
+        if (!panel) return;
+        const tools = qs(".panel__tools", panel);
+        if (tools) tools.classList.remove("tools-hidden");
+        panel.classList.remove("tools-collapsed");
+        // ensure toggle button aria reflects visible state
+        const toggle = qs(".panel__filter-toggle", panel);
+        if (toggle) toggle.setAttribute("aria-expanded", "true");
+      }, 60);
+    });
+  });
+
+  // Optional: close tools on panel close/backdrop click (keeps next open predictable)
+  qsa(".panel__backdrop, [data-close-panel]").forEach(el => {
+    el.addEventListener("click", (e) => {
+      // find containing panel
+      const panel = e.target.closest(".panel");
+      if (!panel) return;
+      const tools = qs(".panel__tools", panel);
+      if (tools) tools.classList.remove("tools-hidden");
+      panel.classList.remove("tools-collapsed");
+    });
+  });
+
+  // Accessibility enhancement: when viewport resizes, ensure tools-visible state sensible
+  let resizeTimer = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      qsa(".panel").forEach(panel => {
+        const tools = qs(".panel__tools", panel);
+        if (!tools) return;
+        // if large screen and tools were hidden, show them
+        if (!window.matchMedia("(max-width: 900px)").matches) {
+          tools.classList.remove("tools-hidden");
+          panel.classList.remove("tools-collapsed");
+          const toggle = qs(".panel__filter-toggle", panel);
+          if (toggle) toggle.setAttribute("aria-expanded", "true");
+        }
+      });
+    }, 120);
+  });
+})();
+</script>
+<script>
+/* ------------------------------
+   Show More: House Picks & Most Requested
+   + Robust download fallback
+   Paste at the END of your existing <script>
+------------------------------ */
+(function () {
+  "use strict";
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from((r || document).querySelectorAll(s));
+
+  /* --------------------------
+     Utilities: lock/unlock body scroll
+     -------------------------- */
+  const lockScroll = () => {
+    const body = document.body;
+    if (body.dataset.scrollLocked) return;
+    const sbw = window.innerWidth - document.documentElement.clientWidth;
+    body.dataset.scrollLocked = "true";
+    body.dataset.prevOverflow = body.style.overflow || "";
+    body.dataset.prevPaddingRight = body.style.paddingRight || "";
+    body.style.overflow = "hidden";
+    if (sbw > 0) body.style.paddingRight = sbw + "px";
+  };
+  const unlockScroll = () => {
+    const body = document.body;
+    if (!body.dataset.scrollLocked) return;
+    body.style.overflow = body.dataset.prevOverflow || "";
+    body.style.paddingRight = body.dataset.prevPaddingRight || "";
+    delete body.dataset.prevOverflow;
+    delete body.dataset.prevPaddingRight;
+    delete body.dataset.scrollLocked;
+  };
+
+  /* --------------------------
+     Create Quick Panel (one-time factory)
+     -------------------------- */
+  const makeQuickPanel = (key, headingText, subText, clonedHTML, downloadHref) => {
+    // if panel exists, return it
+    const existing = document.getElementById("quickPanel-" + key);
+    if (existing) return existing;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "quick-panel";
+    wrapper.id = "quickPanel-" + key;
+    wrapper.setAttribute("role", "dialog");
+    wrapper.setAttribute("aria-modal", "true");
+    wrapper.setAttribute("aria-label", headingText || "Details");
+
+    wrapper.innerHTML = `
+      <div class="quick-panel__backdrop" data-quick-backdrop></div>
+      <div class="quick-panel__sheet" role="document">
+        <header class="quick-panel__head">
+          <div>
+            <p class="panel__eyebrow"><i class="fa-solid fa-wine-glass" aria-hidden="true"></i> ${subText || ""}</p>
+            <h2>${headingText || ""}</h2>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="icon-btn" type="button" aria-label="Close quick panel" data-quick-close>
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="quick-panel__body" tabindex="0">
+          ${clonedHTML || "<div class='panel__empty'><p>No items found.</p></div>"}
+        </div>
+
+        <div class="quick-panel__foot">
+          <div>
+            <a class="btn btn--ghost" href="${downloadHref || '#'}" download>
+              <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+              <span>Download Full List (PDF)</span>
+            </a>
+          </div>
+          <div style="color: rgba(22,19,17,.70); font-size: 13px;">Tap outside or ESC to close</div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(wrapper);
+
+    // focusable elements + trap
+    const sheet = $(".quick-panel__sheet", wrapper);
+    const body = $(".quick-panel__body", wrapper);
+    const closeBtn = wrapper.querySelector('[data-quick-close]');
+    const backdrop = wrapper.querySelector('[data-quick-backdrop]');
+
+    const getFocusable = (root) => {
+      const sel = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+      return Array.from(root.querySelectorAll(sel)).filter(el => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+    };
+
+    let lastActive = null;
+
+    const open = () => {
+      lastActive = document.activeElement;
+      wrapper.classList.add("is-open");
+      wrapper.style.display = "flex";
+      lockScroll();
+      // focus the body for quick keyboard users
+      setTimeout(() => { body?.focus?.(); }, 40);
+
+      // focus trap
+      wrapper.addEventListener("keydown", handlerTrap);
+      document.addEventListener("keydown", handlerEsc);
+    };
+
+    const close = () => {
+      wrapper.classList.remove("is-open");
+      wrapper.style.display = "none";
+      wrapper.removeEventListener("keydown", handlerTrap);
+      document.removeEventListener("keydown", handlerEsc);
+      unlockScroll();
+      lastActive?.focus?.();
+    };
+
+    const handlerTrap = (e) => {
+      if (e.key !== "Tab") return;
+      const focusables = getFocusable(sheet);
+      if (!focusables.length) {
+        e.preventDefault();
+        return;
+      }
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || active === wrapper) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    const handlerEsc = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      }
+    };
+
+    backdrop.addEventListener("mousedown", (ev) => {
+      if (ev.target === backdrop) close();
+    });
+    closeBtn.addEventListener("click", close);
+
+    // also close when user clicks any link that has a download and then close after small delay
+    wrapper.addEventListener("click", (ev) => {
+      const a = ev.target.closest("a[download]");
+      if (!a) return;
+      // let download proceed; close after small delay
+      setTimeout(() => { /* keep open so download starts, then close */ }, 300);
+    });
+
+    return Object.assign(wrapper, { open, close });
+  };
+
+  /* --------------------------
+     Populate quick panels for the two problem buttons:
+     data-open-wine-panel="house-picks" and "most-requested"
+     -------------------------- */
+  const keys = ["house-picks", "most-requested"];
+  keys.forEach((key) => {
+    const trigger = document.querySelector(`[data-open-wine-panel="${key}"]`);
+    if (!trigger) return;
+
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Attempt to find source list to clone
+      const sourceCard = trigger.closest(".section-card") || trigger.closest(".section-card, article.section-card");
+      let clonedHTML = "";
+
+      if (sourceCard) {
+        // prefer mini-list or mini-list--two
+        const list = sourceCard.querySelector(".mini-list, .az-list, .mini-list--two");
+        if (list) clonedHTML = list.outerHTML;
+        else clonedHTML = sourceCard.innerHTML;
+      } else {
+        // fallback: try to locate by title text match
+        const titleMap = {
+          "house-picks": "House Picks",
+          "most-requested": "Most Requested"
+        };
+        const text = titleMap[key];
+        const candidate = Array.from(document.querySelectorAll("article.section-card, article")).find(a => a.textContent && a.textContent.includes(text));
+        if (candidate) {
+          const list = candidate.querySelector(".mini-list, .az-list, .mini-list--two");
+          if (list) clonedHTML = list.outerHTML;
+          else clonedHTML = candidate.innerHTML;
+        }
+      }
+
+      // define friendly heading & subtext
+      const heading = key === "house-picks" ? "House Picks" : "Most Requested";
+      const sub = key === "house-picks" ? "A polished starting point for pairing." : "Iconic names guests ask for again and again.";
+      const download = "pdfs/oaklawn-wine-list.pdf"; // generic wine list download
+
+      const panel = makeQuickPanel(key, heading, sub, clonedHTML, download);
+      // open it (panel object has open method)
+      panel.open();
+    });
+  });
+
+  /* --------------------------
+     Download fallback for anchors with `download` attribute.
+     Attempt to fetch the URL and force-download via blob. If fails, open in new tab.
+     This improves reliability when server headers or browsers block normal download.
+     -------------------------- */
+  document.addEventListener("click", async (ev) => {
+    const a = ev.target.closest && ev.target.closest("a[download]");
+    if (!a) return;
+
+    // only handle same-origin or CORS-allowed resources — still try and fallback
+    const href = a.getAttribute("href");
+    if (!href) return;
+
+    // allow normal behavior if the link already has target="_blank"
+    if (a.target === "_blank") return;
+
+    ev.preventDefault();
+
+    try {
+      // attempt fetch
+      const resp = await fetch(href, { credentials: "same-origin" });
+      if (!resp.ok) throw new Error("Network error");
+      const blob = await resp.blob();
+      const filename = (a.getAttribute("download") || href.split("/").pop() || "download.pdf").replace(/[^a-z0-9\.\-_]/ig, "");
+      const url = URL.createObjectURL(blob);
+      const tmp = document.createElement("a");
+      tmp.href = url;
+      tmp.download = filename;
+      document.body.appendChild(tmp);
+      tmp.click();
+      tmp.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      // fallback — open in new tab so user can at least view or save
+      console.warn("Download via fetch failed, falling back to opening file:", err);
+      window.open(href, "_blank", "noopener");
+    }
+  }, { passive: false });
+
+})();
+</script>
 
 </body>
+</html>
