@@ -3639,6 +3639,143 @@ a[download]:hover { text-decoration: underline; }
   .thumb img{ height: 88px !important; }
   .bar-shot img{ height: 82px !important; }
 }
+/* =========================================================
+   PHONE ONLY PATCH (Header + Hero) — Paste at VERY END of CSS
+   Targets your exact HTML structure/classes
+========================================================= */
+@media (max-width: 520px){
+
+  /* ---------------------------------
+     1) Make header fixed + sticky (phone)
+     - Hide the whole topbar
+     - Header stays on top
+  ---------------------------------- */
+  .topbar{ display: none !important; }
+
+  .header{
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 999 !important;
+    background: rgba(251,247,240,.92) !important; /* slightly opaque */
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-bottom: 1px solid rgba(22,19,17,.10) !important;
+    box-shadow: 0 14px 34px rgba(22,19,17,.10) !important;
+  }
+
+  /* remove the empty gap that might remain because your desktop header uses topbar height */
+  body.oaklawn{ padding-top: 78px !important; } /* close to your --header-h */
+  .menu-nav{ top: 78px !important; }            /* keep menu-nav below fixed header */
+
+  /* Ensure main content doesn't hide under fixed header */
+  body.oaklawn .main{ padding-top: 6px !important; }
+
+  /* ---------------------------------
+     2) "Don't show 1008...Reserve" area on phones
+     -> That's the entire topbar, already hidden above
+  ---------------------------------- */
+
+  /* ---------------------------------
+     3) Hero section: make sure changes APPLY (your HTML uses .menu-hero__grid)
+     - 2x2 grid
+     - slightly smaller cards/images on phones
+  ---------------------------------- */
+  .menu-hero .menu-hero__grid{
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+  }
+
+  .menu-hero .hero-card{
+    border-radius: 14px !important;
+  }
+
+  .menu-hero .hero-card img{
+    width: 100% !important;
+    aspect-ratio: 4 / 3 !important;
+    height: auto !important;
+    max-height: 110px !important; /* makes them feel smaller */
+    object-fit: cover !important;
+  }
+
+  .menu-hero .hero-card figcaption{
+    padding: 10px !important;
+  }
+  .menu-hero .hero-card__title{ font-size: 14px !important; }
+  .menu-hero .hero-card__sub{ font-size: 11px !important; }
+
+  /* ---------------------------------
+     4) Hero buttons (Dinner/Bourbon/Wine/Cocktails)
+     - smaller
+     - one horizontal line (scroll if needed)
+  ---------------------------------- */
+  .menu-hero .menu-hero__actions{
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px !important;
+    margin-top: 14px !important;
+  }
+
+  .menu-hero .menu-hero__actions .btn{
+    flex: 0 0 auto !important;
+    padding: 9px 10px !important;
+    font-size: 12px !important;
+    border-radius: 999px !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .menu-hero .menu-hero__actions .btn i{
+    font-size: 12px !important;
+  }
+
+  /* ---------------------------------
+     5) Hamburger button styling: opaque background + nicer pop
+     - This targets your button: .icon-btn.icon-btn--menu
+  ---------------------------------- */
+  .header__actions .icon-btn.icon-btn--menu{
+    background: rgba(255,255,255,.96) !important; /* opaque */
+    border: 1px solid rgba(22,19,17,.16) !important;
+    box-shadow: 0 14px 30px rgba(22,19,17,.14) !important;
+  }
+
+  .header__actions .icon-btn.icon-btn--menu:hover{
+    transform: translateY(-1px) !important;
+    box-shadow: 0 18px 40px rgba(22,19,17,.18) !important;
+  }
+
+  .header__actions .icon-btn.icon-btn--menu i{
+    color: rgba(22,19,17,.92) !important;
+  }
+
+  /* OPTIONAL: make the whole header action buttons slightly tighter */
+  .header__actions .icon-btn{
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 14px !important;
+  }
+
+  /* ---------------------------------
+     6) Drawer backdrop a bit richer (looks premium)
+     - "opaque" vibe you asked for
+  ---------------------------------- */
+  .drawer__backdrop{
+    background: rgba(12, 10, 8, .62) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  .drawer__panel{
+    background: rgba(255,255,255,.96) !important;
+  }
+}
 
 </style>
 </head>
