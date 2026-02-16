@@ -1496,6 +1496,304 @@ button{
 .btn:active{transform: translateY(0)}
 .icon-btn:active{transform: translateY(0)}
 </style>
+<style>
+/* =========================================================
+   PHONE-ONLY MEDIA OVERRIDES (to reduce “too much”)
+   - This block is ONLY media rules + phone refinement
+   - Targets <= 640px (phones)
+   - Simplifies hero, hides busy topbar content, tightens sections
+   - Menu preview becomes 2 x 3 grid
+   ========================================================= */
+
+@media (max-width: 640px){
+
+  /* ---------- Global spacing + rhythm ---------- */
+  :root{
+    --pad: 14px;
+    --gap: 12px;
+    --gap2: 14px;
+    --gap3: 18px;
+  }
+
+  .container{width: calc(100% - (var(--pad) * 2));}
+  .section-lead{font-size: 1.01rem; max-width: 58ch;}
+  .section-head{margin-bottom: 12px;}
+  .section-title{letter-spacing: .005em;}
+
+  /* ---------- Topbar: hide entirely on phones (user request) ---------- */
+  .topbar{display:none !important;}
+
+  /* Header: reduce height, keep only brand + icons */
+  .header{
+    top: 0;
+    background: rgba(251,246,238,.92);
+  }
+  .header__inner{padding: 10px 0;}
+  .brand{min-width: 0;}
+  .brand__mark{width: 40px; height: 40px;}
+  .brand__name{font-size: .95rem;}
+  .brand__sub{font-size: .68rem;}
+  .header__actions .icon-btn{width: 42px; height: 42px;}
+
+  /* ---------- Hero: make it calm, less text, better composition ---------- */
+  .hero{border-bottom: 1px solid rgba(24,21,17,.10);}
+
+  /* Slightly brighten video on phones so text reads cleanly */
+  .hero__video{
+    filter: saturate(.95) contrast(1.02) brightness(.82);
+    transform: scale(1.06);
+  }
+
+  /* Softer overlay for phone readability (less dramatic) */
+  .hero::after{
+    background:
+      linear-gradient(180deg, rgba(24,21,17,.52), rgba(24,21,17,.14) 50%, rgba(251,246,238,.92) 100%),
+      radial-gradient(circle at 18% 18%, rgba(176,138,59,.14), transparent 48%),
+      radial-gradient(circle at 84% 28%, rgba(107,31,42,.10), transparent 52%);
+  }
+
+  .hero__content{
+    padding: 28px 0 12px;
+  }
+
+  /* Remove extra hero “kickers” to reduce clutter */
+  .hero__kicker{display:none;}
+
+  /* Title smaller + tighter max width */
+  .hero__title{
+    max-width: 20ch;
+    font-size: clamp(1.85rem, 7.2vw, 2.25rem);
+    line-height: 1.06;
+  }
+
+  /* Reduce hero lead to one calm paragraph */
+  .hero__lead{
+    margin-top: 10px;
+    max-width: 54ch;
+    font-size: 1.02rem;
+    color: rgba(255,250,241,.86);
+  }
+
+  /* Remove meta chips (too much on phone) */
+  .hero__meta{display:none;}
+
+  /* Keep CTAs clean: 2 buttons but refined */
+  .hero__actions{
+    margin-top: 14px;
+    gap: 10px;
+  }
+  .hero__actions .btn{
+    width: 100%;
+    justify-content:center;
+  }
+  .hero__actions .btn--ghost{
+    background: rgba(255,250,241,.22);
+    border-color: rgba(255,250,241,.26);
+    color: rgba(255,250,241,.92);
+  }
+  .hero__actions .btn--ghost i{color: rgba(176,138,59,.95);}
+
+  /* Hero gallery: reduce to 2 tiles (less busy) + nicer cropping */
+  .hero__gallery{
+    margin: 10px auto 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .hero-card img{
+    aspect-ratio: 1 / 1;
+    object-position: center;
+    filter: saturate(.98) contrast(1.03);
+  }
+  /* Hide 3rd and 4th card on phones */
+  .hero__gallery .hero-card:nth-child(n+3){display:none;}
+
+  /* ---------- Motto strip: make smaller / calmer ---------- */
+  .motto__inner{
+    padding: 10px 0;
+    gap: 8px;
+  }
+  .motto__item{
+    font-size: .73rem;
+    letter-spacing: .14em;
+  }
+
+  /* ---------- Experience: reduce density ---------- */
+  .experience{padding: 22px 0 10px;}
+  .experience__copy{padding: 14px;}
+  .pillars{gap: 10px;}
+  .pillar{padding: 12px;}
+  .pillar__icon{width: 40px; height: 40px;}
+  /* Remove occasion chips on phone */
+  .experience__notes{display:none;}
+
+  /* Collage: 2 columns but fewer images (less “too much”) */
+  .experience__collage{
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  /* Hide one mid image and keep a strong set */
+  .experience__collage .collage__item:nth-child(3){display:none;}
+  .collage__item,
+  .collage__item--tall,
+  .collage__item--wide{
+    border-radius: 18px;
+  }
+  .collage__item img{
+    border-radius: 18px;
+    aspect-ratio: 4/3;
+    object-position: center;
+  }
+  .collage__item--tall img{aspect-ratio: 4/5;}
+  .collage__item--wide img{aspect-ratio: 16/10;}
+
+  /* ---------- Menu Preview: enforce 2 x 3 grid ---------- */
+  .menu-preview{padding: 22px 0 10px;}
+  .menu-grid{
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px;
+  }
+  .menu-card{
+    border-radius: 18px;
+  }
+
+  /* Make menu images more premium: consistent aspect, gentle zoom, clean overlay */
+  .menu-card__media img{
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.02);
+  }
+  .menu-card__tag{
+    left: 10px;
+    bottom: 10px;
+    padding: 7px 9px;
+    font-size: .80rem;
+    background: rgba(24,21,17,.56);
+    border-color: rgba(255,250,241,.22);
+  }
+  .menu-card__body{
+    padding: 12px;
+    gap: 5px;
+  }
+  /* Reduce descriptions slightly */
+  .menu-card__desc{
+    font-size: .95rem;
+    color: rgba(81,72,63,.92);
+  }
+  /* Make price feel luxe */
+  .menu-card__price{
+    font-size: .98rem;
+    letter-spacing: .08em;
+  }
+
+  /* ---------- Spirits: simplify + reduce imagery ---------- */
+  .spirits{padding: 22px 0 10px;}
+  .spirits__copy{padding: 14px;}
+  .spirits__facts{gap: 10px;}
+  .spirits__media{
+    grid-template-columns: 1fr;
+  }
+  /* Keep only the main image on phones */
+  .spirits__media .spirits__img:not(.spirits__img--main){display:none;}
+  .spirits__img--main img{aspect-ratio: 16/11;}
+
+  /* ---------- Sunshine: simplify images ---------- */
+  .sunshine{padding: 22px 0 10px;}
+  .sunshine__copy{padding: 14px;}
+  .sunshine__photo{border-radius: 20px;}
+  .sunshine__photo img{aspect-ratio: 16/11;}
+  /* Hide mini images on phones */
+  .sunshine__mini{display:none;}
+
+  /* ---------- Gallery strip: less aggressive sizing ---------- */
+  .gallery-strip{padding: 22px 0 10px;}
+  .strip{gap: 10px;}
+  .strip__item{
+    flex-basis: 78%;
+    max-width: 78%;
+    border-radius: 18px;
+  }
+  .strip__item img{
+    aspect-ratio: 16/11;
+    object-position: center;
+  }
+
+  /* ---------- Reserve block: calmer, less imagery ---------- */
+  .reserve-block{padding: 22px 0 10px;}
+  .reserve-block__copy{padding: 14px; border-radius: 22px;}
+  .reserve-block__actions .btn{width: 100%;}
+  /* Hide reserve photos (too much on phone) */
+  .reserve-block__media{display:none;}
+
+  /* ---------- Giftcards: keep one strong image ---------- */
+  .giftcards{padding: 22px 0 10px;}
+  .giftcards__copy{padding: 14px;}
+  .giftcards__media{
+    grid-template-columns: 1fr;
+  }
+  .giftcards__media .giftcards__img--small{display:none;}
+  .giftcards__img img{
+    aspect-ratio: 16/11;
+    object-position: center;
+  }
+  .giftcards__actions .btn{width: 100%;}
+
+  /* ---------- Visit: simplify media, keep map image only ---------- */
+  .visit{padding: 22px 0 10px;}
+  .visit__copy{padding: 14px;}
+  .visit__media{
+    grid-template-columns: 1fr;
+  }
+  .visit__media .visit__img:not(:first-child){display:none;}
+  .visit__img:first-child img{aspect-ratio: 16/11;}
+
+  /* ---------- Careers teaser: reduce imagery + single-column form ---------- */
+  .careers-teaser{padding: 22px 0 36px;}
+  .careers-teaser__copy{padding: 14px; border-radius: 22px;}
+  .form-grid{grid-template-columns: 1fr !important;}
+  .careers-teaser__media{display:none;}
+  .form-actions .btn{width: 100%;}
+
+  /* ---------- Footer: stack nicely ---------- */
+  .footer{padding: 22px 0 14px;}
+  .footer__grid{gap: 18px;}
+  .footer__badges .btn{width: 100%;}
+  .newsletter__row{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .newsletter__row .btn{width: 100%;}
+  .footer__social{justify-content:flex-start;}
+
+  /* ---------- Modal: phone-friendly layout ---------- */
+  .modal{padding: 10px;}
+  .modal__dialog{border-radius: 22px;}
+  .modal__head{padding: 14px;}
+  .modal__body{padding: 14px;}
+  .modal__aside{display:none !important;}
+  .reserve-form .form-grid{
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+  .reserve-form .form-actions .btn{width: 100%;}
+
+  /* ---------- Floating reserve: keep, but calm ---------- */
+  .float-reserve{
+    width: 54px; height: 54px;
+    right: 12px;
+    bottom: 12px;
+    box-shadow: 0 14px 42px rgba(24,21,17,.18);
+  }
+}
+
+/* Optional: ultra-small phones */
+@media (max-width: 380px){
+  .hero__title{font-size: 1.78rem;}
+  .menu-card__body{padding: 11px;}
+  .menu-card__title{font-size: 1.06rem;}
+  .menu-card__desc{font-size: .92rem;}
+}
+</style>
 
 </head>
 <body class="oaklawn">
