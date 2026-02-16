@@ -1865,6 +1865,104 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   .menu-cta{ padding: 44px 0; }
   .footer{ padding: 54px 0 28px; }
 }
+/* =========================
+   BAR LIST DRAWER (Luxury)
+   ========================= */
+.bar-drawer { display: none; }
+.bar-drawer.is-open { display: block; }
+
+.bar-drawer .bar-drawer__backdrop{
+  position: fixed; inset: 0;
+  background: rgba(10,10,10,.6);
+  backdrop-filter: blur(6px);
+  border: 0;
+}
+
+.bar-drawer__dialog{
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  box-shadow: 0 30px 90px rgba(0,0,0,.35);
+}
+
+.bar-drawer__head{
+  padding: 18px 16px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.bar-drawer__tabs{
+  padding: 10px 16px;
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.bar-tab{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.7);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bar-tab.is-active{
+  border-color: rgba(0,0,0,.20);
+  background: rgba(0,0,0,.92);
+  color: #fff;
+}
+
+.bar-drawer__tools{
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.tool--wide{ min-width: 0; }
+
+.bar-drawer__body{
+  min-height: 0;
+  padding: 14px 16px 22px;
+}
+
+.bar-panel{
+  display: none;
+  height: 100%;
+  overflow: auto;      /* internal scroll */
+  padding-right: 4px;  /* nicer scroll */
+}
+.bar-panel.is-active{ display: block; }
+
+/* Make the cloned content feel “tight” inside drawer */
+.bar-drawer .container{ max-width: 980px; margin: 0 auto; padding: 0; }
+.bar-drawer .bar-gallery,
+.bar-drawer .wine-gallery{ margin-top: 10px; }
+.bar-drawer .section-head{ margin: 0 0 12px; }
+
+/* Mobile polish */
+@media (max-width: 720px){
+  .bar-drawer__tools{
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+  }
+  #barClear{ grid-column: 1 / -1; }
+  .bar-drawer__head{ padding: 16px 14px 10px; }
+  .bar-drawer__tabs{ padding: 10px 14px; }
+  .bar-drawer__body{ padding: 12px 14px 18px; }
+}
 
 </style>
 </head>
@@ -3608,6 +3706,80 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   <button class="float-reserve" type="button" data-open-reserve aria-label="Reserve a table">
     <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
   </button>
+  <!-- Bar List Trigger (place anywhere you want) -->
+<button class="btn btn--ghost" type="button" data-open-barlist>
+  <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i>
+  <span>Bar List</span>
+</button>
+
+<!-- Bar List Drawer (NEW) -->
+<div class="modal bar-drawer" id="barDrawer" aria-hidden="true">
+  <div class="bar-drawer__dialog" role="dialog" aria-modal="true" aria-label="Bar List">
+    <div class="bar-drawer__head">
+      <div class="bar-drawer__title">
+        <p class="modal__eyebrow">
+          <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i>
+          Bar List
+        </p>
+        <h2 class="modal__title">Bourbon & Wine</h2>
+        <p class="modal__subtitle">Search, filter, and browse—without leaving the page.</p>
+      </div>
+
+      <button class="icon-btn" type="button" data-close-barlist aria-label="Close bar list">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="bar-drawer__tabs" role="tablist" aria-label="Bar list tabs">
+      <button class="bar-tab is-active" type="button" role="tab" aria-selected="true" data-tab="bourbonPanel">
+        <i class="fa-solid fa-whiskey-glass" aria-hidden="true"></i><span>Bourbon</span>
+      </button>
+      <button class="bar-tab" type="button" role="tab" aria-selected="false" data-tab="winePanel">
+        <i class="fa-solid fa-wine-glass" aria-hidden="true"></i><span>Wine</span>
+      </button>
+    </div>
+
+    <div class="bar-drawer__tools" aria-label="Search and filter">
+      <label class="tool tool--wide">
+        <span class="tool__label">Search</span>
+        <div class="tool__row">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="barSearch" type="search" class="tool__input" placeholder="Search (e.g., Blanton’s, Caymus)">
+        </div>
+      </label>
+
+      <label class="tool">
+        <span class="tool__label">Max Price</span>
+        <div class="tool__row">
+          <i class="fa-solid fa-tag" aria-hidden="true"></i>
+          <select id="barMaxPrice" class="tool__input">
+            <option value="">Any</option>
+            <option value="15">$15</option>
+            <option value="25">$25</option>
+            <option value="50">$50</option>
+            <option value="100">$100</option>
+            <option value="200">$200</option>
+            <option value="999">$999+</option>
+          </select>
+        </div>
+      </label>
+
+      <button class="btn btn--ghost" type="button" id="barClear">
+        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+        <span>Clear</span>
+      </button>
+    </div>
+
+    <!-- Panels (we clone your existing sections into here via JS) -->
+    <div class="bar-drawer__body">
+      <section id="bourbonPanel" class="bar-panel is-active" role="tabpanel" aria-label="Bourbon panel"></section>
+      <section id="winePanel" class="bar-panel" role="tabpanel" aria-label="Wine panel"></section>
+    </div>
+  </div>
+
+  <button class="bar-drawer__backdrop" type="button" data-close-barlist aria-label="Close bar list"></button>
+</div>
+
   <script>
 /* Oaklawn Southern Dining — Menu Page Script
    - Mobile nav drawer (open/close, focus trap, ESC)
@@ -4048,6 +4220,234 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
       newsletter.reset();
     });
   }
+
+})();
+</script>
+<script>
+(() => {
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  // ---------- Generic Modal Helpers ----------
+  function openModal(modal, focusEl) {
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+    (focusEl || modal).focus?.();
+  }
+  function closeModal(modal, restoreFocusEl) {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+    restoreFocusEl?.focus?.();
+  }
+
+  // ---------- Existing: Mobile Nav ----------
+  const mobileNav = $('#mobileNav');
+  const openMobileNavBtns = $$('[data-open-mobile-nav]');
+  const closeMobileNavBtns = $$('[data-close-mobile-nav]');
+
+  function openMobileNav() {
+    if (!mobileNav) return;
+    mobileNav.classList.add('is-open');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+  }
+  function closeMobileNav() {
+    if (!mobileNav) return;
+    mobileNav.classList.remove('is-open');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+  }
+
+  openMobileNavBtns.forEach(b => b.addEventListener('click', openMobileNav));
+  closeMobileNavBtns.forEach(b => b.addEventListener('click', closeMobileNav));
+
+  // ---------- Existing: Reserve Modal ----------
+  const reserveModal = $('#reserveModal');
+  const openReserveBtns = $$('[data-open-reserve]');
+  const closeReserveBtns = $$('[data-close-reserve]');
+
+  let lastFocus = null;
+
+  function openReserve() {
+    if (!reserveModal) return;
+    lastFocus = document.activeElement;
+    reserveModal.classList.add('is-open');
+    reserveModal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+    const firstInput = reserveModal.querySelector('input, select, textarea, button');
+    firstInput && firstInput.focus();
+  }
+  function closeReserve() {
+    if (!reserveModal) return;
+    reserveModal.classList.remove('is-open');
+    reserveModal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+    lastFocus && lastFocus.focus();
+  }
+
+  openReserveBtns.forEach(b => b.addEventListener('click', openReserve));
+  closeReserveBtns.forEach(b => b.addEventListener('click', closeReserve));
+  reserveModal?.querySelector('.modal__backdrop')?.addEventListener('click', closeReserve);
+
+  // (Optional) prevent fake submit
+  reserveModal?.querySelector('form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Replace with real integration later (OpenTable/Resy/form endpoint)
+    closeReserve();
+  });
+
+  // ---------- NEW: Bar List Drawer ----------
+  const barDrawer = $('#barDrawer');
+  const openBarBtns = $$('[data-open-barlist]');
+  const closeBarBtns = $$('[data-close-barlist]');
+  const bourbonPanel = $('#bourbonPanel');
+  const winePanel = $('#winePanel');
+
+  const barSearch = $('#barSearch');
+  const barMaxPrice = $('#barMaxPrice');
+  const barClear = $('#barClear');
+
+  // Sources (your existing sections)
+  const bourbonSource = $('#bourbon');
+  const wineSource = $('#wine');
+
+  let barLastFocus = null;
+  let isCloned = false;
+
+  function cloneIntoDrawer() {
+    if (isCloned) return;
+    if (!bourbonSource || !wineSource || !bourbonPanel || !winePanel) return;
+
+    // Clone entire sections so you don’t break the page layout
+    const bourbonClone = bourbonSource.cloneNode(true);
+    const wineClone = wineSource.cloneNode(true);
+
+    // Remove duplicate IDs inside clones to avoid DOM conflicts
+    bourbonClone.id = 'bourbonClone';
+    wineClone.id = 'wineClone';
+
+    // Optional: tighten headings inside drawer (keep your luxury layout)
+    bourbonPanel.innerHTML = '';
+    winePanel.innerHTML = '';
+    bourbonPanel.appendChild(bourbonClone);
+    winePanel.appendChild(wineClone);
+
+    isCloned = true;
+  }
+
+  function setActivePanel(panelId) {
+    const panels = [bourbonPanel, winePanel].filter(Boolean);
+    panels.forEach(p => p.classList.remove('is-active'));
+    const active = $('#' + panelId);
+    active?.classList.add('is-active');
+
+    $$('.bar-tab', barDrawer).forEach(btn => {
+      const isActive = btn.getAttribute('data-tab') === panelId;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    // Reset filters when switching (feels premium + controlled)
+    applyBarFilters();
+    active?.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function getActivePanel() {
+    return bourbonPanel?.classList.contains('is-active') ? bourbonPanel : winePanel;
+  }
+
+  function parsePrice(text) {
+    // handles $59, Market, $999+, etc.
+    const m = String(text || '').match(/\$?\s*(\d+)/);
+    return m ? Number(m[1]) : NaN;
+  }
+
+  function applyBarFilters() {
+    const panel = getActivePanel();
+    if (!panel) return;
+
+    const q = (barSearch?.value || '').trim().toLowerCase();
+    const max = barMaxPrice?.value ? Number(barMaxPrice.value) : Infinity;
+
+    // Filter only rows with .bar-row (your lists)
+    const rows = $$('.bar-row', panel);
+    rows.forEach(row => {
+      const name = $('.bar-row__name', row)?.textContent || '';
+      const priceText = $('.bar-row__price', row)?.textContent || '';
+      const price = parsePrice(priceText);
+
+      const matchText = !q || name.toLowerCase().includes(q);
+      const matchPrice = (Number.isNaN(price) ? true : price <= max);
+
+      row.style.display = (matchText && matchPrice) ? '' : 'none';
+    });
+  }
+
+  function openBarDrawer() {
+    if (!barDrawer) return;
+    barLastFocus = document.activeElement;
+
+    cloneIntoDrawer();
+
+    // Default tab = bourbon
+    setActivePanel('bourbonPanel');
+
+    barDrawer.classList.add('is-open');
+    barDrawer.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+
+    // Focus search for fast UX
+    setTimeout(() => barSearch?.focus(), 50);
+  }
+
+  function closeBarDrawer() {
+    if (!barDrawer) return;
+    barDrawer.classList.remove('is-open');
+    barDrawer.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+    barLastFocus?.focus?.();
+  }
+
+  openBarBtns.forEach(b => b.addEventListener('click', openBarDrawer));
+  closeBarBtns.forEach(b => b.addEventListener('click', closeBarDrawer));
+  $('.bar-drawer__backdrop', barDrawer)?.addEventListener('click', closeBarDrawer);
+
+  // Tabs
+  barDrawer?.addEventListener('click', (e) => {
+    const tabBtn = e.target.closest?.('.bar-tab');
+    if (!tabBtn) return;
+    const id = tabBtn.getAttribute('data-tab');
+    if (id) setActivePanel(id);
+  });
+
+  // Filters
+  barSearch?.addEventListener('input', applyBarFilters);
+  barMaxPrice?.addEventListener('change', applyBarFilters);
+  barClear?.addEventListener('click', () => {
+    if (barSearch) barSearch.value = '';
+    if (barMaxPrice) barMaxPrice.value = '';
+    applyBarFilters();
+    barSearch?.focus();
+  });
+
+  // Global Escape handling (reserve, bar drawer, mobile nav)
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+
+    if (barDrawer?.classList.contains('is-open')) return closeBarDrawer();
+    if (reserveModal?.classList.contains('is-open')) return closeReserve();
+    if (mobileNav?.classList.contains('is-open')) return closeMobileNav();
+  });
 
 })();
 </script>
