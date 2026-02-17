@@ -19,7 +19,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
   /* =========================================================
    Oaklawn — menu.html (Luxury Vintage / Mobile-First)
    - Light mode, refined, not “doing too much” on phones
@@ -4489,7 +4492,7 @@ a[download]:hover { text-decoration: underline; }
         </div>
 
         <div class="download-row" aria-label="Cocktail menu download">
-          <a class="btn btn--ghost" href="pdfs/oaklawn-cocktails.pdf" download>
+         <a class="btn btn--ghost" href="#" data-pdf="cocktails">
             <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
             <span>Download Cocktail Menu (PDF)</span>
           </a>
@@ -4513,7 +4516,7 @@ a[download]:hover { text-decoration: underline; }
             </p>
           </div>
           <div class="section-head__actions">
-            <a class="btn btn--ghost" href="pdfs/oaklawn-bourbon-list.pdf" download>
+           <a class="btn btn--ghost" href="#" data-pdf="bourbon">
               <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
               <span>Download Full Bourbon List (PDF)</span>
             </a>
@@ -4589,13 +4592,13 @@ a[download]:hover { text-decoration: underline; }
               <i class="fa-solid fa-wine-glass" aria-hidden="true"></i>
               Wine & Champagne
             </p>
-            <h2 class="section-title">A curated cellar—built for pairing.</h2>
+            <h2 class="section-title">A curated cellar...built for pairing.</h2>
             <p class="section-lead">
               House picks, most requested bottles, and classic categories—kept intentionally organized.
             </p>
           </div>
           <div class="section-head__actions">
-            <a class="btn btn--ghost" href="pdfs/oaklawn-wine-list.pdf" download>
+           <a class="btn btn--ghost" href="#" data-pdf="wine">
               <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
               <span>Download Wine List (PDF)</span>
             </a>
@@ -5341,13 +5344,13 @@ a[download]:hover { text-decoration: underline; }
 
         <aside class="modal__aside" aria-label="Reservation imagery">
           <figure class="aside-photo">
-            <img src="images/modal-steak.jpg" alt="Signature steak plated with sauce and herbs." loading="lazy">
+            <img src="risotto.jpg" alt="Signature steak plated with sauce and herbs." loading="lazy">
           </figure>
           <figure class="aside-photo">
-            <img src="images/modal-cocktail.jpg" alt="Cocktail with citrus garnish on a dark wood bar." loading="lazy">
+            <img src="cocktail5.jpg" alt="Cocktail with citrus garnish on a dark wood bar." loading="lazy">
           </figure>
           <figure class="aside-photo">
-            <img src="images/modal-room.jpg" alt="Warm dining room atmosphere with vintage decor." loading="lazy">
+            <img src="sunshine.jpg" alt="Warm dining room atmosphere with vintage decor." loading="lazy">
           </figure>
         </aside>
       </div>
@@ -5363,30 +5366,6 @@ a[download]:hover { text-decoration: underline; }
   <!-- Screen reader utility -->
   <span class="sr-only" aria-hidden="true"></span>
 <script>
-/* =========================================================
-   Oaklawn — menu.html
-   What this script handles:
-   - Mobile nav drawer: open/close + focus trap + ESC + backdrop click
-   - Reservations modal: open/close + focus trap + ESC + backdrop click + basic validation UX
-   - Full-screen panels:
-       * Bourbon panel (#panelBourbon) opened by [data-open-spirits-panel="bourbon"]
-       * Wine section panels opened by [data-open-wine-panel="..."] with matching [data-panel="..."]
-     Panels behave like premium app overlays:
-       - body scroll locked
-       - internal scroll only
-       - ESC closes
-       - focus returns to opener
-   - Bourbon panel features:
-       - Search + category chips + sort (A–Z, price low/high)
-       - A–Z accordion: only one letter open at a time
-       - Jump-to-letter buttons A–Z
-       - Load more (adds next 25 items into the correct letter sections)
-     NOTE: To keep this file manageable, the dataset below includes a strong starter set.
-           Add remaining items to the DATA arrays to fully match your printed list.
-   - Wine panels:
-       - Simple list render from section-specific datasets
-       - Each panel is isolated (only that section)
-========================================================= */
 
 (() => {
   "use strict";
@@ -6652,6 +6631,415 @@ a[download]:hover { text-decoration: underline; }
     }
   }, { passive: false });
 
+})();
+</script>
+<script>
+(function () {
+  // --------- Helpers ----------
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const clean = (s) => (s || "").replace(/\s+/g, " ").trim();
+  const money = (s) => clean(s).replace(/[^\$0-9\.\-–]/g, "") || clean(s);
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  // --------- Extractors based on YOUR markup ----------
+  function extractCocktails() {
+    const sec = $("#cocktails");
+    if (!sec) return null;
+
+    const title = "Signature Cocktails";
+    const subtitle = clean($(".section-title", sec)) || "$17 each";
+    const lead = clean($(".section-lead", sec)) || "";
+
+    const items = $$(".drink-card", sec).map(card => ({
+      name: clean($(".drink-card__title", card)),
+      desc: clean($(".drink-card__desc", card)),
+      price: clean($(".drink-card__price", card)) || "$17"
+    })).filter(x => x.name);
+
+    return { kind: "cocktails", title, subtitle, lead, items };
+  }
+
+  function extractBourbon() {
+    const sec = $("#bourbon");
+    if (!sec) return null;
+
+    const title = "Bourbons & Whiskeys";
+    const subtitle = clean($(".section-title", sec)) || "Curated pours & flight boards.";
+    const lead = clean($(".section-lead", sec)) || "";
+
+    // from "Top Picks" mini-list
+    const items = $$(".list-card .mini-item", sec).map(row => {
+      const spans = $$("span", row);
+      const name = clean(spans[0]?.textContent);
+      const price = clean(spans[1]?.textContent);
+      return { name, desc: "Standard 1oz pour (see staff for ¼oz / ½oz options).", price };
+    }).filter(x => x.name);
+
+    return { kind: "bourbon", title, subtitle, lead, items };
+  }
+
+  function extractWine() {
+    const sec = $("#wine");
+    if (!sec) return null;
+
+    const title = "Wine & Champagne";
+    const subtitle = clean($(".section-title", sec)) || "A curated cellar—built for pairing.";
+    const lead = clean($(".section-lead", sec)) || "";
+
+    // combine House Picks + Most Requested (visible lists)
+    const house = $$('article[aria-label="House Picks"] .mini-item', sec).map(row => {
+      const spans = $$("span", row);
+      return { name: clean(spans[0]?.textContent), desc: "House Pick", price: clean(spans[1]?.textContent) };
+    });
+    const most = $$('article[aria-label="Most Requested"] .mini-item', sec).map(row => {
+      const spans = $$("span", row);
+      return { name: clean(spans[0]?.textContent), desc: "Most Requested", price: clean(spans[1]?.textContent) };
+    });
+
+    const items = [...house, ...most].filter(x => x.name);
+
+    return { kind: "wine", title, subtitle, lead, items };
+  }
+
+  // --------- Luxury PDF Render DOM ----------
+  function buildLuxuryDOM(data) {
+    const today = new Date().toLocaleDateString();
+
+    const css = `
+      :root{
+        --paper:#fbf7f0;
+        --paper2:#fff6e7;
+        --ink:#1a1510;
+        --muted:#6b5e54;
+        --gold:#b08a3c;
+        --line: rgba(26,21,16,.14);
+        --card: rgba(255,255,255,.88);
+        --shadow: 0 22px 70px rgba(26,21,16,.12);
+      }
+      *{ box-sizing:border-box; }
+      body{
+        margin:0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      }
+      .pdf{
+        width: 900px;
+        padding: 42px 44px 46px;
+        margin: 0 auto;
+        background:
+          radial-gradient(1200px 680px at 10% 0%, rgba(176,138,60,.14), transparent 60%),
+          radial-gradient(900px 600px at 92% 12%, rgba(28,43,44,.08), transparent 58%),
+          linear-gradient(180deg, var(--paper) 0%, var(--paper2) 55%, var(--paper) 100%);
+      }
+      .cover{
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background:
+          radial-gradient(900px 420px at 14% 0%, rgba(176,138,60,.18), transparent 55%),
+          radial-gradient(900px 420px at 100% 10%, rgba(28,43,44,.10), transparent 58%),
+          linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+        box-shadow: var(--shadow);
+        padding: 30px 28px 24px;
+        margin-bottom: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+      .seal{
+        position:absolute;
+        right: 22px;
+        bottom: 18px;
+        width: 86px;
+        height: 86px;
+        border-radius: 999px;
+        border: 1px solid rgba(176,138,60,.35);
+        background:
+          radial-gradient(20px 20px at 25% 25%, rgba(255,255,255,.75), rgba(255,255,255,0)),
+          linear-gradient(135deg, rgba(176,138,60,.92), rgba(202,163,90,.90));
+        box-shadow: 0 18px 60px rgba(176,138,60,.18);
+        display:grid;
+        place-items:center;
+        color:#130f0a;
+        font-weight: 900;
+        letter-spacing:.08em;
+      }
+      .brand{
+        display:flex;
+        align-items:flex-start;
+        justify-content:space-between;
+        gap: 14px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+      }
+      .brand h1{
+        margin:0;
+        font-family: ui-serif, Georgia, "Times New Roman", serif;
+        font-size: 34px;
+        letter-spacing:.02em;
+        line-height: 1.05;
+      }
+      .brand .sub{
+        margin-top: 4px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: .18em;
+        font-size: 12px;
+      }
+      .meta{
+        text-align:right;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.55;
+        white-space: nowrap;
+      }
+      .title{
+        margin: 8px 0 4px;
+        font-family: ui-serif, Georgia, "Times New Roman", serif;
+        font-size: 40px;
+        letter-spacing:.02em;
+      }
+      .subtitle{
+        color: rgba(26,21,16,.76);
+        font-size: 14px;
+        margin: 0 0 10px;
+      }
+      .lead{
+        color: rgba(26,21,16,.72);
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 0;
+        max-width: 72ch;
+      }
+      .rule{
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(176,138,60,.60), transparent);
+        margin: 14px 0 0;
+      }
+
+      .grid{
+        display:grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .card{
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--card);
+        box-shadow: 0 14px 40px rgba(26,21,16,.08);
+        padding: 14px 14px;
+      }
+
+      .item{
+        display:grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px 14px;
+        padding: 10px 0;
+        border-bottom: 1px dashed rgba(26,21,16,.14);
+      }
+      .item:last-child{ border-bottom:none; padding-bottom: 0; }
+      .name{
+        font-weight: 850;
+        letter-spacing:.01em;
+        font-size: 13px;
+        line-height: 1.25;
+      }
+      .desc{
+        grid-column: 1 / -1;
+        color: rgba(26,21,16,.72);
+        font-size: 12px;
+        line-height: 1.45;
+        margin-top: 2px;
+      }
+      .price{
+        font-weight: 900;
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(176,138,60,.35);
+        background: rgba(176,138,60,.14);
+        color: rgba(26,21,16,.92);
+        white-space: nowrap;
+        height: fit-content;
+      }
+
+      .footer{
+        margin-top: 14px;
+        color: rgba(26,21,16,.62);
+        font-size: 11px;
+        line-height: 1.55;
+        border-top: 1px solid var(--line);
+        padding-top: 10px;
+      }
+    `;
+
+    // Chunk items into multiple cards so it looks premium and not “busy”
+    const chunkSize = data.kind === "cocktails" ? 6 : 10;
+    const chunks = [];
+    for (let i = 0; i < data.items.length; i += chunkSize) {
+      chunks.push(data.items.slice(i, i + chunkSize));
+    }
+
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `
+      <style>${css}</style>
+      <div class="pdf">
+        <div class="cover">
+          <div class="brand">
+            <div>
+              <h1>Oaklawn</h1>
+              <div class="sub">Southern Dining</div>
+            </div>
+            <div class="meta">
+              <div>1008 E. Wood Street, Paris, TN</div>
+              <div>731-407-4262</div>
+              <div>${escapeHtml(today)}</div>
+            </div>
+          </div>
+
+          <div class="title">${escapeHtml(data.title)}</div>
+          <div class="subtitle">${escapeHtml(data.subtitle)}</div>
+          ${data.lead ? `<p class="lead">${escapeHtml(data.lead)}</p>` : ``}
+          <div class="rule"></div>
+
+          <div class="seal">OAK</div>
+        </div>
+
+        <div class="grid" id="cards"></div>
+
+        <div class="footer">
+          <strong style="color:rgba(26,21,16,.78)">Hours:</strong>
+          Bourbon & Wine Bar: 4:00 PM • Dining: 4:30 PM • Monday–Saturday
+          <br />
+          <span>Generated from the Oaklawn menu page.</span>
+        </div>
+      </div>
+    `;
+
+    const cards = wrap.querySelector("#cards");
+    chunks.forEach(chunk => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = chunk.map(it => `
+        <div class="item">
+          <div class="name">${escapeHtml(it.name)}</div>
+          ${it.price ? `<div class="price">${escapeHtml(money(it.price) || it.price)}</div>` : `<div></div>`}
+          ${it.desc ? `<div class="desc">${escapeHtml(it.desc)}</div>` : ``}
+        </div>
+      `).join("");
+      cards.appendChild(card);
+    });
+
+    return wrap;
+  }
+
+  // --------- PDF Generator ----------
+  async function generateAndDownload(data) {
+    // Create offscreen render host
+    const host = document.createElement("div");
+    host.style.position = "fixed";
+    host.style.left = "-10000px";
+    host.style.top = "0";
+    host.style.width = "900px";
+    host.style.zIndex = "999999";
+    host.style.background = "#fbf7f0";
+
+    const dom = buildLuxuryDOM(data);
+    host.appendChild(dom);
+    document.body.appendChild(host);
+
+    // Render to canvas
+    const canvas = await html2canvas(host, {
+      scale: 2.2,
+      backgroundColor: "#fbf7f0",
+      useCORS: true
+    });
+
+    const img = canvas.toDataURL("image/png", 1.0);
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF("p", "pt", "a4");
+
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+
+    const imgW = pageW;
+    const imgH = (canvas.height * imgW) / canvas.width;
+
+    let y = 0;
+    let remaining = imgH;
+
+    pdf.addImage(img, "PNG", 0, y, imgW, imgH);
+    remaining -= pageH;
+
+    const totalPages = Math.ceil(imgH / pageH);
+    let page = 1;
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.text(`Page ${page} of ${totalPages}`, pageW - 86, pageH - 16);
+
+    while (remaining > 0) {
+      y -= pageH;
+      pdf.addPage();
+      page++;
+      pdf.addImage(img, "PNG", 0, y, imgW, imgH);
+      pdf.text(`Page ${page} of ${totalPages}`, pageW - 86, pageH - 16);
+      remaining -= pageH;
+    }
+
+    document.body.removeChild(host);
+
+    const filename =
+      data.kind === "cocktails" ? "Oaklawn-Cocktails.pdf" :
+      data.kind === "bourbon" ? "Oaklawn-Bourbon-List.pdf" :
+      "Oaklawn-Wine-List.pdf";
+
+    pdf.save(filename);
+  }
+
+  // --------- Click handler for YOUR buttons ----------
+  document.addEventListener("click", async (e) => {
+    const a = e.target.closest("a[data-pdf]");
+    if (!a) return;
+
+    e.preventDefault();
+
+    const kind = a.getAttribute("data-pdf");
+    let data = null;
+
+    if (kind === "cocktails") data = extractCocktails();
+    if (kind === "bourbon") data = extractBourbon();
+    if (kind === "wine") data = extractWine();
+
+    if (!data || !data.items?.length) {
+      alert("Could not find menu items to generate the PDF. Make sure this section exists on the page.");
+      return;
+    }
+
+    try {
+      a.style.pointerEvents = "none";
+      a.style.opacity = "0.75";
+      await generateAndDownload(data);
+    } catch (err) {
+      console.error(err);
+      alert("PDF generation failed. Open DevTools → Console to see the error.");
+    } finally {
+      a.style.pointerEvents = "";
+      a.style.opacity = "";
+    }
+  });
 })();
 </script>
 
