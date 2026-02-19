@@ -1,0 +1,2371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> Oaklawn Southern Dining </title>
+
+  <!-- Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p8fXwXg6X0wq2b1vKxQk3y2p9CwqQxZl3s2s8xYQ7Kqg0q2QY2KxqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Paystack & jsPDF (for receipt generation) -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Google Fonts: Raleway & Open Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  /* =========================================================
+   Oaklawn Southern Dining — contact.html (LIGHT • LUX • VINTAGE)
+   Mobile-first • Responsive • World-class modal + toast
+   Pairs with the contact.html <body> + scripts you have.
+   ========================================================= */
+
+/* ---------------------------
+   Reset + Base
+--------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; }
+body { margin: 0; min-height: 100vh; }
+img { display:block; max-width:100%; height:auto; }
+button, input, select, textarea { font: inherit; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style:none; padding:0; margin:0; }
+h1,h2,h3,h4,p,figure { margin:0; }
+:focus { outline: none; }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after { transition-duration: .001ms !important; animation-duration: .001ms !important; }
+}
+
+/* iOS zoom prevention */
+input, select, textarea { font-size: 16px; }
+
+/* ---------------------------
+   Theme Tokens (Light Vintage Luxury)
+--------------------------- */
+:root{
+  --bg: #fbf7f0;
+  --bg2:#f6efe3;
+  --paper:#fffaf2;
+
+  --ink: #171513;
+  --ink2:#2a2622;
+  --muted:#5d554d;
+  --subtle:#7a726a;
+
+  --gold: #b08a4b;    /* brass */
+  --gold2:#d3b06f;    /* highlight */
+  --wine:#7b2a2f;     /* vintage red */
+  --olive:#3f4b3b;
+
+  --stroke: rgba(23,21,19,0.10);
+  --stroke2: rgba(23,21,19,0.16);
+
+  --shadow: 0 18px 50px rgba(23,21,19,0.12);
+  --shadow2: 0 10px 28px rgba(23,21,19,0.10);
+  --glow: 0 0 0 1px rgba(176,138,75,0.30), 0 20px 55px rgba(176,138,75,0.10);
+
+  --r-sm: 14px;
+  --r-md: 18px;
+  --r-lg: 26px;
+
+  --container: 1120px;
+  --pad: 18px;
+  --section-y: 54px;
+
+  --serif: "Playfair Display","Cormorant Garamond","Georgia",serif;
+  --sans: "Inter","Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+
+  --h1: clamp(2.15rem, 7.2vw, 3.25rem);
+  --h2: clamp(1.55rem, 4.9vw, 2.35rem);
+  --h3: clamp(1.12rem, 3.2vw, 1.35rem);
+  --p:  clamp(0.98rem, 2.7vw, 1.05rem);
+}
+
+body.theme-lux.theme-light.page-contact{
+  color: var(--ink);
+  font-family: var(--sans);
+  background:
+    radial-gradient(900px 480px at 75% -10%, rgba(176,138,75,0.18), transparent 62%),
+    radial-gradient(700px 460px at 10% 10%, rgba(123,42,47,0.10), transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 70%, var(--bg) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Soft film grain */
+body.theme-lux.theme-light.page-contact::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(23,21,19,0.05), transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(23,21,19,0.03), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(23,21,19,0.015) 0 1px, transparent 1px 3px);
+  opacity: 0.25;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+header, main, footer, section { position: relative; z-index: 1; }
+
+.is-locked { overflow: hidden; }
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* ---------------------------
+   Skip link
+--------------------------- */
+.skip-link{
+  position:absolute;
+  left: 12px;
+  top: 12px;
+  transform: translateY(-220%);
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(176,138,75,0.28);
+  color: var(--ink);
+  padding: 10px 12px;
+  border-radius: 12px;
+  box-shadow: var(--shadow2);
+  z-index: 9999;
+}
+.skip-link:focus{ transform: translateY(0); box-shadow: var(--glow); }
+
+/* ---------------------------
+   Layout
+--------------------------- */
+.section{ padding: var(--section-y) 0; }
+.section__inner{
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+.section__header{ margin-bottom: 18px; }
+.section__header--split{ display:grid; gap: 14px; }
+.section__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(123,42,47,0.85);
+  font-weight: 750;
+}
+.section__title{
+  margin-top: 10px;
+  font-family: var(--serif);
+  font-size: var(--h2);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.section__lead{
+  margin-top: 12px;
+  font-size: var(--p);
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+/* vintage divider between sections */
+.section + .section{ position: relative; }
+.section + .section::before{
+  content:"";
+  position:absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(176,138,75,0.35), transparent);
+}
+
+@media (min-width: 860px){
+  :root{ --pad: 24px; --section-y: 84px; }
+  .section__header--split{
+    grid-template-columns: 1.08fr 0.92fr;
+    align-items: start;
+  }
+}
+
+/* ---------------------------
+   Topbar
+--------------------------- */
+.topbar{
+  background: rgba(255,255,255,0.55);
+  border-bottom: 1px solid var(--stroke);
+  backdrop-filter: blur(14px);
+}
+.topbar__inner{
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  padding: 10px var(--pad);
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.topbar__left, .topbar__right{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+.topbar__badge{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(176,138,75,0.12);
+  border: 1px solid rgba(176,138,75,0.22);
+  color: var(--ink);
+  box-shadow: 0 12px 30px rgba(23,21,19,0.08);
+}
+.topbar__sep{ color: rgba(23,21,19,0.35); }
+.topbar__note{ color: rgba(23,21,19,0.62); font-size: 0.92rem; }
+.topbar__link{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 12px;
+  color: rgba(23,21,19,0.72);
+}
+.topbar__link:hover{
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(176,138,75,0.18);
+  color: var(--ink);
+}
+
+/* ---------------------------
+   Header + Nav
+--------------------------- */
+.header.header--light{
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  background: rgba(251,247,240,0.78);
+  border-bottom: 1px solid var(--stroke);
+  backdrop-filter: blur(16px);
+  transition: box-shadow .25s ease, background .25s ease;
+}
+.header.is-scrolled{
+  background: rgba(251,247,240,0.92);
+  box-shadow: 0 16px 45px rgba(23,21,19,0.12);
+}
+.header__inner{
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  padding: 12px var(--pad);
+  display:grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items:center;
+}
+
+/* Brand */
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  min-width: 190px;
+}
+.brand__mark{
+  width: 44px; height: 44px;
+  border-radius: 16px;
+  display:grid; place-items:center;
+  background:
+    radial-gradient(22px 22px at 30% 25%, rgba(255,255,255,0.9), rgba(255,255,255,0.2)),
+    linear-gradient(145deg, rgba(176,138,75,0.22), rgba(255,255,255,0.65));
+  border: 1px solid rgba(176,138,75,0.30);
+  box-shadow: var(--glow);
+  color: rgba(23,21,19,0.90);
+}
+.brand__type{ line-height:1.05; display:grid; }
+.brand__name{
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+.brand__sub{
+  font-size: 0.84rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(23,21,19,0.58);
+}
+
+/* Nav */
+.nav__toggle{
+  width: 44px; height: 44px;
+  border-radius: 16px;
+  border: 1px solid var(--stroke2);
+  background: rgba(255,255,255,0.70);
+  color: rgba(23,21,19,0.88);
+  box-shadow: 0 12px 28px rgba(23,21,19,0.10);
+}
+.nav__toggle:hover{ background: rgba(255,255,255,0.90); }
+.nav__toggle:focus-visible{ box-shadow: var(--glow); }
+
+.nav__list{ display:none; gap: 10px; justify-content:center; align-items:center; }
+.nav__link{
+  padding: 10px 10px;
+  border-radius: 14px;
+  color: rgba(23,21,19,0.72);
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+}
+.nav__link:hover{
+  background: rgba(255,255,255,0.78);
+  border-color: rgba(176,138,75,0.18);
+  color: var(--ink);
+}
+.nav__link.is-active{
+  background: rgba(176,138,75,0.14);
+  border-color: rgba(176,138,75,0.26);
+  box-shadow: 0 12px 30px rgba(176,138,75,0.12);
+  color: var(--ink);
+}
+@media (min-width: 1020px){
+  .nav__toggle{ display:none; }
+  .nav__list{ display:inline-flex; }
+}
+
+/* Actions */
+.header__actions{
+  display:inline-flex;
+  gap: 10px;
+  align-items:center;
+  justify-content: flex-end;
+}
+.icon-btn{
+  width: 42px; height: 42px;
+  display:grid; place-items:center;
+  border-radius: 16px;
+  border: 1px solid var(--stroke2);
+  background: rgba(255,255,255,0.70);
+  color: rgba(23,21,19,0.86);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.10);
+  transition: transform .15s ease, background .2s ease;
+}
+.icon-btn:hover{ background: rgba(255,255,255,0.92); transform: translateY(-1px); }
+.icon-btn:active{ transform: translateY(0); }
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  font-weight: 780;
+  letter-spacing: 0.01em;
+  user-select:none;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+.btn--full{ width: 100%; }
+.btn:active{ transform: translateY(1px); }
+.btn:focus-visible{ box-shadow: var(--glow); }
+
+.btn--primary{
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #1c160f;
+  border-color: rgba(176,138,75,0.45);
+  box-shadow: 0 16px 40px rgba(176,138,75,0.22);
+}
+.btn--primary:hover{ transform: translateY(-1px); box-shadow: 0 18px 48px rgba(176,138,75,0.26); }
+
+.btn--secondary{
+  background: rgba(255,255,255,0.82);
+  border-color: rgba(23,21,19,0.14);
+  color: rgba(23,21,19,0.88);
+  box-shadow: 0 14px 36px rgba(23,21,19,0.10);
+}
+.btn--secondary:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.94); }
+
+@media (max-width: 420px){
+  .header__actions .icon-btn{ display:none; }
+  .brand{ min-width: 160px; }
+}
+
+/* ---------------------------
+   Drawer (Mobile)
+--------------------------- */
+.drawer{ position: fixed; inset: 0; display:none; z-index: 5000; }
+.drawer.is-open{ display:block; }
+.drawer__backdrop{
+  position:absolute; inset:0;
+  background: rgba(23,21,19,0.45);
+  backdrop-filter: blur(8px);
+}
+.drawer__panel{
+  position:absolute;
+  left: 10px; right: 10px; top: 10px;
+  max-width: 560px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(176,138,75,0.24);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+.drawer__header{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(23,21,19,0.10);
+  background: linear-gradient(180deg, rgba(176,138,75,0.10), rgba(255,255,255,0.55));
+}
+.drawer__title{
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+.drawer__close{
+  width: 44px; height: 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(23,21,19,0.14);
+  background: rgba(255,255,255,0.75);
+  color: rgba(23,21,19,0.86);
+  cursor:pointer;
+}
+.drawer__close:hover{ background: rgba(255,255,255,0.95); }
+
+.drawer__body{ padding: 14px; display:grid; gap: 10px; }
+.drawer__link{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.72);
+  color: rgba(23,21,19,0.86);
+}
+.drawer__link:hover{
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(176,138,75,0.18);
+}
+.drawer__link.is-active{
+  background: rgba(176,138,75,0.14);
+  border-color: rgba(176,138,75,0.26);
+}
+.drawer__divider{
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(176,138,75,0.35), transparent);
+  margin: 8px 0;
+}
+.drawer__cta{ display:grid; gap: 10px; margin-top: 6px; }
+.drawer__meta{
+  margin-top: 6px;
+  border-radius: 18px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(176,138,75,0.08);
+  padding: 12px;
+}
+.meta-row{ display:flex; align-items:center; gap: 10px; color: rgba(23,21,19,0.78); }
+.meta-row + .meta-row{ margin-top: 8px; }
+
+/* ---------------------------
+   HERO — Contact
+--------------------------- */
+.hero.hero--contact.hero--light{
+  position: relative;
+  min-height: calc(86svh - 86px);
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border-bottom: 1px solid var(--stroke);
+}
+.hero__media{ position:absolute; inset:0; }
+.hero__image{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  filter: saturate(1.02) contrast(1.02) brightness(0.92);
+  transform: scale(1.02);
+}
+.hero__overlay.hero__overlay--light{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(900px 520px at 70% 10%, rgba(255,255,255,0.72), rgba(255,255,255,0.0) 60%),
+    linear-gradient(180deg, rgba(251,247,240,0.12) 0%, rgba(251,247,240,0.38) 35%, rgba(251,247,240,0.94) 100%);
+}
+.hero__content{
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  padding: 86px var(--pad) 66px;
+  display:grid;
+  gap: 16px;
+  align-items:start;
+}
+.hero__kicker{
+  width: fit-content;
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,75,0.24);
+  background: rgba(255,255,255,0.72);
+  color: rgba(23,21,19,0.82);
+  box-shadow: var(--shadow2);
+}
+.hero__title{
+  font-family: var(--serif);
+  font-size: var(--h1);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 18ch;
+}
+.hero__subtitle{
+  color: rgba(23,21,19,0.70);
+  font-size: var(--p);
+  line-height: 1.75;
+  max-width: 70ch;
+}
+.hero__cta{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.hero__highlights{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(23,21,19,0.12);
+  background: rgba(255,255,255,0.75);
+  color: rgba(23,21,19,0.78);
+  box-shadow: 0 12px 30px rgba(23,21,19,0.08);
+}
+.hero__scroll{
+  position:absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(23,21,19,0.12);
+  background: rgba(255,255,255,0.78);
+  color: rgba(23,21,19,0.78);
+  box-shadow: var(--shadow2);
+}
+.hero__scroll:hover{ background: rgba(255,255,255,0.92); }
+.hero__scroll-text{
+  font-size: 0.86rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------
+   Quick Actions grid
+--------------------------- */
+.action-grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+.action-card{
+  width:100%;
+  text-align:left;
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.86);
+  box-shadow: var(--shadow2);
+  cursor: pointer;
+  position: relative;
+  overflow:hidden;
+}
+.action-card::before{
+  content:"";
+  position:absolute; inset:-1px;
+  background: radial-gradient(520px 240px at 15% 0%, rgba(176,138,75,0.16), transparent 70%);
+  pointer-events:none;
+}
+.action-card__icon{
+  width: 52px; height: 52px;
+  border-radius: 20px;
+  display:grid; place-items:center;
+  background: rgba(176,138,75,0.14);
+  border: 1px solid rgba(176,138,75,0.22);
+  box-shadow: var(--glow);
+  color: rgba(23,21,19,0.88);
+  flex: 0 0 auto;
+}
+.action-card__body h3{
+  font-size: 1.12rem;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+.action-card__body p{
+  margin-top: 6px;
+  color: rgba(23,21,19,0.66);
+  line-height: 1.65;
+}
+.action-card__meta{
+  margin-top: 10px;
+  display:inline-flex;
+  width: fit-content;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.72);
+  color: rgba(23,21,19,0.70);
+  font-size: 0.86rem;
+}
+.action-card:hover{
+  background: rgba(255,255,255,0.94);
+  border-color: rgba(176,138,75,0.18);
+  transform: translateY(-1px);
+}
+.action-card:active{ transform: translateY(0); }
+
+@media (min-width: 800px){
+  .action-grid{ grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (min-width: 1120px){
+  .action-grid{ grid-template-columns: repeat(4, 1fr); }
+  .action-card{ flex-direction: column; }
+  .action-card__meta{ margin-top: 12px; }
+}
+
+/* ---------------------------
+   Location section
+--------------------------- */
+.location__rows{ display:grid; gap: 12px; margin-top: 14px; }
+.contact-row{
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.86);
+  box-shadow: var(--shadow2);
+}
+.contact-row i{
+  width: 46px; height: 46px;
+  border-radius: 18px;
+  display:grid; place-items:center;
+  background: rgba(123,42,47,0.10);
+  border: 1px solid rgba(123,42,47,0.18);
+  color: rgba(23,21,19,0.82);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+  flex: 0 0 auto;
+}
+.contact-row__label{
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(23,21,19,0.56);
+  font-weight: 800;
+}
+.contact-row__value{
+  margin-top: 6px;
+  color: rgba(23,21,19,0.74);
+  line-height: 1.7;
+}
+.contact-row__value a{
+  text-decoration: underline;
+  text-decoration-color: rgba(176,138,75,0.45);
+  text-underline-offset: 3px;
+}
+
+.location__right{ display:grid; gap: 12px; }
+.mini-map{
+  border-radius: 24px;
+  overflow:hidden;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.86);
+  box-shadow: var(--shadow2);
+}
+.mini-map img{ width:100%; height: 240px; object-fit: cover; }
+.location__buttons{ display:grid; gap: 10px; }
+
+.location__nearby{ display:grid; gap: 10px; }
+.nearby{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  padding: 12px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(176,138,75,0.08);
+  color: rgba(23,21,19,0.72);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+}
+
+@media (min-width: 980px){
+  .mini-map img{ height: 320px; }
+}
+
+/* ---------------------------
+   Message panel + Forms
+--------------------------- */
+.meta-chip{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.78);
+  color: rgba(23,21,19,0.78);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+}
+.meta-chip a{
+  text-decoration: underline;
+  text-decoration-color: rgba(176,138,75,0.45);
+  text-underline-offset: 3px;
+}
+
+.message__panel{
+  border-radius: 28px;
+  border: 1px solid rgba(176,138,75,0.22);
+  background:
+    radial-gradient(900px 320px at 15% 0%, rgba(176,138,75,0.18), transparent 70%),
+    rgba(255,255,255,0.88);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display:grid;
+  gap: 14px;
+}
+.message__chips{ display:grid; gap: 10px; margin-top: 14px; }
+
+.message__form-wrap{ display:grid; gap: 14px; }
+
+.contact-form__grid{ display:grid; gap: 12px; }
+
+.field label{
+  display:block;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+  color: rgba(23,21,19,0.70);
+  letter-spacing: 0.02em;
+}
+.field__control{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(23,21,19,0.14);
+  background: rgba(255,255,255,0.84);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+}
+.field__control i{ color: rgba(176,138,75,0.95); }
+.field__control input,
+.field__control select,
+.field__control textarea{
+  width:100%;
+  border:0;
+  outline:none;
+  background: transparent;
+  color: rgba(23,21,19,0.88);
+}
+.field__control textarea{ resize: vertical; min-height: 130px; }
+.field--full{ grid-column: 1 / -1; }
+
+.field__control.is-invalid{
+  border-color: rgba(123,42,47,0.40);
+  box-shadow: 0 0 0 1px rgba(123,42,47,0.18), 0 12px 26px rgba(23,21,19,0.08);
+}
+
+.contact-form__actions{ margin-top: 12px; display:grid; gap: 10px; }
+.contact-form__fineprint{
+  border-radius: 20px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(176,138,75,0.08);
+  padding: 12px;
+}
+.fine-row{
+  display:flex;
+  gap: 10px;
+  align-items:flex-start;
+  color: rgba(23,21,19,0.68);
+  line-height: 1.6;
+}
+.fine-row + .fine-row{ margin-top: 8px; }
+.fine-row a{
+  text-decoration: underline;
+  text-decoration-color: rgba(176,138,75,0.45);
+  text-underline-offset: 3px;
+}
+
+.message__alt{ display:grid; gap: 12px; }
+.alt-card{
+  border-radius: 24px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.86);
+  box-shadow: var(--shadow2);
+  padding: 16px;
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+}
+.alt-card__icon{
+  width: 48px; height: 48px;
+  border-radius: 18px;
+  display:grid; place-items:center;
+  background: rgba(123,42,47,0.10);
+  border: 1px solid rgba(123,42,47,0.18);
+  color: rgba(23,21,19,0.82);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+  flex: 0 0 auto;
+}
+.alt-card__text h3{
+  font-size: 1.08rem;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+.alt-card__text p{
+  margin-top: 6px;
+  color: rgba(23,21,19,0.66);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 820px){
+  .contact-form__grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 980px){
+  .message__panel{ grid-template-columns: 1.03fr 0.97fr; padding: 20px; gap: 16px; }
+  .message__form-wrap{ grid-template-columns: 1fr 0.82fr; align-items:start; gap: 16px; }
+}
+
+/* ---------------------------
+   Holiday panel
+--------------------------- */
+.holiday__panel{
+  border-radius: 28px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.86);
+  box-shadow: var(--shadow2);
+  padding: 16px;
+  position: relative;
+  overflow:hidden;
+}
+.holiday__panel::before{
+  content:"";
+  position:absolute; inset:-1px;
+  background: radial-gradient(600px 260px at 15% 0%, rgba(123,42,47,0.08), transparent 70%);
+  pointer-events:none;
+}
+.holiday__list{
+  margin-top: 14px;
+  display:grid;
+  gap: 10px;
+}
+.holiday__item{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  padding: 12px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.72);
+  color: rgba(23,21,19,0.72);
+}
+.holiday__cta{
+  margin-top: 14px;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+@media (min-width: 980px){
+  .holiday__panel{ padding: 20px; }
+}
+
+/* ---------------------------
+   Footer
+--------------------------- */
+.footer.footer--light{
+  padding: 46px 0 28px;
+  border-top: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.55);
+}
+.footer__inner{
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  display:grid;
+  gap: 18px;
+}
+.footer__brand{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+}
+.footer__logo{
+  width: 46px; height: 46px;
+  border-radius: 18px;
+  display:grid; place-items:center;
+  background: rgba(176,138,75,0.14);
+  border: 1px solid rgba(176,138,75,0.22);
+  box-shadow: var(--glow);
+  color: rgba(23,21,19,0.86);
+}
+.footer__name{
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+.footer__tagline{
+  margin-top: 4px;
+  color: rgba(23,21,19,0.58);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+}
+.footer__cols{
+  display:grid;
+  gap: 14px;
+}
+.footer__col{
+  border-radius: 24px;
+  border: 1px solid rgba(23,21,19,0.10);
+  background: rgba(255,255,255,0.84);
+  box-shadow: var(--shadow2);
+  padding: 16px;
+}
+.footer__title{
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.footer__line{
+  color: rgba(23,21,19,0.68);
+  line-height: 1.65;
+}
+.footer__line a{
+  text-decoration: underline;
+  text-decoration-color: rgba(176,138,75,0.45);
+  text-underline-offset: 3px;
+}
+.footer__links{ display:grid; gap: 10px; }
+.footer__links a{
+  display:inline-flex;
+  padding: 10px 10px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  color: rgba(23,21,19,0.72);
+}
+.footer__links a:hover{
+  background: rgba(176,138,75,0.10);
+  border-color: rgba(176,138,75,0.18);
+  color: var(--ink);
+}
+.footer__social{
+  margin-top: 12px;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.social{
+  width: 44px; height: 44px;
+  border-radius: 18px;
+  display:grid; place-items:center;
+  border: 1px solid rgba(23,21,19,0.12);
+  background: rgba(255,255,255,0.78);
+  color: rgba(23,21,19,0.82);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+}
+.social:hover{
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(176,138,75,0.22);
+}
+.footer__bottom{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items:center;
+  justify-content: space-between;
+  color: rgba(23,21,19,0.62);
+}
+.footer__top{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(23,21,19,0.12);
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 12px 26px rgba(23,21,19,0.08);
+}
+.footer__top:hover{ background: rgba(255,255,255,0.95); }
+
+@media (min-width: 980px){
+  .footer__cols{ grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+}
+
+/* ---------------------------
+   Floating Message Button (mobile)
+--------------------------- */
+.float-reserve{
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,75,0.40);
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: #1c160f;
+  box-shadow: 0 18px 50px rgba(23,21,19,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.float-reserve.is-visible{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+@media (min-width: 980px){
+  .float-reserve{ left:auto; right: 18px; transform:none; }
+  .float-reserve.is-visible{ transform:none; }
+}
+
+/* ---------------------------
+   MODALS (World-class + Responsive)
+--------------------------- */
+.lux-modal{
+  position: fixed;
+  inset: 0;
+  display:none;
+  z-index: 7000;
+}
+.lux-modal.is-open{ display:block; }
+
+.lux-modal__backdrop{
+  position:absolute; inset:0;
+  background: rgba(23,21,19,0.48);
+  backdrop-filter: blur(12px);
+}
+
+/* panel: phone-safe max-height + scroll */
+.lux-modal__panel{
+  position:absolute;
+  left: 10px; right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 720px;
+  margin: 0 auto;
+  border-radius: 28px;
+  border: 1px solid rgba(176,138,75,0.24);
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 26px 80px rgba(23,21,19,0.26);
+  overflow:hidden;
+  max-height: min(86svh, 760px);
+  display:flex;
+  flex-direction: column;
+}
+
+/* subtle vintage frame */
+.lux-modal__panel::before{
+  content:"";
+  position:absolute;
+  inset: 0;
+  pointer-events:none;
+  background:
+    radial-gradient(620px 260px at 15% 0%, rgba(176,138,75,0.20), transparent 70%),
+    radial-gradient(520px 240px at 90% 10%, rgba(123,42,47,0.10), transparent 70%);
+  opacity: 0.85;
+}
+.lux-modal__head{
+  position: relative;
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(23,21,19,0.10);
+  background: linear-gradient(180deg, rgba(176,138,75,0.12), rgba(255,255,255,0.70));
+  flex: 0 0 auto;
+}
+.lux-modal__icon{
+  width: 46px; height: 46px;
+  border-radius: 18px;
+  display:grid; place-items:center;
+  background: rgba(176,138,75,0.14);
+  border: 1px solid rgba(176,138,75,0.22);
+  box-shadow: var(--glow);
+  color: rgba(23,21,19,0.86);
+}
+.lux-modal__close{
+  width: 46px; height: 46px;
+  border-radius: 18px;
+  border: 1px solid rgba(23,21,19,0.14);
+  background: rgba(255,255,255,0.84);
+  color: rgba(23,21,19,0.86);
+  cursor:pointer;
+  position: relative;
+}
+.lux-modal__close:hover{ background: rgba(255,255,255,0.98); }
+
+.lux-modal__body{
+  position: relative;
+  padding: 16px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.lux-modal__title{
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 4.2vw, 1.7rem);
+  letter-spacing: -0.02em;
+}
+.lux-modal__text{
+  margin-top: 10px;
+  color: rgba(23,21,19,0.66);
+  line-height: 1.7;
+}
+
+/* Modal form spacing */
+.contact-form--modal{ margin-top: 14px; }
+
+@media (max-width: 420px){
+  .lux-modal__panel{
+    top: auto;
+    bottom: 10px;
+    transform: none;
+    border-radius: 26px;
+    max-height: 92svh;
+  }
+  .lux-modal__body{ padding: 14px; }
+  .lux-modal__head{ padding: 12px 12px; }
+}
+
+/* ---------------------------
+   Toast (copy feedback)
+--------------------------- */
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 76px; /* above floating button */
+  transform: translateX(-50%) translateY(10px);
+  z-index: 8000;
+  min-width: min(520px, calc(100% - 24px));
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(176,138,75,0.30);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 18px 55px rgba(23,21,19,0.18);
+  color: rgba(23,21,19,0.82);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  text-align: center;
+  font-weight: 700;
+}
+.toast.is-show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------------------------
+   Focus-visible polish
+--------------------------- */
+:focus-visible{
+  box-shadow: var(--glow);
+  border-radius: 14px;
+}
+
+/* ---------------------------
+   Tiny-screen cleanup
+--------------------------- */
+@media (max-width: 360px){
+  :root{ --pad: 14px; }
+  .pill{ width: 100%; justify-content:center; }
+  .topbar__note{ display:none; }
+  .hero__title{ max-width: 16ch; }
+}
+
+</style>
+</head>
+  <body class="theme-lux theme-light page-contact">
+  <!-- Skip Link -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Top Announcement Bar -->
+  <div class="topbar" role="region" aria-label="Important information">
+    <div class="topbar__inner">
+      <div class="topbar__left">
+        <span class="topbar__badge">
+          <i class="fa-solid fa-location-dot"></i>
+          Paris, Tennessee
+        </span>
+        <span class="topbar__sep" aria-hidden="true">•</span>
+        <span class="topbar__note">
+          Reservations highly recommended • Required for groups over 6
+        </span>
+      </div>
+
+      <div class="topbar__right">
+        <a class="topbar__link" href="tel:17314074262" aria-label="Call Oaklawn Southern Dining">
+          <i class="fa-solid fa-phone"></i>
+          <span>731-407-4262</span>
+        </a>
+        <span class="topbar__sep" aria-hidden="true">•</span>
+        <a class="topbar__link" href="#location" aria-label="View hours and address">
+          <i class="fa-regular fa-clock"></i>
+          <span>Mon–Sat • Bar 4:00 PM • Dining 4:30 PM</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header header--light" id="top">
+    <div class="header__inner">
+      <!-- Brand -->
+      <a class="brand" href="index.html" aria-label="Oaklawn Southern Dining Home">
+        <span class="brand__mark" aria-hidden="true">
+          <i class="fa-solid fa-o"></i>
+        </span>
+        <span class="brand__type">
+          <span class="brand__name">Oaklawn</span>
+          <span class="brand__sub">Southern Dining</span>
+        </span>
+      </a>
+
+      <!-- Primary Navigation -->
+      <nav class="nav" aria-label="Primary">
+        <button class="nav__toggle" type="button" aria-label="Open menu" aria-controls="navDrawer" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="nav__list" id="navList">
+          <li class="nav__item"><a class="nav__link" href="index.html#experience">Experience</a></li>
+          <li class="nav__item"><a class="nav__link" href="menu.html">Menus</a></li>
+          <li class="nav__item"><a class="nav__link" href="events.html">Private Events</a></li>
+          <li class="nav__item"><a class="nav__link" href="gallery.html">Gallery</a></li>
+          <li class="nav__item"><a class="nav__link is-active" href="#main" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header__actions">
+        <a class="icon-btn" href="menu.html" aria-label="View full menu">
+          <i class="fa-solid fa-book-open"></i>
+        </a>
+        <a class="icon-btn" href="events.html" aria-label="Private events">
+          <i class="fa-solid fa-people-roof"></i>
+        </a>
+        <button class="btn btn--primary" type="button" data-open-contact-modal aria-label="Send a message">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Message</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer (structure only) -->
+    <div class="drawer" id="navDrawer" aria-hidden="true">
+      <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+        <div class="drawer__header">
+          <span class="drawer__title">Oaklawn</span>
+          <button class="drawer__close" type="button" aria-label="Close menu">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="drawer__body">
+          <a class="drawer__link" href="index.html#experience"><i class="fa-solid fa-sparkles"></i> Experience</a>
+          <a class="drawer__link" href="menu.html"><i class="fa-solid fa-book-open"></i> Menus</a>
+          <a class="drawer__link" href="events.html"><i class="fa-solid fa-people-roof"></i> Private Events</a>
+          <a class="drawer__link" href="gallery.html"><i class="fa-regular fa-images"></i> Gallery</a>
+          <a class="drawer__link is-active" href="#main"><i class="fa-solid fa-location-dot"></i> Contact</a>
+
+          <div class="drawer__divider" role="separator" aria-hidden="true"></div>
+
+          <a class="drawer__link" href="careers.html"><i class="fa-solid fa-briefcase"></i> Join Our Team</a>
+          <a class="drawer__link" href="menu.html#bar"><i class="fa-solid fa-whiskey-glass"></i> Bourbon & Wine</a>
+
+          <div class="drawer__cta">
+            <a class="btn btn--primary btn--full" href="tel:17314074262">
+              <i class="fa-solid fa-phone"></i>
+              <span>Call 731-407-4262</span>
+            </a>
+            <button class="btn btn--secondary btn--full" type="button" data-open-contact-modal>
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Send a Message</span>
+            </button>
+          </div>
+
+          <div class="drawer__meta" aria-label="Hours">
+            <div class="meta-row">
+              <i class="fa-regular fa-clock"></i>
+              <span>Mon–Sat: Bar 4:00 PM • Dining 4:30 PM</span>
+            </div>
+            <div class="meta-row">
+              <i class="fa-solid fa-car"></i>
+              <span>Complimentary valet parking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="drawer__backdrop" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- Contact Hero -->
+  <section class="hero hero--contact hero--light" aria-label="Contact Oaklawn Southern Dining">
+    <div class="hero__media" aria-hidden="true">
+      <img class="hero__image" src="assets/contact-hero-exterior.jpg" alt="" />
+      <div class="hero__overlay hero__overlay--light"></div>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__kicker">
+        <i class="fa-solid fa-envelope-open-text"></i>
+        <span>Contact</span>
+      </div>
+
+      <h1 class="hero__title">Reach Oaklawn</h1>
+
+      <p class="hero__subtitle">
+        Whether you're planning a dinner, arranging a private gathering, or simply have a question,
+        we’re here to help—warm hospitality, thoughtfully delivered.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="tel:17314074262" aria-label="Call Oaklawn Southern Dining">
+          <i class="fa-solid fa-phone"></i>
+          <span>Call 731-407-4262</span>
+        </a>
+        <button class="btn btn--secondary" type="button" data-open-directions aria-label="Get directions">
+          <i class="fa-solid fa-diamond-turn-right"></i>
+          <span>Get Directions</span>
+        </button>
+      </div>
+
+      <div class="hero__highlights" aria-label="Key notes">
+        <div class="pill">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Reservations highly recommended</span>
+        </div>
+        <div class="pill">
+          <i class="fa-solid fa-people-group"></i>
+          <span>Required for groups over 6</span>
+        </div>
+        <div class="pill">
+          <i class="fa-solid fa-car-side"></i>
+          <span>Complimentary valet parking</span>
+        </div>
+      </div>
+    </div>
+
+    <a class="hero__scroll" href="#quick" aria-label="Scroll to quick contact options">
+      <span class="hero__scroll-text">Quick Options</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </a>
+  </section>
+
+  <main id="main">
+    <!-- Quick Actions -->
+    <section class="section quick" id="quick" aria-label="Quick contact actions">
+      <div class="section__inner">
+        <header class="section__header">
+          <p class="section__eyebrow">Quick Actions</p>
+          <h2 class="section__title">Get in touch in seconds</h2>
+          <p class="section__lead">
+            Choose the fastest option—call, send a message, or open directions instantly.
+          </p>
+        </header>
+
+        <div class="action-grid" role="list">
+          <a class="action-card" role="listitem" href="tel:17314074262" aria-label="Call Oaklawn Southern Dining">
+            <div class="action-card__icon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
+            <div class="action-card__body">
+              <h3>Call</h3>
+              <p>Speak with our team at <strong>731-407-4262</strong>.</p>
+              <span class="action-card__meta">Tap to call</span>
+            </div>
+          </a>
+
+          <button class="action-card" role="listitem" type="button" data-open-contact-modal aria-label="Send a message">
+            <div class="action-card__icon" aria-hidden="true"><i class="fa-solid fa-paper-plane"></i></div>
+            <div class="action-card__body">
+              <h3>Message</h3>
+              <p>Send a note—reservations, events, gift cards, and more.</p>
+              <span class="action-card__meta">Opens secure form</span>
+            </div>
+          </button>
+
+          <button class="action-card" role="listitem" type="button" data-copy-address aria-label="Copy address">
+            <div class="action-card__icon" aria-hidden="true"><i class="fa-regular fa-copy"></i></div>
+            <div class="action-card__body">
+              <h3>Copy Address</h3>
+              <p><strong>1008 E. Wood Street, Paris TN</strong></p>
+              <span class="action-card__meta">Tap to copy</span>
+            </div>
+          </button>
+
+          <button class="action-card" role="listitem" type="button" data-open-directions aria-label="Open directions">
+            <div class="action-card__icon" aria-hidden="true"><i class="fa-solid fa-diamond-turn-right"></i></div>
+            <div class="action-card__body">
+              <h3>Directions</h3>
+              <p>Open in Maps for the fastest route.</p>
+              <span class="action-card__meta">Open Google Maps</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Location + Hours + Map Preview -->
+    <section class="section location" id="location" aria-label="Location and hours">
+      <div class="section__inner">
+        <header class="section__header section__header--split">
+          <div>
+            <p class="section__eyebrow">Location</p>
+            <h2 class="section__title">Find us in Paris, Tennessee</h2>
+            <p class="section__lead">
+              Minutes from Paris Landing State Park and Land Between the Lakes—an evening at Oaklawn is designed to feel like an escape.
+            </p>
+
+            <div class="location__rows" aria-label="Hours and contact information">
+              <div class="contact-row">
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                <div>
+                  <div class="contact-row__label">Address</div>
+                  <div class="contact-row__value">
+                    <span id="oakAddress">1008 E. Wood Street, Paris TN</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-row">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <div>
+                  <div class="contact-row__label">Phone</div>
+                  <div class="contact-row__value">
+                    <a href="tel:17314074262">731-407-4262</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-row">
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <div>
+                  <div class="contact-row__label">Hours</div>
+                  <div class="contact-row__value">
+                    Monday through Saturday<br />
+                    <strong>Bourbon & Wine Bar:</strong> 4:00 PM<br />
+                    <strong>Dining & Reservations:</strong> 4:30 PM
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-row">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                <div>
+                  <div class="contact-row__label">Notes</div>
+                  <div class="contact-row__value">
+                    Reservations highly recommended • Required for groups over 6<br />
+                    Complimentary valet parking available
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="location__right" aria-label="Map preview and actions">
+            <figure class="mini-map">
+              <img src="assets/map-preview.jpg" alt="Map preview showing Oaklawn Southern Dining in Paris, Tennessee" />
+            </figure>
+
+            <div class="location__buttons" aria-label="Map actions">
+              <button class="btn btn--primary btn--full" type="button" data-open-directions>
+                <i class="fa-solid fa-diamond-turn-right"></i>
+                <span>Open in Google Maps</span>
+              </button>
+
+              <button class="btn btn--secondary btn--full" type="button" data-copy-address>
+                <i class="fa-regular fa-copy"></i>
+                <span>Copy Address</span>
+              </button>
+            </div>
+
+            <div class="location__nearby" aria-label="Nearby highlights">
+              <div class="nearby">
+                <i class="fa-solid fa-tree" aria-hidden="true"></i>
+                <span>Near Paris Landing State Park</span>
+              </div>
+              <div class="nearby">
+                <i class="fa-solid fa-mountain-sun" aria-hidden="true"></i>
+                <span>Close to Land Between the Lakes</span>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </section>
+
+    <!-- Contact Form (inline, elegant) -->
+    <section class="section message" id="message" aria-label="Send a message">
+      <div class="section__inner">
+        <div class="message__panel">
+          <div class="message__intro">
+            <p class="section__eyebrow">Message</p>
+            <h2 class="section__title">Send a note</h2>
+            <p class="section__lead">
+              Share a few details and our team will reach out soon. For same-day questions, calling is the fastest option.
+            </p>
+
+            <div class="message__chips" aria-label="Helpful tips">
+              <div class="meta-chip">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Reservations highly recommended</span>
+              </div>
+              <div class="meta-chip">
+                <i class="fa-solid fa-car"></i>
+                <span>Complimentary valet parking</span>
+              </div>
+              <div class="meta-chip">
+                <i class="fa-solid fa-people-roof"></i>
+                <span>Planning an event? Explore <a href="events.html">Private Events</a></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="message__form-wrap">
+            <form class="contact-form" action="#" method="post" aria-label="Contact form">
+              <div class="contact-form__grid">
+                <div class="field">
+                  <label for="cName">Full name</label>
+                  <div class="field__control">
+                    <i class="fa-regular fa-user" aria-hidden="true"></i>
+                    <input id="cName" name="fullName" type="text" placeholder="Your name" autocomplete="name" required />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="cPhone">Phone</label>
+                  <div class="field__control">
+                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                    <input id="cPhone" name="phone" type="tel" placeholder="(731) 407-4262" autocomplete="tel" required />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="cEmail">Email</label>
+                  <div class="field__control">
+                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                    <input id="cEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="cTopic">Topic</label>
+                  <div class="field__control">
+                    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                    <select id="cTopic" name="topic" required>
+                      <option value="" selected disabled>Select a topic</option>
+                      <option>General question</option>
+                      <option>Reservations</option>
+                      <option>Private events</option>
+                      <option>Gift cards</option>
+                      <option>Careers</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field field--full">
+                  <label for="cMessage">Message</label>
+                  <div class="field__control">
+                    <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                    <textarea id="cMessage" name="message" rows="6" placeholder="How can we help?" required></textarea>
+                  </div>
+                </div>
+
+                <div class="field field--full">
+                  <label for="cPref">Preferred contact method</label>
+                  <div class="field__control">
+                    <i class="fa-solid fa-user-check" aria-hidden="true"></i>
+                    <select id="cPref" name="preferredContact" required>
+                      <option value="" selected disabled>Select an option</option>
+                      <option>Phone call</option>
+                      <option>Email</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-form__actions">
+                <button class="btn btn--primary btn--full" type="submit">
+                  <i class="fa-solid fa-paper-plane"></i>
+                  <span>Send Message</span>
+                </button>
+
+                <div class="contact-form__fineprint">
+                  <div class="fine-row">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Your message is sent securely. We do not share your information.</span>
+                  </div>
+                  <div class="fine-row">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <span>For urgent questions, call <a href="tel:17314074262">731-407-4262</a>.</span>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="message__alt">
+              <div class="alt-card">
+                <div class="alt-card__icon" aria-hidden="true">
+                  <i class="fa-solid fa-gift"></i>
+                </div>
+                <div class="alt-card__text">
+                  <h3>Gift cards</h3>
+                  <p>Give an evening of chef-inspired dining and crafted cocktails.</p>
+                  <a class="btn btn--secondary btn--full" href="gift-cards.html">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span>Buy Gift Cards Online</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="alt-card">
+                <div class="alt-card__icon" aria-hidden="true">
+                  <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div class="alt-card__text">
+                  <h3>Join our team</h3>
+                  <p>If you are interested in becoming a part of our team, begin the application process.</p>
+                  <a class="btn btn--secondary btn--full" href="careers.html">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>Start Application</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="alt-card">
+                <div class="alt-card__icon" aria-hidden="true">
+                  <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <div class="alt-card__text">
+                  <h3>Private events</h3>
+                  <p>Host an evening in the Sunshine Room—intimate, refined, and intentional.</p>
+                  <a class="btn btn--secondary btn--full" href="events.html">
+                    <i class="fa-solid fa-champagne-glasses"></i>
+                    <span>Explore Private Events</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Holiday Closings (compact + elegant) -->
+    <section class="section holiday" id="holiday" aria-label="Holiday closings">
+      <div class="section__inner">
+        <div class="holiday__panel">
+          <div class="holiday__head">
+            <p class="section__eyebrow">Hours</p>
+            <h2 class="section__title">Holiday closings</h2>
+            <p class="section__lead">Please note we are closed on the following dates.</p>
+          </div>
+
+          <div class="holiday__list" aria-label="Holiday closing dates">
+            <div class="holiday__item"><i class="fa-regular fa-calendar"></i> January 1st–7th</div>
+            <div class="holiday__item"><i class="fa-regular fa-flag"></i> Memorial Day</div>
+            <div class="holiday__item"><i class="fa-regular fa-flag"></i> Independence Day</div>
+            <div class="holiday__item"><i class="fa-regular fa-flag"></i> Labor Day</div>
+            <div class="holiday__item"><i class="fa-solid fa-turkey"></i> Thanksgiving Eve & Day</div>
+            <div class="holiday__item"><i class="fa-solid fa-tree"></i> Christmas Eve & Day</div>
+          </div>
+
+          <div class="holiday__cta">
+            <a class="btn btn--secondary" href="tel:17314074262">
+              <i class="fa-solid fa-phone"></i>
+              <span>Call to Confirm</span>
+            </a>
+            <button class="btn btn--primary" type="button" data-open-contact-modal>
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Send a Message</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer footer--light" aria-label="Footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo" aria-hidden="true">
+          <i class="fa-solid fa-utensils"></i>
+        </div>
+        <div class="footer__brand-text">
+          <p class="footer__name">Oaklawn Southern Dining</p>
+          <p class="footer__tagline">Chef-inspired • Urban Elegant • Intimate</p>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h3 class="footer__title">Contact</h3>
+          <p class="footer__line"><strong>Phone:</strong> <a href="tel:17314074262">731-407-4262</a></p>
+          <p class="footer__line"><strong>Address:</strong> 1008 E. Wood Street, Paris TN</p>
+          <p class="footer__line">Complimentary valet parking available.</p>
+        </div>
+
+        <div class="footer__col">
+          <h3 class="footer__title">Hours</h3>
+          <p class="footer__line"><strong>Mon–Sat</strong></p>
+          <p class="footer__line">Bourbon & Wine Bar: 4:00 PM</p>
+          <p class="footer__line">Dining & Reservations: 4:30 PM</p>
+          <p class="footer__line"><a href="#holiday">Holiday closings</a></p>
+        </div>
+
+        <div class="footer__col">
+          <h3 class="footer__title">Explore</h3>
+          <ul class="footer__links">
+            <li><a href="index.html#experience">Experience</a></li>
+            <li><a href="menu.html">Menus</a></li>
+            <li><a href="events.html">Private Events</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="careers.html">Join Our Team</a></li>
+          </ul>
+
+          <div class="footer__social" aria-label="Social links">
+            <a class="social" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a class="social" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a class="social" href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2026 Oaklawn Southern Dining. All Rights Reserved.</p>
+        <a class="footer__top" href="#top" aria-label="Back to top">
+          <i class="fa-solid fa-chevron-up"></i>
+          <span>Top</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Action (mobile) -->
+  <button class="float-reserve" type="button" data-open-contact-modal aria-label="Send a message">
+    <i class="fa-solid fa-paper-plane"></i>
+    <span>Message</span>
+  </button>
+
+  <!-- Contact Modal (structure only — script will open/close) -->
+  <div class="lux-modal" id="contactModal" aria-hidden="true">
+    <div class="lux-modal__backdrop" data-close-contact-modal="true" aria-hidden="true"></div>
+
+    <div class="lux-modal__panel" role="dialog" aria-modal="true" aria-label="Send a message">
+      <div class="lux-modal__head">
+        <div class="lux-modal__icon" aria-hidden="true">
+          <i class="fa-solid fa-envelope-open-text"></i>
+        </div>
+        <button class="lux-modal__close" type="button" aria-label="Close message form" data-close-contact-modal="true">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="lux-modal__body">
+        <h3 class="lux-modal__title">Send a message</h3>
+        <p class="lux-modal__text">
+          Share a few details below and our team will reach out soon. For urgent questions, calling is the fastest option.
+        </p>
+
+        <form class="contact-form contact-form--modal" action="#" method="post" aria-label="Contact form (modal)">
+          <div class="contact-form__grid">
+            <div class="field">
+              <label for="cNameM">Full name</label>
+              <div class="field__control">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <input id="cNameM" name="fullName" type="text" placeholder="Your name" autocomplete="name" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cPhoneM">Phone</label>
+              <div class="field__control">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <input id="cPhoneM" name="phone" type="tel" placeholder="(731) 407-4262" autocomplete="tel" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cEmailM">Email</label>
+              <div class="field__control">
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                <input id="cEmailM" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cTopicM">Topic</label>
+              <div class="field__control">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                <select id="cTopicM" name="topic" required>
+                  <option value="" selected disabled>Select a topic</option>
+                  <option>General question</option>
+                  <option>Reservations</option>
+                  <option>Private events</option>
+                  <option>Gift cards</option>
+                  <option>Careers</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field field--full">
+              <label for="cMessageM">Message</label>
+              <div class="field__control">
+                <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                <textarea id="cMessageM" name="message" rows="6" placeholder="How can we help?" required></textarea>
+              </div>
+            </div>
+
+            <div class="field field--full">
+              <label for="cPrefM">Preferred contact method</label>
+              <div class="field__control">
+                <i class="fa-solid fa-user-check" aria-hidden="true"></i>
+                <select id="cPrefM" name="preferredContact" required>
+                  <option value="" selected disabled>Select an option</option>
+                  <option>Phone call</option>
+                  <option>Email</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form__actions">
+            <button class="btn btn--primary btn--full" type="submit">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Send Message</span>
+            </button>
+
+            <div class="contact-form__fineprint">
+              <div class="fine-row">
+                <i class="fa-solid fa-lock"></i>
+                <span>Your message is sent securely. We do not share your information.</span>
+              </div>
+              <div class="fine-row">
+                <i class="fa-solid fa-phone-volume"></i>
+                <span>For urgent questions, call <a href="tel:17314074262">731-407-4262</a>.</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tiny toast placeholder (script will toggle) -->
+  <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
+</body>
+<script>
+/* =========================================================
+   Oaklawn — contact.html (Vanilla JS)
+   Works with the provided contact.html body structure:
+   - Mobile drawer open/close (focus trap, ESC, outside click)
+   - Sticky header shadow (.is-scrolled)
+   - Smooth scroll for same-page anchors
+   - Contact modal open/close (buttons, backdrop, ESC)
+   - Copy address buttons + toast feedback
+   - Open directions buttons (Google Maps)
+   - Form validation for BOTH contact forms (page + modal)
+   - Success message modal (auto-created) after submit
+   - Floating "Message" button visibility on scroll
+   ========================================================= */
+
+(() => {
+  "use strict";
+
+  /* ---------------------------
+     Helpers
+  --------------------------- */
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  const prefersReducedMotion = () =>
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const debounce = (fn, wait = 100) => {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), wait);
+    };
+  };
+
+  const lockScroll = (lock) => {
+    document.documentElement.classList.toggle("is-locked", !!lock);
+    document.body.classList.toggle("is-locked", !!lock);
+  };
+
+  const setAriaExpanded = (btn, expanded) => {
+    if (!btn) return;
+    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+  };
+
+  function trapFocus(container, onClose) {
+    if (!container) return () => {};
+    const focusables = $$(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+      container
+    ).filter(el => el.offsetParent !== null);
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    function onKeydown(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose?.();
+        return;
+      }
+      if (e.key !== "Tab" || focusables.length === 0) return;
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    container.addEventListener("keydown", onKeydown);
+    setTimeout(() => first?.focus(), 0);
+
+    return () => container.removeEventListener("keydown", onKeydown);
+  }
+
+  function smoothScrollTo(target) {
+    if (!target) return;
+    const header = $(".header");
+    const headerH = header ? header.getBoundingClientRect().height : 0;
+    const top = window.pageYOffset + target.getBoundingClientRect().top - headerH - 10;
+
+    window.scrollTo({
+      top,
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  }
+
+  /* ---------------------------
+     Header shadow on scroll
+  --------------------------- */
+  const header = $(".header");
+  const onScrollHeader = () => {
+    if (!header) return;
+    header.classList.toggle("is-scrolled", (window.scrollY || 0) > 10);
+  };
+  window.addEventListener("scroll", debounce(onScrollHeader, 10), { passive: true });
+  onScrollHeader();
+
+  /* ---------------------------
+     Drawer (mobile nav)
+  --------------------------- */
+  const navToggle = $(".nav__toggle");
+  const drawer = $("#navDrawer");
+  const drawerPanel = drawer ? $(".drawer__panel", drawer) : null;
+  const drawerBackdrop = drawer ? $(".drawer__backdrop", drawer) : null;
+  const drawerCloseBtn = drawer ? $(".drawer__close", drawer) : null;
+
+  let drawerReleaseTrap = null;
+  let drawerLastFocus = null;
+
+  function openDrawer() {
+    if (!drawer || !drawerPanel) return;
+    drawerLastFocus = document.activeElement;
+
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    setAriaExpanded(navToggle, true);
+    lockScroll(true);
+
+    drawerReleaseTrap = trapFocus(drawerPanel, closeDrawer);
+  }
+
+  function closeDrawer() {
+    if (!drawer || !drawerPanel) return;
+
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    setAriaExpanded(navToggle, false);
+
+    if (drawerReleaseTrap) {
+      drawerReleaseTrap();
+      drawerReleaseTrap = null;
+    }
+    lockScroll(false);
+
+    if (drawerLastFocus && typeof drawerLastFocus.focus === "function") {
+      drawerLastFocus.focus();
+    }
+  }
+
+  navToggle?.addEventListener("click", () => {
+    const expanded = navToggle.getAttribute("aria-expanded") === "true";
+    expanded ? closeDrawer() : openDrawer();
+  });
+  drawerCloseBtn?.addEventListener("click", closeDrawer);
+  drawerBackdrop?.addEventListener("click", closeDrawer);
+  $$(".drawer__link", drawer || document).forEach(a => a.addEventListener("click", closeDrawer));
+
+  window.addEventListener(
+    "resize",
+    debounce(() => {
+      if (drawer?.classList.contains("is-open")) closeDrawer();
+    }, 150)
+  );
+
+  /* ---------------------------
+     Smooth scroll for same-page anchors
+  --------------------------- */
+  $$('a[href^="#"]:not([href="#"])').forEach(a => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href");
+      if (!href) return;
+      const id = href.slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      e.preventDefault();
+      if (drawer?.classList.contains("is-open")) closeDrawer();
+      smoothScrollTo(target);
+      history.pushState(null, "", `#${id}`);
+    });
+  });
+  $$('a[href="#"]').forEach(a => a.addEventListener("click", (e) => e.preventDefault()));
+
+  /* ---------------------------
+     Toast (Copy feedback)
+  --------------------------- */
+  const toast = $("#toast");
+  let toastTimer = null;
+
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("is-show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("is-show"), 2600);
+  }
+
+  /* ---------------------------
+     Directions (Google Maps)
+  --------------------------- */
+  const ADDRESS_TEXT = "1008 E. Wood Street, Paris TN";
+  const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS_TEXT)}`;
+
+  function openDirections() {
+    // Open in a new tab to avoid taking them away from site on desktop;
+    // on mobile it typically opens Maps app.
+    window.open(MAPS_URL, "_blank", "noopener,noreferrer");
+  }
+
+  $$("[data-open-directions]").forEach(btn => btn.addEventListener("click", openDirections));
+
+  /* ---------------------------
+     Copy Address
+  --------------------------- */
+  async function copyAddress() {
+    const addressEl = $("#oakAddress");
+    const text = addressEl?.textContent?.trim() || ADDRESS_TEXT;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      showToast("Address copied.");
+    } catch {
+      showToast("Unable to copy. Please copy manually.");
+    }
+  }
+
+  $$("[data-copy-address]").forEach(btn => btn.addEventListener("click", copyAddress));
+
+  /* ---------------------------
+     Message Modal (auto-created)
+     Used for validation errors and success confirmations
+  --------------------------- */
+  function ensureMessageModal() {
+    let modal = $("#luxModal");
+    if (modal) return modal;
+
+    modal = document.createElement("div");
+    modal.id = "luxModal";
+    modal.className = "lux-modal";
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML = `
+      <div class="lux-modal__backdrop" data-lux-close="true" aria-hidden="true"></div>
+      <div class="lux-modal__panel" role="dialog" aria-modal="true" aria-label="Message">
+        <div class="lux-modal__head">
+          <div class="lux-modal__icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></div>
+          <button class="lux-modal__close" type="button" aria-label="Close message" data-lux-close="true">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="lux-modal__body">
+          <h3 class="lux-modal__title" id="luxModalTitle">Message</h3>
+          <p class="lux-modal__text" id="luxModalText"></p>
+        </div>
+        <div class="lux-modal__actions" style="padding: 0 16px 16px;">
+          <button class="btn btn--primary btn--full" type="button" data-lux-close="true">
+            <i class="fa-solid fa-check"></i><span>Close</span>
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
+  }
+
+  let msgReleaseTrap = null;
+  let msgLastFocus = null;
+
+  function openMessage({ title = "Message", text = "", icon = "fa-circle-check" } = {}) {
+    const modal = ensureMessageModal();
+    const panel = $(".lux-modal__panel", modal);
+    const titleEl = $("#luxModalTitle");
+    const textEl = $("#luxModalText");
+    const iconEl = $(".lux-modal__icon i", modal);
+
+    msgLastFocus = document.activeElement;
+
+    titleEl.textContent = title;
+    textEl.textContent = text;
+    if (iconEl) iconEl.className = `fa-solid ${icon}`;
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    lockScroll(true);
+
+    msgReleaseTrap = trapFocus(panel, closeMessage);
+
+    $$("[data-lux-close='true']", modal).forEach(btn => {
+      btn.addEventListener("click", closeMessage, { once: true });
+    });
+  }
+
+  function closeMessage() {
+    const modal = $("#luxModal");
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+
+    if (msgReleaseTrap) {
+      msgReleaseTrap();
+      msgReleaseTrap = null;
+    }
+    lockScroll(false);
+
+    if (msgLastFocus && typeof msgLastFocus.focus === "function") {
+      msgLastFocus.focus();
+    }
+  }
+
+  /* ---------------------------
+     Contact Modal open/close
+  --------------------------- */
+  const contactModal = $("#contactModal");
+  const contactPanel = contactModal ? $(".lux-modal__panel", contactModal) : null;
+
+  const openContactBtns = $$("[data-open-contact-modal]");
+  const closeContactTargets = contactModal ? $$("[data-close-contact-modal='true']", contactModal) : [];
+
+  let cReleaseTrap = null;
+  let cLastFocus = null;
+
+  function openContactModal() {
+    if (!contactModal || !contactPanel) return;
+    cLastFocus = document.activeElement;
+
+    contactModal.classList.add("is-open");
+    contactModal.setAttribute("aria-hidden", "false");
+    lockScroll(true);
+
+    cReleaseTrap = trapFocus(contactPanel, closeContactModal);
+  }
+
+  function closeContactModal() {
+    if (!contactModal || !contactPanel) return;
+
+    contactModal.classList.remove("is-open");
+    contactModal.setAttribute("aria-hidden", "true");
+
+    if (cReleaseTrap) {
+      cReleaseTrap();
+      cReleaseTrap = null;
+    }
+    lockScroll(false);
+
+    if (cLastFocus && typeof cLastFocus.focus === "function") {
+      cLastFocus.focus();
+    }
+  }
+
+  openContactBtns.forEach(btn => btn.addEventListener("click", openContactModal));
+  closeContactTargets.forEach(el => el.addEventListener("click", closeContactModal));
+
+  // ESC safety
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (drawer?.classList.contains("is-open")) closeDrawer();
+    if (contactModal?.classList.contains("is-open")) closeContactModal();
+    if ($("#luxModal")?.classList.contains("is-open")) closeMessage();
+  });
+
+  /* ---------------------------
+     Floating "Message" button visibility
+  --------------------------- */
+  const floatBtn = $(".float-reserve");
+  if (floatBtn) {
+    const toggle = () => {
+      const y = window.scrollY || 0;
+      floatBtn.classList.toggle("is-visible", y > 520);
+    };
+    window.addEventListener("scroll", debounce(toggle, 25), { passive: true });
+    toggle();
+  }
+
+  /* ---------------------------
+     Form validation + submit handling
+     For both forms: .contact-form and .contact-form--modal
+  --------------------------- */
+  function attachContactValidation(form) {
+    if (!form) return;
+
+    const fields = $$("input, select, textarea", form);
+
+    function setInvalid(el, msg) {
+      el.setAttribute("aria-invalid", "true");
+      el.closest(".field__control")?.classList.add("is-invalid");
+      if (msg) el.setCustomValidity(msg);
+    }
+
+    function clearInvalid(el) {
+      el.removeAttribute("aria-invalid");
+      el.closest(".field__control")?.classList.remove("is-invalid");
+      el.setCustomValidity("");
+    }
+
+    function validate() {
+      let firstBad = null;
+
+      fields.forEach(el => {
+        clearInvalid(el);
+
+        // phone: require at least 10 digits
+        if (el.type === "tel" && el.value.trim()) {
+          const digits = el.value.replace(/[^\d]/g, "");
+          if (digits.length < 10) setInvalid(el, "Please enter a valid phone number.");
+        }
+
+        if (!el.checkValidity()) {
+          setInvalid(el, el.validationMessage || "Please check this field.");
+          if (!firstBad) firstBad = el;
+        }
+      });
+
+      return { ok: !firstBad, firstBad };
+    }
+
+    // inline cleanup
+    fields.forEach(el => {
+      el.addEventListener("input", () => clearInvalid(el));
+      el.addEventListener("change", () => clearInvalid(el));
+      el.addEventListener("blur", () => {
+        if (!el.checkValidity()) {
+          el.setAttribute("aria-invalid", "true");
+          el.closest(".field__control")?.classList.add("is-invalid");
+        }
+      });
+    });
+
+    function serialize(form) {
+      const fd = new FormData(form);
+      const obj = {};
+      for (const [k, v] of fd.entries()) obj[k] = String(v).trim();
+      return obj;
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const { ok, firstBad } = validate();
+      if (!ok) {
+        firstBad?.focus();
+        openMessage({
+          title: "Please review your details",
+          text: "A few fields need attention before we can send your message.",
+          icon: "fa-circle-exclamation",
+        });
+        return;
+      }
+
+      const data = serialize(form);
+
+      // If submitted from modal, close modal
+      if (form.classList.contains("contact-form--modal")) {
+        closeContactModal();
+      }
+
+      form.reset();
+
+      const name = data.fullName || "Guest";
+      const topic = data.topic || "your inquiry";
+      const pref = data.preferredContact || "your preferred method";
+
+      openMessage({
+        title: "Message received",
+        text: `Thank you, ${name}. We’ve received your message regarding "${topic}". Our team will reach out soon via ${pref}.`,
+        icon: "fa-circle-check",
+      });
+
+      // Hook for later backend integration:
+      // window.dispatchEvent(new CustomEvent("oaklawn:contactMessage", { detail: data }));
+    });
+  }
+
+  $$(".contact-form").forEach(attachContactValidation);
+
+})();
+</script>
+
+</html>
