@@ -1199,6 +1199,15 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .topbar__note{ display:none; }
   .hero__title{ max-width: 16ch; }
 }
+.mini-map iframe{
+  width: 100%;
+  height: 240px;
+  border: 0;
+  display: block;
+}
+@media (min-width: 980px){
+  .mini-map iframe{ height: 320px; }
+}
 
 </style>
 </head>
@@ -1490,9 +1499,9 @@ a, button { -webkit-tap-highlight-color: transparent; }
           </div>
 
           <div class="location__right" aria-label="Map preview and actions">
-            <figure class="mini-map">
-              <img src="assets/map-preview.jpg" alt="Map preview showing Oaklawn Southern Dining in Paris, Tennessee" />
-            </figure>
+           <figure class="mini-map" aria-label="Map showing Oaklawn Southern Dining">
+ <iframe  title="Oaklawn Southern Dining Map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3215.3884992368367!2d-88.3094562!3d36.3028847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x887ba32481b1a761%3A0x5db5c00c930afc8c!2s1008%20E%20Wood%20St%2C%20Paris%2C%20TN%2038242%2C%20USA!5e0!3m2!1sen!2sgh!4v1771521300341!5m2!1sen!2sgh" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</figure>
 
             <div class="location__buttons" aria-label="Map actions">
               <button class="btn btn--primary btn--full" type="button" data-open-directions>
