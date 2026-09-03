@@ -26,3 +26,31 @@ document.addEventListener('keydown',e=>{
 // Front-end inquiry helper. Keeps the flow useful until the production form endpoint is connected.
 const inquiryForm=document.querySelector('[data-inquiry-form]');
 inquiryForm?.addEventListener('submit',e=>{e.preventDefault();const status=inquiryForm.querySelector('.form-status');if(status)status.textContent='Thank you. Please call Oaklawn at 731-407-4262 to complete your inquiry while this form is connected to the restaurant’s production form service.';});
+
+// Menu search: filters individual items while preserving section context.
+const menuSearch=document.querySelector('[data-menu-search]');
+const menuClear=document.querySelector('[data-menu-clear]');
+const searchStatus=document.querySelector('[data-search-status]');
+function normalizeMenuText(v=''){return v.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()}
+function runMenuSearch(){
+  const q=normalizeMenuText(menuSearch?.value||'');
+  let matches=0;
+  document.querySelectorAll('.menu-section').forEach(section=>{
+    let sectionMatches=0;
+    section.querySelectorAll('.menu-group').forEach(group=>{
+      let groupMatches=0;
+      group.querySelectorAll('.menu-item').forEach(item=>{
+        const hit=!q||normalizeMenuText(item.textContent).includes(q);
+        item.hidden=!hit;
+        if(hit){matches++;groupMatches++;sectionMatches++}
+      });
+      group.classList.toggle('search-empty',!!q&&groupMatches===0);
+    });
+    section.classList.toggle('search-empty',!!q&&sectionMatches===0);
+    section.classList.toggle('search-match',!!q&&sectionMatches>0);
+  });
+  if(menuClear) menuClear.hidden=!q;
+  if(searchStatus) searchStatus.textContent=q?(matches?`${matches} menu item${matches===1?'':'s'} found for “${menuSearch.value.trim()}”.`:`No matches for “${menuSearch.value.trim()}”. Try an ingredient, spirit or dish name.`):'';
+}
+menuSearch?.addEventListener('input',runMenuSearch);
+menuClear?.addEventListener('click',()=>{menuSearch.value='';runMenuSearch();menuSearch.focus()});
